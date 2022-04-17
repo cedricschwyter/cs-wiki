@@ -31,7 +31,10 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_ID: ${{ secrets.NOTION_ID }}
           NOTION_SPACE_ID: ${{ secrets.NOTION_SPACE }}
-      - name: rm -rf *.zip && rm -rf *.pdf
+      - name: Remove external documents
+        run: rm -rf *.zip && rm -rf *.pdf
+      - name: Copy to docs/
+        run: cp -r html docs && cp "html/Formulary  67761.html" html/index.html
       - name: Track LFS files
         run: find ./* -size +100M -exec git lfs track "{}" \;
       - name: setup git config
