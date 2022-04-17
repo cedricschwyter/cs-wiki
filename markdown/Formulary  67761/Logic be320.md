@@ -363,7 +363,7 @@ $$
 # Predicate Logic (First-order Logic)
 
 <aside>
-💡 (Syntax of predicate logic,)
+💡 (Syntax of predicate logic.)
 
 - A *variable symbol* is of the form $x_i$ with $i \in \mathbb{N}$.
 - A *function symbol* is of the form $f_i^{(k)}$ with $i, k \in \mathbb{N}$, where $k$ denotes the number of arguments of the function. Function symbols for $k = 0$ are called *constants*.
