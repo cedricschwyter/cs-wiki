@@ -34,7 +34,7 @@ jobs:
       - name: Remove external documents
         run: rm -rf *.zip && rm -rf *.pdf
       - name: Copy to docs/
-        run: rm -rf docs && cp -r html docs && cp "docs/Formulary  67761.html" docs/index.html
+        run: mv docs/CNAME CNAME && rm -rf docs && cp -r html docs && mv CNAME docs/CNAME && cp "docs/Formulary  67761.html" docs/index.html
       - name: Track LFS files
         run: find ./* -size +100M -exec git lfs track "{}" \;
       - name: Setup Git config
