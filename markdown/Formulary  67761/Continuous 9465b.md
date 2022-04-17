@@ -150,3 +150,11 @@ I = [a,b] \quad a \leq b.
 $$
 
 </aside>
+
+<aside>
+💡 Let $D$ be a set and $f,g: D \longrightarrow \mathbb{R}$ be functions. We define
+
+- $\lvert f \rvert(x) = \lvert f(x)\rvert, \quad \forall x \in D$
+- $\max(f,g)(x) = \max(f(x),g(x)), \quad \forall x \in D$
+- 
+</aside>
