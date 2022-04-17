@@ -378,24 +378,24 @@ If $a$ and $b$ have a least upper bound, then it is called the *join* of $a$ and
 # Functions
 
 <aside>
-💡 A *function* $f : A \rightarrow B$ from a *domain* $A$ to a *codomain* $B$ is a relation from $A$ to $B$ with the special properties (using the relation notation $a \space f \space b$):
+💡 A *function* $f : A \longrightarrow B$ from a *domain* $A$ to a *codomain* $B$ is a relation from $A$ to $B$ with the special properties (using the relation notation $a \space f \space b$):
 
 1. $\forall a \in A \space \exists b \in B \space a \space f \space b$ ($f$ is totally defined)
 2. $\forall a \in A \space \forall b, b' \in B \space (a \space f \space b \land a \space f \space b' \rightarrow b = b')$ ($f$ is well-defined).
 </aside>
 
 <aside>
-💡 The set of all functions $A \rightarrow B$ is denoted as $B^A$.
+💡 The set of all functions $A \longrightarrow B$ is denoted as $B^A$.
 
 </aside>
 
 <aside>
-💡 A *partial function* $A \rightarrow B$ is a relation from $A$ to $B$ such that condition 2. above holds.
+💡 A *partial function* $A \longrightarrow B$ is a relation from $A$ to $B$ such that condition 2. above holds.
 
 </aside>
 
 <aside>
-💡 For a function $f : A \rightarrow B$ and a subset $S$ of $A$, the *image* of $S$ under $f$, denoted $f(S)$, is the set
+💡 For a function $f : A \longrightarrow B$ and a subset $S$ of $A$, the *image* of $S$ under $f$, denoted $f(S)$, is the set
 
 $$
 f(S) \stackrel{\mathrm{def}}{=} \{f(a) \space | \space a \in S \}.
@@ -418,7 +418,7 @@ $$
 </aside>
 
 <aside>
-💡 A function $f : A \rightarrow B$ is called
+💡 A function $f : A \longrightarrow B$ is called
 
 1. *injective* (or *one-to-one* or an *injection*) if for $a \neq b$ we have $f(a) \neq f(b)$, i.e., no two distinct values are mapped to the same function value (there are no “collisions”).
 2. *surjective* (or *onto*) if $f(A) = B$, i.e., if for every $b \in B, b = f(a)$ for some $a \in A$ (every value in the codomain is taken on for some argument).
@@ -436,7 +436,7 @@ $$
 </aside>
 
 <aside>
-💡 The *composition* of a function $f : A \rightarrow B$ and a function $g : B \rightarrow C$, denoted by $g \circ f$ or simply $gf$, is defined by $(g \circ f )(a) = g(f(a))$.
+💡 The *composition* of a function $f : A \longrightarrow B$ and a function $g : B \longrightarrow C$, denoted by $g \circ f$ or simply $gf$, is defined by $(g \circ f )(a) = g(f(a))$.
 
 </aside>
 
@@ -446,7 +446,7 @@ $$
 </aside>
 
 <aside>
-💡 A function $f : X \rightarrow X$ is *idempotent* if $f(x) = f(f(x))$ for all $x \in X$
+💡 A function $f : X \longrightarrow X$ is *idempotent* if $f(x) = f(f(x))$ for all $x \in X$
 
 </aside>
 
@@ -455,8 +455,8 @@ $$
 <aside>
 💡 Countability of Sets:
 
-1. Two sets $A$ amd $B$ are *equinumerous*, denoted $A \sim B$, if there exists a bijection $A \rightarrow B$.
-2. The set $B$ *dominates* the set $A$, denoted $A \preceq B$, if $A \sim C$ for some subset $C \sube B$ or, equivalently, if there exists an injective function $A \rightarrow B$.
+1. Two sets $A$ amd $B$ are *equinumerous*, denoted $A \sim B$, if there exists a bijection $A \longrightarrow B$.
+2. The set $B$ *dominates* the set $A$, denoted $A \preceq B$, if $A \sim C$ for some subset $C \sube B$ or, equivalently, if there exists an injective function $A \longrightarrow B$.
 3. A set $A$ is called *countable* if $A \preceq \mathbb{N}$, and *uncountable* otherwise.
 </aside>
 
@@ -520,11 +520,11 @@ $$
 </aside>
 
 <aside>
-💡 A function $f : \mathbb{N} \rightarrow \{0, 1 \}$ is called *computable* if there is a program that, for every $n \in \mathbb{N}$, when given $n$ as input, outputs $f(n)$.
+💡 A function $f : \mathbb{N} \longrightarrow \{0, 1 \}$ is called *computable* if there is a program that, for every $n \in \mathbb{N}$, when given $n$ as input, outputs $f(n)$.
 
 </aside>
 
 <aside>
-📎 *There are uncomputable functions $\mathbb{N} \rightarrow \{0, 1 \}$.*
+📎 *There are uncomputable functions $\mathbb{N} \longrightarrow \{0, 1 \}$.*
 
 </aside>

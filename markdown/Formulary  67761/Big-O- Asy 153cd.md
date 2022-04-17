@@ -3,10 +3,10 @@
 # Big-O-Notation
 
 <aside>
-💡 For $f : \mathbb{N} \rightarrow \mathbb{R} ^ +$,
+💡 For $f : \mathbb{N} \longrightarrow \mathbb{R} ^ +$,
 
 $$
-O(f) := \{g : \mathbb{N} \rightarrow \mathbb{R}^+ \space | \space \exists C \gt 0 \space \forall n \in \mathbb{N} \space g(n) \leq C \cdot f(n)\}.
+O(f) := \{g : \mathbb{N} \longrightarrow \mathbb{R}^+ \space | \space \exists C \gt 0 \space \forall n \in \mathbb{N} \space g(n) \leq C \cdot f(n)\}.
 $$
 
 $O(f)$ is called the *order* of $f$.
@@ -18,10 +18,10 @@ If a function $g$ is on the order of $f$ we write $g \in O(f)$ or equivalently $
 # Omega-Notation
 
 <aside>
-💡 For $f : \mathbb{N} \rightarrow \mathbb{R} ^ +$,
+💡 For $f : \mathbb{N} \longrightarrow \mathbb{R} ^ +$,
 
 $$
-\Omega(f) := \{g : \mathbb{N} \rightarrow \mathbb{R}^+ \space | \space \exists C \gt 0 \space \forall n \in \mathbb{N} \space g(n) \geq C \cdot f(n)\}.
+\Omega(f) := \{g : \mathbb{N} \longrightarrow \mathbb{R}^+ \space | \space \exists C \gt 0 \space \forall n \in \mathbb{N} \space g(n) \geq C \cdot f(n)\}.
 $$
 
 We write $g \in \Omega(f)$ or $g \geq \Omega(f)$.
@@ -31,7 +31,7 @@ We write $g \in \Omega(f)$ or $g \geq \Omega(f)$.
 # Theta-Notation
 
 <aside>
-💡 For $f : \mathbb{N} \rightarrow \mathbb{R} ^ +$,
+💡 For $f : \mathbb{N} \longrightarrow \mathbb{R} ^ +$,
 
 $$
 \Theta(f) = O(f) \cap \Omega(f).
@@ -54,7 +54,7 @@ $$
 </aside>
 
 <aside>
-📖 *Let $f : \mathbb{N} \rightarrow \mathbb{R} ^ +$ and $g : \mathbb{N} \rightarrow \mathbb{R} ^ +$. Then*
+📖 *Let $f : \mathbb{N} \longrightarrow \mathbb{R} ^ +$ and $g : \mathbb{N} \longrightarrow \mathbb{R} ^ +$. Then*
 
 - *If $\lim\limits_{n \to \infty} \frac{f(n)}{g(n)} = 0$, then $f \leq O(g)$ and $g \space \cancel \leq \space O(f)$.*
 - *If $\lim\limits_{n \to \infty} \frac{f(n)}{g(n)} = C \in \mathbb{R}$, then $f \leq O(g)$, $g \leq O(f)$, $f = \Theta(g)$ and $g = \Theta(f)$.*
@@ -62,7 +62,7 @@ $$
 </aside>
 
 <aside>
-📖 *Let $f, g, h : \mathbb{N} \rightarrow \mathbb{R}^+$. If $f \leq O(h)$ and $g \leq O(h)$, then*
+📖 *Let $f, g, h : \mathbb{N} \longrightarrow \mathbb{R}^+$. If $f \leq O(h)$ and $g \leq O(h)$, then*
 
 1. *For every constant $c \geq 0$, $c \cdot f \leq O(h)$.*
 2. $f + g \leq O(h)$.

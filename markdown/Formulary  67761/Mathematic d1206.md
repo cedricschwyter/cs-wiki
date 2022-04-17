@@ -119,7 +119,7 @@ $$
 # A First Introduction to Predicate Logic
 
 <aside>
-💡 A $k$-ary predicate $P$ on $U$ is a function $U ^{k} \rightarrow \{0, 1\}.$
+💡 A $k$-ary predicate $P$ on $U$ is a function $U ^{k} \longrightarrow \{0, 1\}.$
 
 </aside>
 

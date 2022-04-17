@@ -15,7 +15,7 @@
 ## Monotony
 
 <aside>
-💡 A function $f : D \rightarrow \mathbb{R}$, where $D \sube \mathbb{R}$ is called
+💡 A function $f : D \longrightarrow \mathbb{R}$, where $D \sube \mathbb{R}$ is called
 
 1. **monotonically increasing** if $\forall x,y \in D$
 
@@ -48,7 +48,7 @@ $$
 ## Continuity
 
 <aside>
-💡 Let $D \sube \mathbb{R}$, $x_0 \in D$. The function $f: D \rightarrow \mathbb{R}$ is **continuous in $x_0$** if for every $\epsilon \gt 0$ there exists a $\delta \gt 0$ such that for every $x \in D$ the implication
+💡 Let $D \sube \mathbb{R}$, $x_0 \in D$. The function $f: D \longrightarrow \mathbb{R}$ is **continuous in $x_0$** if for every $\epsilon \gt 0$ there exists a $\delta \gt 0$ such that for every $x \in D$ the implication
 
 $$
 \lvert x - x_0 \rvert \lt \delta \implies\lvert f(x) - f(x_0) \rvert \lt \epsilon
@@ -59,12 +59,12 @@ holds.
 </aside>
 
 <aside>
-💡 The function $f : D \rightarrow \mathbb{R}$ is **continuous** if it is continuous in every point of $D$.
+💡 The function $f : D \longrightarrow \mathbb{R}$ is **continuous** if it is continuous in every point of $D$.
 
 </aside>
 
 <aside>
-📖 *Let $x_0 \in D \sube \mathbb{R}$ and $f : D \rightarrow \mathbb{R}$. The function $f$ is continuous in $x_0$ if and only if the following holds for every sequence $(a_n)_{n \geq 1}$ in $D$:*
+📖 *Let $x_0 \in D \sube \mathbb{R}$ and $f : D \longrightarrow \mathbb{R}$. The function $f$ is continuous in $x_0$ if and only if the following holds for every sequence $(a_n)_{n \geq 1}$ in $D$:*
 
 $$
 \lim_{n \to \infty} a_n = x_0 \implies \lim_{n \to \infty} f(a_n) = f(x_0).
@@ -73,7 +73,7 @@ $$
 </aside>
 
 <aside>
-📎 *Let $x_0 \in D \sube \mathbb{R}, \lambda \in \mathbb{R}$ and $f : D \rightarrow \mathbb{R}, g:D\rightarrow \mathbb{R}$ both continuous in $x_0$.*
+📎 *Let $x_0 \in D \sube \mathbb{R}, \lambda \in \mathbb{R}$ and $f : D \longrightarrow \mathbb{R}, g:D \longrightarrow \mathbb{R}$ both continuous in $x_0$.*
 
 1. *Then $f+g, \lambda \cdot f, f \cdot g$ are continuous in $x_0$.*
 2. *If $g(x_0) \neq 0$ then* 
@@ -90,7 +90,7 @@ $$
 </aside>
 
 <aside>
-💡 A **polynomial function** $P:\mathbb{R} \rightarrow \mathbb{R}$ is a function of the form
+💡 A **polynomial function** $P:\mathbb{R} \longrightarrow \mathbb{R}$ is a function of the form
 
 $$
 P(x) = a_nx^n+...+a_0

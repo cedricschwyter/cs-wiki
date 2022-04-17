@@ -3,7 +3,7 @@
 # Introduction
 
 <aside>
-💡 An *operation* on a set $S$ is a function $S^n \rightarrow S$, where $n \geq 0$ is called the *arity* of the operation.
+💡 An *operation* on a set $S$ is a function $S^n \longrightarrow S$, where $n \geq 0$ is called the *arity* of the operation.
 
 </aside>
 
@@ -91,7 +91,7 @@ $$
 </aside>
 
 <aside>
-💡 For two groups $\langle G;*,\hat{\space}, e \rangle$ and $\langle H; \star, \tilde{\space}, e' \rangle$, a function $\psi : G \rightarrow H$ is called a *group homomorphism* if, for all $a$ and $b$,
+💡 For two groups $\langle G;*,\hat{\space}, e \rangle$ and $\langle H; \star, \tilde{\space}, e' \rangle$, a function $\psi : G \longrightarrow H$ is called a *group homomorphism* if, for all $a$ and $b$,
 
 $$
 \psi (a * b) = \psi (a) \star \psi(b).
@@ -117,7 +117,7 @@ If $\psi$ is a bijection from $G$ to $H$, then it is called an *isomorphism*, an
 </aside>
 
 <aside>
-💡 Let $G$ be a group and let $a$ be an element of $G$. The *order* of $a$, denoted $\text{ord}(a)$, is the least $m \geq 1$ such that $a^m = e$, if such an $m$ exists, and $\text{ord}(a)$ is said to be infinite otherwise, writted $\text{ord}(a) = \infty$.
+💡 Let $G$ be a group and let $a$ be an element of $G$. The *order* of $a$, denoted $\text{ord}(a)$, is the least $m \geq 1$ such that $a^m = e$, if such an $m$ exists, and $\text{ord}(a)$ is said to be infinite otherwise, written $\text{ord}(a) = \infty$.
 
 </aside>
 
@@ -178,7 +178,7 @@ For a finite group $G$, an element $g \in G$ is a generator if and only if $\tex
 </aside>
 
 <aside>
-💡 Let $G$ and $H$ be isomorphic cyclic groups. An isomorphism $\psi : G \rightarrow H$ maps generators to generators. Let $\mathcal{G}$ denote the set of generators of $G$. Then the set $\mathcal{H}$ of generators of $H$ is given by
+💡 Let $G$ and $H$ be isomorphic cyclic groups. An isomorphism $\psi : G \longrightarrow H$ maps generators to generators. Let $\mathcal{G}$ denote the set of generators of $G$. Then the set $\mathcal{H}$ of generators of $H$ is given by
 
 $$
 \mathcal{H} = \{\psi(g) \space | \space g \in \mathcal{G} \}.
@@ -213,7 +213,7 @@ Let $G$ be a finite group and let $H$ be a subgroup of $G$. Then the order of $H
 </aside>
 
 <aside>
-💡 The *Euler function* $\varphi : \mathbb{Z}^+ \rightarrow \mathbb{Z}$ is defined as the cardinality of $\mathbb{Z}_m^*$ (known as *Euler’s totient function* or *Euler’s phi function*):
+💡 The *Euler function* $\varphi : \mathbb{Z}^+ \longrightarrow \mathbb{Z}$ is defined as the cardinality of $\mathbb{Z}_m^*$ (known as *Euler’s totient function* or *Euler’s phi function*):
 
 $$
 \varphi (m) = \lvert \mathbb{Z}_m^* \rvert.
@@ -258,7 +258,7 @@ $$
 
 <aside>
 📖 $*e$-th Roots in a Group:
-Let $G$ be some finite group (multiplicatively written), and let $e \in \mathbb{Z}$ be relatively prime to $\lvert G \rvert$ (i.e., $\text{gcd}(e, \lvert G \rvert) = 1$). The function $x \mapsto x^e$ is a bijection and the (unique) $e$-th root of $y \in G$, namely $x \in G$ satisfying $x^e = y$, is*
+Let $G$ be some finite group (multiplicatively written), and let $e \in \mathbb{Z}$ be relatively prime to $\lvert G \rvert$ (i.e., $\text{gcd}(e, \lvert G \rvert) = 1$). The function $x \longmapsto x^e$ is a bijection and the (unique) $e$-th root of $y \in G$, namely $x \in G$ satisfying $x^e = y$, is*
 
 $$
 x = y^d
@@ -308,7 +308,7 @@ A ring is called *commutative* if multiplication is commutative ($ab = ba$).
 </aside>
 
 <aside>
-💡 For $a, b \in R$ with $a \neq 0$ we say that $a$ *divides* $b$, denoted $a \space | \space b$, if there existes $c \in R$ such that $b = ac$. In this case, $a$ is called a *divisor* of $b$ and $b$ is called a *multiple* of $a$.
+💡 For $a, b \in R$ with $a \neq 0$ we say that $a$ *divides* $b$, denoted $a \space | \space b$, if there exists $c \in R$ such that $b = ac$. In this case, $a$ is called a *divisor* of $b$ and $b$ is called a *multiple* of $a$.
 
 </aside>
 
@@ -438,7 +438,7 @@ $$
 </aside>
 
 <aside>
-💡 A *Euclidean domain* is an integral domain $D$ together with a so-called *degree function* $d : D \setminus \{0\} \rightarrow \mathbb{N}$ such that
+💡 A *Euclidean domain* is an integral domain $D$ together with a so-called *degree function* $d : D \setminus \{0\} \longrightarrow \mathbb{N}$ such that
 
 1. For every $a$ and $b \neq 0$ in $D$ there exist $q$ and $r$ such that $a = bq + r$ and $d(r) \lt d(b)$ or $r = 0$.
 2. For all nonzero $a$ and $b$ in $D$, $d(a) \leq d(ab)$.

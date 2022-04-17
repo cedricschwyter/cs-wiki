@@ -18,7 +18,7 @@ Consider a fixed type of statements. Let $\mathcal{S} \sube \Sigma^*$ be the set
 Every statement $s \in \mathcal{S}$ is either true or false. The *truth function*
 
 $$
-\tau : \mathcal{S} \rightarrow \{0, 1\}
+\tau : \mathcal{S} \longrightarrow \{0, 1\}
 $$
 
 assigns to each $s \in \mathcal{S}$ its truth value $\tau (s)$. This function $\tau$ defines the meaning, called the *semantics*, of objects in $\mathcal{S}$.
@@ -26,7 +26,7 @@ assigns to each $s \in \mathcal{S}$ its truth value $\tau (s)$. This function $\
 An element $p \in \mathcal{P}$ is either a (valid) proof for a statement $s \in \mathcal{S}$, or it is not. This can be defined via a *verification function*
 
 $$
-\phi: \mathcal{S} \times \mathcal{P} \rightarrow \{0,1\},
+\phi: \mathcal{S} \times \mathcal{P} \longrightarrow \{0,1\},
 $$
 
 where $\phi (s, p)=1$ means that $p$ is a valid proof for statement $s$.
@@ -279,7 +279,7 @@ $$
 </aside>
 
 <aside>
-💡 (Semantics.) For a set $Z$ of atomic formulas, an interpretation $\mathcal{A}$, called *truth assignment*, is a function $\mathcal{A} : Z \rightarrow \{0,1\}$. A truth assignment $\mathcal{A}$ is suitable for a formula $F$ if $Z$ contains all atomic formulas appearing in $F$. The semantics (i.e., the truth value $\mathcal{A}(F)$ of a formula $F$ under interpretation $\mathcal{A}$) is defined by $\mathcal{A}(F) = \mathcal{A}(A_i)$ for any atomic formula $F = A_i$,
+💡 (Semantics.) For a set $Z$ of atomic formulas, an interpretation $\mathcal{A}$, called *truth assignment*, is a function $\mathcal{A} : Z \longrightarrow \{0,1\}$. A truth assignment $\mathcal{A}$ is suitable for a formula $F$ if $Z$ contains all atomic formulas appearing in $F$. The semantics (i.e., the truth value $\mathcal{A}(F)$ of a formula $F$ under interpretation $\mathcal{A}$) is defined by $\mathcal{A}(F) = \mathcal{A}(A_i)$ for any atomic formula $F = A_i$,
 
 </aside>
 
@@ -390,7 +390,7 @@ $$
 
 - $U$ is a non-empty set, the so-called *universe*
 - $\phi$ is a function assigning to each function symbol (in a certain subset of all function symbols) a function, where for $k$-ary function symbol $f$. $\phi(f)$ is a function
-- $\psi$ is a function assigning to each predicate symbol (in a certain subset of all predicate symbols) a function, where for a $k$-ary predicate symbol $P$, $\psi(P)$ is a function $U^k \rightarrow \{0,1\}$
+- $\psi$ is a function assigning to each predicate symbol (in a certain subset of all predicate symbols) a function, where for a $k$-ary predicate symbol $P$, $\psi(P)$ is a function $U^k \longrightarrow \{0,1\}$
 - $\xi$ is a function assigning to each variable symbol (in a certain subset of all variable symbols) a value in $U$.
 </aside>
 
@@ -410,14 +410,14 @@ $$
 and
 
 - If $F$ is of the form $F = P(t_1,...,t_k)$ for terms $t_1,...,t_k$ and a $k$-ary predicate symbol $P$, then $\mathcal{A}(F) = \psi(P)(\mathcal{A}(t_1),...,\mathcal{A}(t_k))$.
-- If $F$ is of the form $\forall x \space G$ or $\exists x \space G$, then let $\mathcal{A}_{[x \rightarrow u]}$ for $u \in U$ be the same structure as $\mathcal{A}$ except that $\xi (x)$ is overwritten by $u$ (i.e., $\xi (x) = u$):
+- If $F$ is of the form $\forall x \space G$ or $\exists x \space G$, then let $\mathcal{A}_{[x \to u]}$ for $u \in U$ be the same structure as $\mathcal{A}$ except that $\xi (x)$ is overwritten by $u$ (i.e., $\xi (x) = u$):
 
 $$
 \begin{align*}
-\mathcal{A}(\forall x \space G) & = \begin{cases} 1 & \text{if $\mathcal{A}_{[x \rightarrow u]}(G) = 1$ for all $u \in U$}\\
+\mathcal{A}(\forall x \space G) & = \begin{cases} 1 & \text{if $\mathcal{A}_{[x \to u]}(G) = 1$ for all $u \in U$}\\
       0 & \text{else}
 \end{cases} \\
-\mathcal{A}(\exists x \space G) & = \begin{cases} 1 & \text{if $\mathcal{A}_{[x \rightarrow u]}(G) = 1$ for some $u \in U$}\\
+\mathcal{A}(\exists x \space G) & = \begin{cases} 1 & \text{if $\mathcal{A}_{[x \to u]}(G) = 1$ for some $u \in U$}\\
       0 & \text{else}
 \end{cases}
 \end{align*}
@@ -505,11 +505,11 @@ to move up all quantifiers in the formula tree, resulting in a prenex form of th
 </aside>
 
 <aside>
-📎 *There are uncomputable functions $\mathbb{N} \rightarrow \{0, 1\}.$*
+📎 *There are uncomputable functions $\mathbb{N} \longrightarrow \{0, 1\}.$*
 
 </aside>
 
 <aside>
-📎 *The function $\mathbb{N} \rightarrow \{0,1\}$ assigning to each $y \in \mathbb{N}$ the complement of what program $y$ outputs on input $y$, is uncomputable.*
+📎 *The function $\mathbb{N} \longrightarrow \{0,1\}$ assigning to each $y \in \mathbb{N}$ the complement of what program $y$ outputs on input $y$, is uncomputable.*
 
 </aside>

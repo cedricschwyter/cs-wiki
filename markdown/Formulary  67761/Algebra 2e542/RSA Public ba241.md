@@ -20,7 +20,7 @@ To understand the RSA system, all we need is the following simple theorem which 
 
 <aside>
 📖 $*e$-th Roots in a Group:
-Let $G$ be some finite group (multiplicatively written), and let $e \in \mathbb{Z}$ be relatively prime to $\lvert G \rvert$ (i.e., $\text{gcd}(e, \lvert G \rvert) = 1$). The function $x \mapsto x^e$ is a bijection and the (unique) $e$-th root of $y \in G$, namely $x \in G$ satisfying $x^e = y$, is*
+Let $G$ be some finite group (multiplicatively written), and let $e \in \mathbb{Z}$ be relatively prime to $\lvert G \rvert$ (i.e., $\text{gcd}(e, \lvert G \rvert) = 1$). The function $x \longmapsto x^e$ is a bijection and the (unique) $e$-th root of $y \in G$, namely $x \in G$ satisfying $x^e = y$, is*
 
 $$
 x = y^d
@@ -47,14 +47,14 @@ $x^{\lvert G \rvert} = 1$ because of the following corollary we stated earlier:
 
 </aside>
 
-This thus means that the function $y \mapsto y^d$ is the inverse function of the function $x \mapsto x^e$ (which is hence a bijection). Thus the theorem about $e$-th roots in a group has been proven.
+This thus means that the function $y \longmapsto y^d$ is the inverse function of the function $x \longmapsto x^e$ (which is hence a bijection). Thus the theorem about $e$-th roots in a group has been proven.
 
 # Description of RSA
 
 Motivated by the Diffie-Hellman protocol also based on modular exponentiation, Rivest, Shamir and Adleman suggested as a possible class of groups the groups $\mathbb{Z}_n^*$, where $n = pq$ is the product of two sufficiently large secret primes $p$ and $q$. Recall that $\varphi(n)$ is the Euler function mentioned earlier:
 
 <aside>
-💡 The *Euler function* $\varphi : \mathbb{Z}^+ \rightarrow \mathbb{Z}$ is defined as the cardinality of $\mathbb{Z}_m^*$ (known as *Euler’s totient function* or *Euler’s phi function*):
+💡 The *Euler function* $\varphi : \mathbb{Z}^+ \longrightarrow \mathbb{Z}$ is defined as the cardinality of $\mathbb{Z}_m^*$ (known as *Euler’s totient function* or *Euler’s phi function*):
 
 $$
 \varphi (m) = \lvert \mathbb{Z}_m^* \rvert.
@@ -82,13 +82,13 @@ $$
 can thus only be computed if the prime factors $p$ and $q$ of $n$ are known. The (public) encryption transformation is defined by
 
 $$
-m \mapsto y = R_n(m^e),
+m \longmapsto y = R_n(m^e),
 $$
 
 and the (secret) decryption transformation is defined by
 
 $$
-y \mapsto m = R_n(y^d),
+y \longmapsto m = R_n(y^d),
 $$
 
 where $d$ can be computed according to

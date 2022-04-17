@@ -14,7 +14,7 @@ There are two types of problems that can occur in data transmission or when read
 💡 A $(n, k)$-*encoding function* $E$ for some alphabet $\mathcal{A}$ is an injective function that maps a list $(a_0, ... ,a_{k - 1}) \in \mathcal{A}^k$ of $k$ (information) symbols to a list $(c_0, ... , c_{n - 1}) \in \mathcal{A}^n$ of $n \gt k$ (encoded) symbols in $\mathcal{A}$, called *codeword*:
 
 $$
-E : \mathcal{A}^k \rightarrow \mathcal{A}^n : (a_0, ... ,a_{k - 1}) \mapsto E((a_0, ... , a_{k - 1})) = (c_0, ... , c_{n - 1}).
+E : \mathcal{A}^k \longrightarrow \mathcal{A}^n : (a_0, ... ,a_{k - 1}) \longmapsto E((a_0, ... , a_{k - 1})) = (c_0, ... , c_{n - 1}).
 $$
 
 </aside>
@@ -57,7 +57,7 @@ The minimum distance is 3.
 # Decoding
 
 <aside>
-💡 A *decoding function* $D$ for an $(n ,k)$-encoding function is a function $D : \mathcal{A}^n \rightarrow \mathcal{A}^k$.
+💡 A *decoding function* $D$ for an $(n ,k)$-encoding function is a function $D : \mathcal{A}^n \longrightarrow \mathcal{A}^k$.
 
 </aside>
 

@@ -166,7 +166,7 @@ $$
 </aside>
 
 <aside>
-💡 The *prime counting function* $\pi : \mathbb{R} \rightarrow \mathbb{N}$ is defined as follows: For any real $x$, $\pi (x)$ is the number of primes $\leq x$.
+💡 The *prime counting function* $\pi : \mathbb{R} \longrightarrow \mathbb{N}$ is defined as follows: For any real $x$, $\pi (x)$ is the number of primes $\leq x$.
 
 </aside>
 

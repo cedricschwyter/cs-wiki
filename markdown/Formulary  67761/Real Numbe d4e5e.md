@@ -266,7 +266,7 @@ $$
 <aside>
 💡 Cardinality:
 
-1. Two sets $X$, $Y$ are called **equinumerous**, if there exists a bijection $f : X \rightarrow Y$.
+1. Two sets $X$, $Y$ are called **equinumerous**, if there exists a bijection $f : X \longrightarrow Y$.
 2. A set $X$ is **finite**, if and only if $X = \varnothing$ or $\exists n \in \mathbb{N}$ such that $X$ and $\{1, 2, 3,...,n\}$ are equinumerous. In the former case, the **cardinality** of $X$, $\text{card} \space X = 0$ and in the latter it is $\text{card} \space X = n$.
 3. A set $X$ is called **countable**, if it is finite or if it is equinumerous to $\mathbb{N}$.
 </aside>
@@ -274,8 +274,8 @@ $$
 <aside>
 💡 Countability of Sets:
 
-1. Two sets $A$ amd $B$ are *equinumerous*, denoted $A \sim B$, if there exists a bijection $A \rightarrow B$.
-2. The set $B$ *dominates* the set $A$, denoted $A \preceq B$, if $A \sim C$ for some subset $C \sube B$ or, equivalently, if there exists an injective function $A \rightarrow B$.
+1. Two sets $A$ amd $B$ are *equinumerous*, denoted $A \sim B$, if there exists a bijection $A \longrightarrow B$.
+2. The set $B$ *dominates* the set $A$, denoted $A \preceq B$, if $A \sim C$ for some subset $C \sube B$ or, equivalently, if there exists an injective function $A \longrightarrow B$.
 3. A set $A$ is called *countable* if $A \preceq \mathbb{N}$, and *uncountable* otherwise.
 </aside>
 
@@ -309,15 +309,15 @@ Linear algebra shows that $\mathbb{R}^n$ forms a vector space with the operation
 
 $$
 \begin{align*}
-\mathbb{R} \times \mathbb{R}^n & \rightarrow \mathbb{R} \\
-(\alpha, x) & \mapsto \alpha \cdot x
+\mathbb{R} \times \mathbb{R}^n & \longrightarrow \mathbb{R} \\
+(\alpha, x) & \longmapsto \alpha \cdot x
 \end{align*}
 $$
 
 $$
 \begin{align*}
-\mathbb{R}^n \times \mathbb{R}^n & \rightarrow \mathbb{R}^n \\
-(x, y) & \mapsto x + y
+\mathbb{R}^n \times \mathbb{R}^n & \longrightarrow \mathbb{R}^n \\
+(x, y) & \longmapsto x + y
 \end{align*}
 $$
 
@@ -356,8 +356,8 @@ The **cross product** between two vectors $a,b \in \mathbb{R}^3$ is defined by
 
 $$
 \begin{align*}
-\times : \mathbb{R}^3 \times \mathbb{R}^3 & \rightarrow \mathbb{R}^3 \\
-(a, b) & \mapsto a \times b = (a_2b_3 - a_3b_2,a_3b_1-a_1b_3,a_1b_2-a_2b_1).
+\times : \mathbb{R}^3 \times \mathbb{R}^3 & \longrightarrow \mathbb{R}^3 \\
+(a, b) & \longmapsto a \times b = (a_2b_3 - a_3b_2,a_3b_1-a_1b_3,a_1b_2-a_2b_1).
 \end{align*}
 $$
 
@@ -392,8 +392,8 @@ $$
 $\langle \mathbb{R}^2, +, \cdot \rangle$ is called the field of the **complex numbers** and is denoted with $\mathbb{C}$.
 
 The transformation $\begin{cases}
-\mathbb{R} & \rightarrow & \mathbb{R} \times \mathbb{R} \\
-x & \mapsto & (x,0)
+\mathbb{R} & \longrightarrow & \mathbb{R} \times \mathbb{R} \\
+x & \longmapsto & (x,0)
 \end{cases}$ follows the field axioms. Using this transformation, we can identify $\mathbb{R}$ as a sub-field of $\mathbb{C}$.
 
 Let $i = (0, 1)$. Then, every element $z \in \mathbb{C}$ has a unique representation

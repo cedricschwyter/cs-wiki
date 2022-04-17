@@ -20,7 +20,7 @@ $$
 
 </aside>
 
-The Diffie-Hellman protocol, as originally proposed, makes use of exponentiation modulo a large prime $p$, for instance with 2048 bits. While $y = R_p(g^x)$ can be computed efficiently using the above corollary of modular arithmetic, even if $p$, $g$ and $x$ are numbers of several hundred or thousands of digits, computing $x$ when given $p$, $g$ and $y$ is generally (believed to be) computationally infeasible. This problem is known as (a version of) the *discrete logarithm problem*. The security of the Diffie-Hellman protocol is based on this asymmetry in computational difficulty. Such a function, like $x \mapsto R_p(g^x)$, is called a one-way function: it is easy to compute in one direction but computationally very hard to invert.
+The Diffie-Hellman protocol, as originally proposed, makes use of exponentiation modulo a large prime $p$, for instance with 2048 bits. While $y = R_p(g^x)$ can be computed efficiently using the above corollary of modular arithmetic, even if $p$, $g$ and $x$ are numbers of several hundred or thousands of digits, computing $x$ when given $p$, $g$ and $y$ is generally (believed to be) computationally infeasible. This problem is known as (a version of) the *discrete logarithm problem*. The security of the Diffie-Hellman protocol is based on this asymmetry in computational difficulty. Such a function, like $x \longmapsto R_p(g^x)$, is called a one-way function: it is easy to compute in one direction but computationally very hard to invert.
 
 ![Untitled](Diffie-Hel%20075c2/Untitled.png)
 

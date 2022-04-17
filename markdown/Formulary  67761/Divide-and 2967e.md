@@ -4,7 +4,7 @@
 
 <aside>
 📖 *Master theorem:
-Let $a, C \gt 0$ and $b \geq 0$ be constants and $T : \mathbb{N} \rightarrow \mathbb{R}^+$ a function such that for all even $n \in \mathbb{N}$,*
+Let $a, C \gt 0$ and $b \geq 0$ be constants and $T : \mathbb{N} \longrightarrow \mathbb{R}^+$ a function such that for all even $n \in \mathbb{N}$,*
 
 $$
 T(n) \leq aT(n/2) + Cn^b.

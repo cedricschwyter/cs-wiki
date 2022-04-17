@@ -6,7 +6,7 @@
 💡 A **sequence** (of real numbers) is a transformation
 
 $$
-a : \mathbb{N } \rightarrow \mathbb{R}
+a : \mathbb{N } \longrightarrow \mathbb{R}
 $$
 
 We write $a_n$ instead of $a(n)$ and denote a series with $(a_n)_{n\geq1}$.
@@ -344,7 +344,7 @@ $$
 b_n = a_{l(n)}
 $$
 
-and $l : \mathbb{N} \rightarrow \mathbb{N}$ is a transformation with the property
+and $l : \mathbb{N} \longrightarrow \mathbb{N}$ is a transformation with the property
 
 $$
 l(n) \lt l(n+1) \quad \forall n \geq 1.
@@ -376,7 +376,7 @@ Also, there exist two subsequences of $(a_n)_{n \geq 1}$ that approach $\liminf_
 💡 A sequence in $\mathbb{R}^d$ is a transformation
 
 $$
-a: \mathbb{N} \rightarrow \mathbb{R}^d.
+a: \mathbb{N} \longrightarrow \mathbb{R}^d.
 $$
 
 We write $a_n$ instead of $a(n)$ and denote a series with $(a_n)_{n\geq1}$.
@@ -599,7 +599,7 @@ $$
 💡 A series $\sum_{n = 1}^\infty a_n'$ is called a **rearrangement** of $\sum_{n = 1}^\infty a_n$ if there exists a bijective transformation
 
 $$
-\phi : \mathbb{N} \rightarrow \mathbb{N}
+\phi : \mathbb{N} \longrightarrow \mathbb{N}
 $$
 
 such that
@@ -740,7 +740,7 @@ $\sum_{i,j \geq 0}a_{ij}$ is called a **double series**.
 💡 $\sum_{k = 0}^\infty b_k$ is a **linear arrangement** of the double series $\sum_{i,j \geq 0}^\infty a_{ij}$, if there exists a bijection
 
 $$
-\sigma : \mathbb{N} \rightarrow \mathbb{N} \times \mathbb{N}
+\sigma : \mathbb{N} \longrightarrow \mathbb{N} \times \mathbb{N}
 $$
 
 with $b_k = a_{\sigma(k)}$.
@@ -817,14 +817,14 @@ $$
 In this context we will think of a sequence in $\mathbb{R}$ as a function
 
 $$
-f : \mathbb{N} \rightarrow \mathbb{R}.
+f : \mathbb{N} \longrightarrow \mathbb{R}.
 $$
 
 <aside>
-📖 *Let $f_n:\mathbb{N} \rightarrow \mathbb{R}$ be a sequence. We assume, that:*
+📖 *Let $f_n:\mathbb{N} \longrightarrow \mathbb{R}$ be a sequence. We assume, that:*
 
 1. $f(j) = \lim_{n \to \infty} f_n(j)$ *exists $\forall j \in \mathbb{N}.$*
-2. *There exists a function $g:\mathbb{N} \rightarrow [0, \infty)$, such that*
+2. *There exists a function $g:\mathbb{N} \longrightarrow [0, \infty)$, such that*
     1. $\lvert f_n(j) \rvert \leq g(j) \quad \forall j \geq 0, \forall n \geq 0.$
     2. $\sum_{j=0}^\infty g(j)$ *converges.*
 
