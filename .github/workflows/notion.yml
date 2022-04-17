@@ -19,7 +19,7 @@ jobs:
       - name: Install LFS
         run: git lfs install
       - name: Checkout LFS objects
-        run: git lfs checkout
+        run: git lfs checkout && git lfs pull
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
