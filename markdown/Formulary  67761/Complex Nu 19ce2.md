@@ -35,7 +35,7 @@ $$
 z + w := (x+u) + i(y+v).
 $$
 
-![AdditionOfComplexNumbers_ManimCE_v0.13.1.png](Complex%20Nu%2019ce2/AdditionOfComplexNumbers_ManimCE_v0.13.1.png)
+![AdditionOfComplexNumbers_ManimCE_v0.14.0.png](Complex%20Nu%2019ce2/AdditionOfComplexNumbers_ManimCE_v0.14.0.png)
 
 </aside>
 
