@@ -3,3 +3,4 @@ html.zip filter=lfs diff=lfs merge=lfs -text
 markdown/Formulary[[:space:]][[:space:]]67761/Resources[[:space:]][[:space:]]e4f94/patt-and-patel.zip filter=lfs diff=lfs merge=lfs -text
 markdown.zip filter=lfs diff=lfs merge=lfs -text
 docs/Formulary[[:space:]][[:space:]]67761/Resources[[:space:]][[:space:]]e4f94/Introducti[[:space:]]4866a/patt-and-patel.zip filter=lfs diff=lfs merge=lfs -text
+docs/html/Formulary[[:space:]][[:space:]]67761/Resources[[:space:]][[:space:]]e4f94/Introducti[[:space:]]4866a/patt-and-patel.zip filter=lfs diff=lfs merge=lfs -text
