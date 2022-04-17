@@ -8,7 +8,7 @@
 </aside>
 
 <aside>
-💡 An *algebra* (or *algebraic structure* or $\Omega$-*algebra*) is a pair $\langle S; \Omega \rangle$ where $S$ is a set (the *carrier* of the algebra) and $\Omega = (\omega_1, ..., \omega_n)$ is a list of opereations on $S$.
+💡 An *algebra* (or *algebraic structure* or $\Omega$-*algebra*) is a pair $\langle S; \Omega \rangle$ where $S$ is a set (the *carrier* of the algebra) and $\Omega = (\omega_1, ..., \omega_n)$ is a list of operations on $S$.
 
 </aside>
 
