@@ -10,7 +10,7 @@ Consider building a digital knob. Many such knobs today involve lights, a disk w
 
 # How to best arrange the holes on the disk
 
-The most straight-forward way would of course be to punch holes into the disk in such a way that the arrangements of the holes represent the selected value in binary. However, then more there are places where there are more than one hole changes between two discrete values, which would cause the transitional value to jump around all over the place. To get a scheme of holes for the disk where only one hole changes from value to value we can construct a so-called hypercube by assigning each vertex a value in binary such that no two neighboring vertices differ in more than one binary place (i.e., the hamming distance of two neighbors is exactly 1 for all pairs of neighboring vertices). We can start with a two-dimensional “hypercube”, which will give us 4 discrete values:
+The most straight-forward way would of course be to punch holes into the disk in such a way that the arrangements of the holes represent the selected value in binary. However, then there are places where there are more than one hole changes between two discrete values, which would cause the transitional value to jump around all over the place. To get a scheme of holes for the disk where only one hole changes from value to value we can construct a so-called hypercube by assigning each vertex a value in binary such that no two neighboring vertices differ in more than one binary place (i.e., the hamming distance of two neighbors is exactly 1 for all pairs of neighboring vertices). We can start with a two-dimensional “hypercube”, which will give us 4 discrete values:
 
 ![2022-03-05_19-21.png](Hamiltonia%201e5ec/2022-03-05_19-21.png)
 
