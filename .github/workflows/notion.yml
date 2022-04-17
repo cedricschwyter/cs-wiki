@@ -34,15 +34,14 @@ jobs:
       - name: Remove external documents
         run: rm -rf *.zip && rm -rf *.pdf
       - name: Copy to docs/
-        run: cp -r html docs && cp "docs/Formulary  67761.html" docs/index.html
+        run: rm -rf docs && cp -r html docs && cp "docs/Formulary  67761.html" docs/index.html
       - name: Track LFS files
         run: find ./* -size +100M -exec git lfs track "{}" \;
-      - name: setup git config
+      - name: Setup Git config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
       - name: Create commit
         run: |
           git add -A
-          git commit -m "Automatic snapshot"
-          git push origin master
+          git diff-index --quiet HEAD || (git commit -m "Automatic snapshot" && git push origin master)
