@@ -350,3 +350,98 @@ $$
 Just like we did in the case of sequences we will denote $f(n)$ by $f_n$ and the sequence of functions as $(f_n)_{n \geq 0}$. For every $x \in D$ we get a sequence $(f_n(x))_{n \geq 0}$ in $\mathbb{R}$.
 
 </aside>
+
+<aside>
+💡 The sequence of functions $(f_n)_{n \geq 0}$ **converges pointwise** towards a function $f :D \longrightarrow \mathbb{R}$ if for all $x \in D$:
+
+$$
+f(x) = \lim_{n \to \infty} f_n(x)
+$$
+
+</aside>
+
+<aside>
+💡 (Weierstrass 1841)
+
+The sequence 
+
+$$
+f_n:D \longrightarrow \mathbb{R}
+$$
+
+**converges uniformly** in $D$ towards
+
+$$
+f: D \longrightarrow \mathbb{R}
+$$
+
+if it holds that: $\forall \epsilon \gt 0 \quad \exists N \geq 1$ such that:
+
+$$
+\forall n \geq N, \forall x \in D \quad \lvert f_n(x) - f(x) \rvert \lt \epsilon.
+$$
+
+</aside>
+
+<aside>
+📖 *Let $D \sube \mathbb{R}$ and $f_n : D \longrightarrow \mathbb{R}$ be a sequence of functions consisting of continuous functions (in $D$) that converge uniformly (in $D$) towards a function $f : D \longrightarrow \mathbb{R}$. Then $f$ is continuous (in $D$).*
+
+</aside>
+
+<aside>
+💡 A sequence of functions
+
+$$
+f_n : D \longrightarrow \mathbb{R}
+$$
+
+is **uniformly convergent** if for every $x \in D$ the limit
+
+$$
+f(x) = \lim_{n \to \infty} f_n(x)
+$$
+
+exists and the sequence $(f_n)_{n \geq 0}$ converges uniformly towards $f$.
+
+</aside>
+
+<aside>
+📎 *The sequence of functions*
+
+$$
+f_n : D \longrightarrow \mathbb{R}
+$$
+
+converges uniformly in $D$ if and only if: 
+
+$\forall \epsilon \gt 0 \quad \exists N \geq 1$ such that $\forall n,m \geq N$ and $\forall x \in D$:
+
+$$
+\lvert f_n(x) - f_m(x) \rvert \lt \epsilon.
+$$
+
+</aside>
+
+<aside>
+📎 *Let $D \sube \mathbb{R}$. If $f_n : D \longrightarrow \mathbb{R}$ is a uniformly convergent sequence of continuous functions, then the function*
+
+$$
+f(x) = \lim_{n \to \infty} f_n(x)
+$$
+
+*is continuous.*
+
+</aside>
+
+<aside>
+💡 Let $f_n : D \longrightarrow \mathbb{R}$ be a sequence of functions.
+
+The series $\sum_{k=0}^\infty f_k(x)$ converges uniformly (in $D$), if the sequence of functions given by 
+
+$$
+S_n(x) = \sum_{k=0}^n f_k(x)
+$$
+
+converges uniformly.
+
+</aside>
