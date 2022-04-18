@@ -595,7 +595,30 @@ $$
 that means that 
 
 $$
-x^2 \geq 2n \cdot (2n + 1) \quad n \geq 1.
+x^2 \geq 2n \cdot (2n + 1) \quad \forall n \geq 1.
 $$
 
+therefore 
+
+$$
+x \leq \sqrt{6}.
+$$
+
+</aside>
+
+<aside>
+📎 *It follows that*
+
+$$
+x \geq \sin x \geq x - \frac{x^3}{3!} \quad \forall 0 \leq x \leq \sqrt{6}.
+$$
+
+</aside>
+
+<aside>
+📎 *More trigonometry equalities*
+
+1. $e^{i\pi} = -1, e^{2i\pi} = 1$
+2. $\sin (x+\frac{\pi}{2}) = \cos(x), \cos(x+\frac{\pi}{2}) = - \sin(x) \quad \forall x \in \mathbb{R}$
+3. 
 </aside>
