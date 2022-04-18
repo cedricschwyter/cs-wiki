@@ -1,0 +1,4 @@
+# Introduction to Computing Systems, Patt & Patel
+
+Media: patt-and-patel.zip, pp-appendixa.pdf, pp-appendixc.pdf, lc3b-figures.pdf, 00_-_TOC.pdf, 01_chapter_1.pdf, 02_chapter_2.pdf, 03_chapter_3.pdf, 04_chapter_4.pdf, 05_chapter_5.pdf, 06_chapter_5.pdf, 07_chapter_7.pdf, 08_chapter_8.pdf, 09_chapter_9.pdf, 10_chapter_10.pdf, 11_chapter_11.pdf, 12_chapter_12.pdf, 13_chapter_13.pdf, 15_chapter_15.pdf, 16_chapter_16.pdf, 17_chapter_17.pdf, 18_chapter_18.pdf, 19_chapter_19.pdf, A_-_appendix_a.pdf, B_-_appendix_b.pdf, C_-_appendix_c.pdf
+URL: https://safari.ethz.ch/digitaltechnik/spring2021/doku.php?id=readings
