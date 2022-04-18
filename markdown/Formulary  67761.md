@@ -164,6 +164,6 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Sequences and Series](Formulary%20%2067761/Sequences%20%208a981.md)
 
-[Continuous Functions](Formulary%20%2067761/Continuous%209465b.md)
+[*Continuous Functions*](Formulary%20%2067761/Continuous%209465b.md)
 
 [Application: Cauchy-Product of the Exponential Function](Formulary%20%2067761/Sequences%20%208a981/Applicatio%2097683.md)
