@@ -73,7 +73,7 @@ $$
 </aside>
 
 <aside>
-📎 *Let $x_0 \in D \sube \mathbb{R}, \lambda \in \mathbb{R}$ and $f : D \longrightarrow \mathbb{R}, g:D \longrightarrow \mathbb{R}$ both continuous in $x_0$.*
+📎 *Let $x_0 \in D \sube \mathbb{R}, \lambda \in \mathbb{R}$ and $f : D \longrightarrow \mathbb{R}, g:D \longrightarrow \mathbb{R}$ both be continuous in $x_0$.*
 
 1. *Then $f+g, \lambda \cdot f, f \cdot g$ are continuous in $x_0$.*
 2. *If $g(x_0) \neq 0$ then* 
