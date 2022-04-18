@@ -1,3 +1,0 @@
-# race condition
-
-Description: A program has a race condition if, during any possible execution with the same inputs, its observable behaviour (results, output, ...) may change if events happen in different order. Events here are typically scheduler interactions causing different interleavings, but could also be, e.g. changing network latency. Race condition is often used interchangeably with data race.

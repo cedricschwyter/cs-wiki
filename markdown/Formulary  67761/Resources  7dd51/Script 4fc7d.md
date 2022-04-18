@@ -1,3 +1,0 @@
-# Script
-
-Media: skript.pdf
