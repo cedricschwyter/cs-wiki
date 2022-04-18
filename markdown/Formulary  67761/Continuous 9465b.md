@@ -620,5 +620,33 @@ $$
 
 1. $e^{i\pi} = -1, e^{2i\pi} = 1$
 2. $\sin (x+\frac{\pi}{2}) = \cos(x), \cos(x+\frac{\pi}{2}) = - \sin(x) \quad \forall x \in \mathbb{R}$
-3. 
+3. $\sin(x+\pi)=-\sin(x), \sin(x+2\pi)=\sin(x) \quad \forall x \in \mathbb{R}$
+4. $\cos(x+\pi) = - \cos(x), \cos(x + 2\pi) = \cos(x) \quad \forall x \in \mathbb{R}$
+5. *Roots of the sine function $= \{k \cdot \pi \space \vert \space k \in \mathbb{Z}\}$*
+    
+    $\sin(x) \gt 0 \quad \forall x \in (2k\pi, (2k+1)\pi) \quad k \in \mathbb{Z} \\
+    \sin(x) \lt 0 \quad \forall x \in ((2k+1)\pi, (2k+2)\pi) \quad k \in \mathbb{Z}$
+    
+6. *Roots of the cosine function $= \{\frac{\pi}{2} + k \cdot \pi \space \vert \space k \in \mathbb{Z}\}$*
+    
+    $\cos(x) \gt 0 \quad \forall x \in (-\frac{\pi}{2}+2k\pi, -\frac{\pi}{2} + (2k +1)\pi) \quad k \in \mathbb{Z} \\
+    \cos(x) \lt 0 \quad \forall x \in (-\frac{\pi}{2} + (2k+1)\pi, -\frac{\pi}{2}+(2k+2)\pi) \quad k \in \mathbb{Z}$
+    
 </aside>
+
+<aside>
+💡 We define the tangent function for $z \notin \frac{\pi}{2}+\pi\cdot \mathbb{Z}$:
+
+$$
+\tan(z) = \frac{\sin(z)}{\cos(z)}
+$$
+
+and the cotangent function for $z \notin \pi \cdot \mathbb{Z}$:
+
+$$
+\cot(z) = \frac{\cos(z)}{\sin(z)}
+$$
+
+</aside>
+
+## Limits of Functions
