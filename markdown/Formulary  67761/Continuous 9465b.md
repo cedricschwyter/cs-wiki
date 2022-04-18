@@ -445,3 +445,51 @@ $$
 converges uniformly.
 
 </aside>
+
+<aside>
+📖 *Let $D \sube \mathbb{R}$ and*
+
+$$
+f_n : \longrightarrow \mathbb{R}
+$$
+
+*be a sequence of functions, We assume, that*
+
+$$
+\lvert f_n(x) \rvert \leq c_n \quad \forall x \in D
+$$
+
+*and that $\sum_{n=0}^\infty c_n$ converges. Then the series*
+
+$$
+\sum_{n=0}^\infty f_n(x)
+$$
+
+*converges uniformly in $D$ and its limit*
+
+$$
+f(x) = \sum_{n=0}^\infty f_n(x)
+$$
+
+*is a continuous function in $D$.*
+
+</aside>
+
+<aside>
+💡 The power series
+
+$$
+\sum _{k=0}^\infty c_kx^k
+$$
+
+has a **positive radius of convergence** if $\limsup_{k \to \infty} \sqrt[k]{\lvert c_k \rvert}$ exists.
+
+The radius of convergence is then defines as:
+
+$$
+\rho = \begin{cases}
++\infty & \text{if} \quad \limsup_{k \to \infty} \sqrt[k]{\lvert c_k \rvert}
+\end{cases}
+$$
+
+</aside>
