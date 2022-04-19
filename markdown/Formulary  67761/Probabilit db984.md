@@ -246,6 +246,58 @@ f_{\Chi} : \mathbb{R} & \longrightarrow [0,1] \\
 \end{align*}
 $$
 
-is called the *density(function)* of $\Chi$.
+is called the *density (function)* of $\Chi$.
+
+</aside>
+
+<aside>
+💡 The function
+
+$$
+\begin{align*}
+F_{\Chi}: \mathbb{R} & \longrightarrow [0, 1] \\
+\chi & \longmapsto \Pr[\Chi \leq \chi] = \sum_{\chi' \in W_{\Chi} \space \vert \space \chi' \leq \chi} \Pr[\Chi = \chi']
+\end{align*}
+$$
+
+is called the *distribution (function) of $\Chi$.*
+
+</aside>
+
+## Expected Value
+
+<aside>
+💡 For a random variable $\Chi$ we define the *expected value* $\mathbb{E}[\Chi]$ as
+
+$$
+\mathbb{E}[\Chi] = \sum_{\chi \in W_\Chi} \chi \cdot \Pr[\Chi = \chi]
+$$
+
+if that sum converges absolutely. Otherwise the expected value is said to be undefined.
+
+</aside>
+
+<aside>
+📌 *If $\Chi$ is a random variable then the following holds:*
+
+$$
+\mathbb{E}[\Chi]=\sum_{\omega \in \Omega} \Chi(\omega) \cdot \Pr[\omega].
+$$
+
+</aside>
+
+<aside>
+📖 *Let $\Chi$ a random variable with $W_{\Chi} \sube \mathbb{N}_0$. Then it holds that*
+
+$$
+\mathbb{E}[\Chi] = \sum_{i=1}^\infty \Pr[\Chi \leq i].
+$$
+
+</aside>
+
+<aside>
+💡 **Conditional Random Variables**
+
+Let $\Chi$ be a random variable and $A$ an event with $\Pr[A] \gt 0$. 
 
 </aside>
