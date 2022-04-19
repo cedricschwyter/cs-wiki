@@ -201,3 +201,51 @@ $$
 *where $A_i^0 = \bar{A}_i$ and $A_i^1 = A_i$.*
 
 </aside>
+
+<aside>
+📌 *Let $A$, $B$ and $C$ be independent events. Then $A \cap B$ and $C$ respectively $A \cup B$ and $C$ independent.*
+
+</aside>
+
+# Random Variables
+
+<aside>
+💡 A *random variable* is a transformation $\Chi : \Omega \longrightarrow \mathbb{R}$, where $\Omega$ is the possibility space of a probability space.
+
+</aside>
+
+<aside>
+💡 In discrete probability spaces the *codomain* of a random variable
+
+$$
+W_\Chi = \Chi(\Omega) = \{\chi \in \mathbb{R} \space \vert \space \exists \space \omega \in \Omega \quad \Chi(\omega) = \chi\}
+$$
+
+is in all cases finite or countably infinite, depending on $\Omega$ being finite or countably infinite.
+
+</aside>
+
+<aside>
+💡 When researching a random variable $\Chi$ one is interested in the probabilities with which $\Chi$ assumes a specific value. For $W_{\Chi} = \{\chi_1,...,\chi_n\}$ respectively $W_{\Chi} = \{\chi_1,\chi_2,...\}$ for an arbitrary $1 \leq i \leq n$ respectively $\chi_i \in \mathbb{N}$ we regard the event $\Chi^{-1}(\chi_i) = \{\omega \in \Omega \space \vert \space \Chi(\omega) = \chi_i\}$. We abbreviate $\Chi^{-1}(\chi_i)$ as $"\Chi = \chi_i"$.
+
+Therefore, we can define
+
+$$
+\Pr[\Chi \leq \chi_i] = \sum_{\chi \in W_{\Chi} \space \vert \space \chi \leq \chi_i} \Pr[\Chi = \chi] = \Pr[\{\omega \in \Omega \space \vert \space \Chi(\omega) \leq \chi_i\}].
+$$
+
+</aside>
+
+<aside>
+💡 The function
+
+$$
+\begin{align*}
+f_{\Chi} : \mathbb{R} & \longrightarrow [0,1] \\
+\chi & \longmapsto \Pr[\Chi = \chi]
+\end{align*}
+$$
+
+is called the *density(function)* of $\Chi$.
+
+</aside>
