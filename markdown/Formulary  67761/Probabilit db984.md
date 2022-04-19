@@ -298,6 +298,84 @@ $$
 <aside>
 💡 **Conditional Random Variables**
 
-Let $\Chi$ be a random variable and $A$ an event with $\Pr[A] \gt 0$. 
+Let $\Chi$ be a random variable and $A$ an event with $\Pr[A] \gt 0$. By $\Chi \vert A$ we denote that we calculate probabilities with which the random variable $\Chi$ assumes specific values with respect to the on $A$ conditional probabilities. It thus holds that
+
+$$
+\Pr[(\Chi \vert A) \leq \chi] = \Pr[\Chi \leq \chi \vert A] = \frac{\Pr[\{\omega \in A \space \vert \space \Chi(\omega) \leq \chi\}]}{\Pr[A]}
+$$
 
 </aside>
+
+<aside>
+📖 *Let $\Chi$ be a random variable. For pairwise disjoint events $A_1,...,A_n$ with $A_1 \cup ...\cup A_n = \Omega$ and $\Pr[A_1],...,\Pr[A_n] \gt 0$ it holds that*
+
+$$
+\mathbb{E}[\Chi] = \sum_{i=1}^n \mathbb{E}[\Chi \vert A_i] \cdot \Pr[A_i].
+$$
+
+*For pairwise disjoint events $A_1, A_2,...$ with $\bigcup_{i=1}^\infty A_k = \Omega$ and $\Pr[A_1], \Pr[A_2],..\gt 0$ it holds analogously that*
+
+$$
+\mathbb{E}[\Chi] = \sum_{i = 1} ^\infty \mathbb{E}[\Chi \vert A_i] \cdot \Pr[A_i].
+$$
+
+</aside>
+
+<aside>
+💡 **Linearity of the Expected Value**
+
+Assume, we have defined $n$ random variables: 
+
+$$
+\Chi_1,...,\Chi_n : \Omega \longrightarrow \mathbb{R}.
+$$
+
+For an $\omega \in \Omega$ we thus receive $n$ real numbers $\Chi_1(\omega),...,\Chi_n(\omega)$. When we define a function $f : \mathbb{R}^n \longrightarrow \mathbb{R}$ we immediately see that the concatenation $f(\Chi_1,...,\Chi_n)$ in turn is also a random variable, for it holds that:
+
+$$
+f(\Chi_1, ..., \Chi_n):\Omega \longrightarrow \mathbb{R}.
+$$
+
+This holds for arbitrary functions $f : \mathbb{R}^n \longrightarrow \mathbb{R}$, in particular for affine linear functions: 
+
+$$
+\begin{align*}
+f : \mathbb{R}^n & \longrightarrow \mathbb{R} \\
+(\chi_1,...,\chi_n) & \longmapsto a_1\chi_1 + ... + a_n\chi_n + b,
+\end{align*}
+$$
+
+where $a_1,...,a_n,b \in \mathbb{R}$ are arbitrary real numbers. In this case we usually denote the random variable $f(\Chi_1,...,\Chi_n)$ explicitly as 
+
+$$
+\Chi = a_1\Chi_1 + ...+ a_n\Chi_n + b.
+$$
+
+</aside>
+
+<aside>
+📖 (Linearity of the Expected Value).
+
+*For random variables $\Chi_1,...,\Chi_n$ and $\Chi = a_1\Chi_1+...+a_n\Chi_n+b$ with $a_1,..,a_n,b \in \mathbb{R}$ it holds that*
+
+$$
+\mathbb{E}[\Chi] = a_1 \mathbb{E}[\Chi] + ... + a_n \mathbb{E}[\Chi_n] + b.
+$$
+
+</aside>
+
+<aside>
+💡 For an event $A \sube \Omega$ the corresponding *indicator variable $\Chi_A$* is defined by:
+
+$$
+\Chi_A(\omega) = \begin{cases}
+1, & \text{if} \quad \omega \in A, \\
+0, & \text{else}.
+\end{cases}
+$$
+
+For the expected value of $\Chi_A$ it holds that: $\mathbb{E}[\Chi_A] = \Pr[A]$.
+
+</aside>
+
+## Variance
