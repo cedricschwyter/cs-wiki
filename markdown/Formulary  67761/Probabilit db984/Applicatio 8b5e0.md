@@ -1,1 +1,0 @@
-# Application: Coupon-Collector Problem (TODO)
