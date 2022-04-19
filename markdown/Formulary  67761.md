@@ -166,4 +166,6 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [*Continuous Functions (TODO)*](Formulary%20%2067761/Continuous%209465b.md)
 
-[Application: Cauchy-Product of the Exponential Function](Formulary%20%2067761/Sequences%20%208a981/Applicatio%2097683.md)
+[Application: Cauchy-Product of the Exponential Function](Formulary%20%2067761/Sequences%20%208a981/Applicatio%2097683.md) 
+
+[Application: Coupon-Collector Problem (TODO)](Formulary%20%2067761/Probabilit%20db984/Applicatio%208b5e0.md)

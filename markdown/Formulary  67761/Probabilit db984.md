@@ -460,3 +460,130 @@ $$
 $$
 
 </aside>
+
+## Binomial Distribution
+
+<aside>
+💡 A random variable $\Chi$ with $W_\Chi = \{0, 1, ..., n\}$ and density
+
+$$
+f_\Chi(\chi) = \begin{cases}
+\binom{n}{\chi}p^\chi (1-p)^{n-\chi} & \text{for} \quad \chi \in \{0, 1, ..., n\}, \\
+0 & \text{else}
+\end{cases}
+$$
+
+is called binomially distributed. The parameter $n$ is called the *number of trials*, the parameter $p$ is called the *probability of success* of the binomial distribution.
+
+If a random variable $\Chi$ is binomially distributed with parameters $n$ and $p$, then it is denoted by
+
+$$
+\Chi \sim \text{Bin}(n,p).
+$$
+
+For a binomially distributed random variable $\Chi$ the following hold:
+
+$$
+\mathbb{E}[\Chi] = np \quad \text{and} \quad \text{Var}[\Chi] = np(1-p).
+$$
+
+</aside>
+
+## Geometric Distribution
+
+<aside>
+💡 A random variable $\Chi$ with density
+
+$$
+f_\Chi = \begin{cases}
+p(1-p)^{i-1} & \text{for} \quad i \in \mathbb{N}, \\
+0 & \text{else}
+\end{cases}
+$$
+
+is called geometrically distributed. The parameter $p$ is called the *probability of success* of the geometric distribution.
+
+If a random variable $\Chi$ is geometrically distributed with parameter $p$, then it is denoted by 
+
+$$
+\Chi \sim \text{Geo}(p).
+$$
+
+For a geometrically distributed random variable $\Chi$ the following hold:
+
+$$
+\mathbb{E}[\Chi] = \frac{1}{p} \quad \text{and} \quad \text{Var}[\Chi] = \frac{1-p}{p^2}.
+$$
+
+</aside>
+
+<aside>
+📖 *If $\Chi \sim \text{Geo}(p)$, then for all $s,t \in \mathbb{N}$ the following holds:*
+
+$$
+\Pr[\Chi \geq s + t \vert \Chi \gt s] = \Pr[\Chi \geq t].
+$$
+
+</aside>
+
+### Waiting for the $n$-th Success - Negative Binomial Distribution
+
+<aside>
+💡 Let $Z$ be the random variable that counts how often we have to repeat an experiment with probability of success $p$ until the $n$-th success. For $n = 1$, $Z \sim \text{Geo}(p)$. For $n \geq 2$, $Z$ is called *negatively binomially distributed* (also *Pascal distributed*) with order $n$.
+
+The density of $Z$ is
+
+$$
+f_Z(z) = \binom{z-1}{n-1} \cdot p^n(1-p)^{z-n}.
+$$
+
+Let $\Chi_i$ denote the number of experiments strictly after the $(i - 1)$-st success up until (including) the $i$-th success. Then, each of the $\Chi_i$ is geometrically distributed with parameter $p$.
+
+Thus, by linearity of the expected value, it holds for the expected value $\mathbb{E}[Z]$ that 
+
+$$
+\mathbb{E}[Z] = \sum_{i=1}^n \mathbb{E}[\Chi_i] = \frac{n}{p}.
+$$
+
+</aside>
+
+### Application: Coupon-Collector Problem
+
+[Application: Coupon-Collector Problem (TODO)](Probabilit%20db984/Applicatio%208b5e0.md)
+
+## Poisson Distribution
+
+<aside>
+💡 A random variable $\Chi$ with density
+
+$$
+f_\Chi = \begin{cases}
+\frac{e^{-\lambda}\lambda^i}{i!} & \text{for} \quad i \in \mathbb{N}_0, \\
+0 & \text{else}
+\end{cases}
+$$
+
+is called *Poisson distributed*. The parameter $\lambda$ is equal to the mean and variance of the Poisson distribution.
+
+If a random variable $\Chi$ is Poisson distributed with parameter $\lambda$, then it is denoted by 
+
+$$
+\Chi \sim \text{Po}(\lambda).
+$$
+
+For a Poisson distributed random variable $\Chi$ the following hold: 
+
+$$
+\mathbb{E}[\Chi] = \text{Var}[\Chi] = \lambda.
+$$
+
+</aside>
+
+### Poisson Distribution as Limit of Binomial Distribution
+
+<aside>
+💡 The binomial distribution $\text{Bin}(n, \frac{\lambda}{n})$ converges towards the Poisson distribution $\text{Po}(\lambda)$ for $n \to \infty$.
+
+</aside>
+
+# Multiple Random Variables
