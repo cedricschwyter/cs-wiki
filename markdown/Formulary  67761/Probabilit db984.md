@@ -170,3 +170,34 @@ $$
 </aside>
 
 # Independence
+
+<aside>
+💡 The events $A$ and $B$ are called *independent* if
+
+$$
+\Pr[A \cap B] = \Pr[A] \cdot \Pr[B]
+$$
+
+</aside>
+
+<aside>
+💡 The events $A_1, ...,A_n$ are called *independent* if it holds for all subsets $I \sube \{1,...,n\}$ with $I = \{i_1, ...,i_k\}$ that
+
+$$
+\Pr[A_{i_1} \cap ... \cap A_{i_k}] = \Pr[A_{i_1}]\cdot ... \cdot \Pr[A_{i_k}].
+$$
+
+An infinite family of events $A_i$ with $i \in \mathbb{N}$ is called independent if the above condition is met for all finite subsets $I \sube \mathbb{N}$.
+
+</aside>
+
+<aside>
+📌 *The events $A_1,...,A_n$ are independent if and only if it holds for all $(s_1,...,s_n) \in \{0,1\}^n$ that*
+
+$$
+\Pr[A_1^{s_1}\cap...\cap A_n^{s_n}] = \Pr[A_1^{s_1}] \cdot ... \cdot \Pr[A_n^{s_n}],
+$$
+
+*where $A_i^0 = \bar{A}_i$ and $A_i^1 = A_i$.*
+
+</aside>
