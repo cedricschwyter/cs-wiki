@@ -379,3 +379,84 @@ For the expected value of $\Chi_A$ it holds that: $\mathbb{E}[\Chi_A] = \Pr[A]$.
 </aside>
 
 ## Variance
+
+<aside>
+💡 For a random variable $\Chi$ with $\mu = \mathbb{E}[X]$ we define the *variance* $\text{Var}[\Chi]$ as
+
+$$
+\text{Var}[\Chi] = \mathbb{E}[(\Chi - \mu)^2] = \sum_{\chi \in W_\Chi} (\chi - \mu)^2 \cdot \Pr[\Chi = \chi].
+$$
+
+The quantity $\sigma = \sqrt{\text{Var}[\Chi]}$ is called the *standard deviation* of $\Chi$.
+
+</aside>
+
+<aside>
+📖 *For an arbitrary random variable $\Chi$ it holds that*
+
+$$
+\text{Var}[\Chi] = \mathbb{E}[\Chi^2] - \mathbb{E}[\Chi]^2.
+$$
+
+</aside>
+
+<aside>
+📖 *For an arbitrary random variable $\Chi$ and $a,b \in \mathbb{R}$ it holds that*
+
+$$
+\text{Var}[a \cdot \Chi+ b] = a^2 \cdot \text{Var}[\Chi].
+$$
+
+</aside>
+
+<aside>
+💡 For a random variable $\Chi$ we call $\mathbb{E}[\Chi^k]$ the $*k$-th moment* and $\mathbb{E}[(\Chi - \mathbb{E}[\Chi])^k]$ the $k$*-th central moment*.
+
+The expected value is therefore identical to the first moment, and the variance identical to the second central moment.
+
+</aside>
+
+# Important Discrete Probability Distributions
+
+<aside>
+💡 Recall the probability density function $f_\Chi$ and the probability distribution function $F_\Chi$:
+
+$$
+\begin{align*}
+f_{\Chi} : \mathbb{R} & \longrightarrow [0,1] \\
+\chi & \longmapsto \Pr[\Chi = \chi]  = \Pr[\{\omega \space \vert \space \Chi(\omega) = \chi\}]. \\
+F_{\Chi}: \mathbb{R} & \longrightarrow [0, 1] \\
+\chi & \longmapsto \Pr[\Chi \leq \chi] = \Pr[\{\omega \space \vert \space \Chi(\omega) \leq \chi\}].
+\end{align*}
+$$
+
+</aside>
+
+## Bernoulli Distribution
+
+<aside>
+💡 A random variable $\Chi$ with $W_\Chi = \{0, 1\}$ and density
+
+$$
+f_\Chi(\chi) = \begin{cases}
+p & \text{for} \quad \chi = 1, \\
+1 - p & \text{for} \quad \chi = 0, \\
+0 & \text{else}
+\end{cases}
+$$
+
+is called *Bernoulli distributed*. The parameter $p$ is called the *probability of success* of the Bernoulli distribution.
+
+If a random variable $\Chi$ is Bernoulli distributed with parameter $p$, then it is denoted by  
+
+$$
+\Chi \sim \text{Bernoulli}(p).
+$$
+
+For a Bernoulli distributed random variable $\Chi$ the following hold:
+
+$$
+\mathbb{E}[\Chi] = p \quad \text{and} \quad \text{Var}[\Chi] = p(1-p).
+$$
+
+</aside>
