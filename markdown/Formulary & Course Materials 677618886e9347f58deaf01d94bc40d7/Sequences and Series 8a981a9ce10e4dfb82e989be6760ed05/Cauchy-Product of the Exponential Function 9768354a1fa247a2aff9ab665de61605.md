@@ -13,7 +13,7 @@ $$
 The claim can be verified by computing the Cauchy product of the right hand side. We will compute the Cauchy product of the following two series:
 
 $$
- \sum_{i=0}^\infty \frac{w^i}{i!},  \sum_{j=0}^\infty \frac{z^j}{j!}
+\sum_{i=0}^\infty \frac{w^i}{i!},  \sum_{j=0}^\infty \frac{z^j}{j!}
 $$
 
 Recall the Cauchy product and the series expansion of the exponential function $\exp(z)$:
@@ -39,7 +39,7 @@ $$
 We define the exponential function $\exp(z)$ as:
 
 $$
-\exp(z) = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!}+...
+\exp(z) = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!}+... = \sum_{i=0}^\infty \frac{z^i}{i!}
 $$
 
 (Note: this is a Taylor series expansion of $e^z$)

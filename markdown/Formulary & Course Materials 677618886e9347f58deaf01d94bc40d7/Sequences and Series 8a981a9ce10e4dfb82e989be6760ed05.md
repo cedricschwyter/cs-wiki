@@ -653,7 +653,7 @@ $$
 We define the exponential function $\exp(z)$ as:
 
 $$
-\exp(z) = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!}+...
+\exp(z) = 1 + z + \frac{z^2}{2!} + \frac{z^3}{3!}+... = \sum_{i=0}^\infty \frac{z^i}{i!}
 $$
 
 (Note: this is a Taylor series expansion of $e^z$)
