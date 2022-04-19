@@ -148,11 +148,11 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Resources and Materials](Formulary%20%2067761/Resources%20%20f8f78.csv)
 
-[Graphs](Formulary%20%2067761/Graphs%20b149f.md)
+[Graphs (TODO)](Formulary%20%2067761/Graphs%20(TO%20b149f.md)
 
-[Hamiltonian Cycle in a Hypercube: Gray-Code](Formulary%20%2067761/Graphs%20b149f/Hamiltonia%201e5ec.md) 
+[Hamiltonian Cycle in a Hypercube: Gray-Code](Formulary%20%2067761/Graphs%20(TO%20b149f/Hamiltonia%201e5ec.md) 
 
-[Probability Theory](Formulary%20%2067761/Probabilit%20db984.md)
+[Probability Theory (TODO)](Formulary%20%2067761/Probabilit%20db984.md)
 
 ## Analysis I - **401-0212-16L - FS22**
 
@@ -164,6 +164,6 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Sequences and Series](Formulary%20%2067761/Sequences%20%208a981.md)
 
-[*Continuous Functions*](Formulary%20%2067761/Continuous%209465b.md)
+[*Continuous Functions (TODO)*](Formulary%20%2067761/Continuous%209465b.md)
 
 [Application: Cauchy-Product of the Exponential Function](Formulary%20%2067761/Sequences%20%208a981/Applicatio%2097683.md)

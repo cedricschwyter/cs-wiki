@@ -1,4 +1,4 @@
-# Graphs
+# Graphs (TODO)
 
 [Graphs](Graphs%20f8a1f.md) 
 
@@ -134,7 +134,7 @@ Note: If in a connected graph all except two vertices have even degree then the 
 
 ### Application: Hamiltonian Cycle in a Hypercube: Gray-Code
 
-[Hamiltonian Cycle in a Hypercube: Gray-Code](Graphs%20b149f/Hamiltonia%201e5ec.md)
+[Hamiltonian Cycle in a Hypercube: Gray-Code](Graphs%20(TO%20b149f/Hamiltonia%201e5ec.md)
 
 ## Eulerian Tour
 
@@ -142,4 +142,4 @@ A Eulerian tour can be found in $O(\lvert E \rvert)$ using the fast and slow run
 
 ### Pseudocode
 
-![2022-03-05_17-41.png](Graphs%20b149f/2022-03-05_17-41.png)
+![2022-03-05_17-41.png](Graphs%20(TO%20b149f/2022-03-05_17-41.png)
