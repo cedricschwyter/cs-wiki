@@ -1,0 +1,3 @@
+# reductions
+
+Description: produce a single answer from a collection via an associative operator. Examples: max, count, rightmost, sum, ...
