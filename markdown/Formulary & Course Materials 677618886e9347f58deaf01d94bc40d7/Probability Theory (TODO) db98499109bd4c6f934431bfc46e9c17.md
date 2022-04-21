@@ -737,3 +737,33 @@ $$
 </aside>
 
 # Estimating Probabilities
+
+## Inequalities of Markov and Chebyshev
+
+<aside>
+📖 (Markov’s Inequality).
+
+*Let $\Chi$ be a random variable, that only assumes non-negative values. Then it holds for all $t \in \mathbb{R}$ with $t \gt 0$ that*
+
+$$
+\Pr[\Chi \geq t] \leq \frac{\mathbb{E}[\Chi]}{t}.
+$$
+
+Or equivalently: $\Pr[\Chi \geq t \cdot \mathbb{E}[\Chi]] \leq \frac{1}{t}$.
+
+</aside>
+
+<aside>
+📖 (Chebyshev’s Inequality).
+
+*Let $\Chi$ be a random variable and $t \in \mathbb{R}$ with $t \gt 0$. It then holds that*
+
+$$
+\Pr[\lvert \Chi - \mathbb{E}[\Chi] \rvert \geq t] \leq \frac{\text{Var}[\Chi]}{t^2}.
+$$
+
+Or equivalently: $\Pr[\lvert\Chi - \mathbb{E}[\Chi] \rvert \geq t \sqrt{\text{Var}[\Chi]}] \leq \frac{1}{t^2}.$
+
+</aside>
+
+## Chernoff’s Inequality
