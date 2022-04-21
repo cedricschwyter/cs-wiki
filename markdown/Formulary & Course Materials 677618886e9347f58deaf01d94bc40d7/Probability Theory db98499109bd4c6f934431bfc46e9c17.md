@@ -1,4 +1,4 @@
-# Probability Theory (TODO)
+# Probability Theory
 
 # Definitions and Basic Terms
 
@@ -549,7 +549,7 @@ $$
 
 ### Application: Coupon-Collector Problem
 
-[Coupon-Collector Problem](Probability%20Theory%20(TODO)%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.md)
+[Coupon-Collector Problem](Probability%20Theory%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.md)
 
 ## Poisson Distribution
 
@@ -767,3 +767,15 @@ Or equivalently: $\Pr[\lvert\Chi - \mathbb{E}[\Chi] \rvert \geq t \sqrt{\text{Va
 </aside>
 
 ## Chernoff’s Inequality
+
+<aside>
+📖 (Chernoff-Bounds).
+
+*Let $\Chi_1, ..., \Chi_n$ be independent Bernoulli distributed random variables with $\Pr[\Chi_i = 1]=p_i$ and $\Pr[\Chi_i = 0] = 1-p_i$.*
+
+For $\Chi = \sum_{i=1}^n \Chi_i:$
+
+1. $\Pr[\Chi \geq (1+\delta)\mathbb{E}[\Chi]] \leq e^{-\frac{1}{3}\delta^2\mathbb{E}[\Chi]}$ for all $0 \lt \delta \leq 1$,
+2. $\Pr[\Chi \leq (1-\delta)\mathbb{E}[\Chi]] \leq e^{-\frac{1}{2}\delta^2\mathbb{E}[\Chi]}$ for all $0 \lt \delta \leq 1$,
+3. $\Pr[\Chi \geq t] \leq 2^{-t}$ for $t \geq 2e\mathbb{E}[\Chi]$.
+</aside>
