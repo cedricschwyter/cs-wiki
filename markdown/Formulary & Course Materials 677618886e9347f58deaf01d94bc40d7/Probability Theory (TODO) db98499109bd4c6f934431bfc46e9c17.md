@@ -669,3 +669,71 @@ $$
 </aside>
 
 ## Composite Random Variables
+
+<aside>
+📖 *For two independent random variables $\Chi$ and $Y$ let $Z = \Chi + Y$. It holds that*
+
+$$
+f_Z(z) = \sum_{\chi \in W_\Chi} f_\Chi (\chi) \cdot f_Y(z - \chi).
+$$
+
+</aside>
+
+<aside>
+💡 The expression $\sum_{\chi \in W_\Chi} f_\Chi (\chi) \cdot f_Y(z - \chi)$ is called *convolution*, analogously to the corresponding terms for power series.
+
+</aside>
+
+## Moments of Composite Random Variables
+
+<aside>
+📖 (Linearity of the Expected Value).
+
+*For random variables $\Chi_1,...,\Chi_n$ and $\Chi = a_1\Chi_1 + ... + a_n \Chi_n$ with $a_1,...,a_n \in \mathbb{R}$ it holds that*
+
+$$
+\mathbb{E}[\Chi] = a_1\mathbb{E}[\Chi_1]+...+a_n \mathbb{E}[\Chi_n].
+$$
+
+</aside>
+
+<aside>
+📖 (Multiplicativity of the Expected Value).
+
+*For independent random variables $\Chi_1,...,\Chi_n$ it holds that* 
+
+$$
+\mathbb{E}[\Chi_1 \cdot ... \cdot  \Chi_n] = \mathbb{E}[\Chi_1] \cdot ... \cdot \mathbb{E}[\Chi_n].
+$$
+
+</aside>
+
+<aside>
+📖 *For independent random variables $\Chi_1,...,\Chi_n$ and $\Chi = \Chi_1 + ... + \Chi_n$ it holds that*
+
+$$
+\text{Var}[\Chi] = \text{Var}[\Chi_1] + ... + \text{Var}[\Chi_n].
+$$
+
+</aside>
+
+## Wald’s Identity
+
+<aside>
+📖 (Wald’s Identity).
+
+*Let $N$ and $\Chi$ be two independent random variables, where $W_N \sube \mathbb{N}$ holds for the codomain of $N$. Furthermore, let* 
+
+$$
+Z = \sum_{i = 1} ^ N \Chi_i,
+$$
+
+*where $\Chi_1, \Chi_2,...$ are independent copies of $\Chi$. Then the following holds:* 
+
+$$
+\mathbb{E}[Z] = \mathbb{E}[N] \cdot \mathbb{E}[\Chi].
+$$
+
+</aside>
+
+# Estimating Probabilities
