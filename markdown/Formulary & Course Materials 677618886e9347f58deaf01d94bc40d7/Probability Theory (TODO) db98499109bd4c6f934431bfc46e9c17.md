@@ -587,3 +587,85 @@ $$
 </aside>
 
 # Multiple Random Variables
+
+<aside>
+💡 We are interested in random variables $\Chi$ and $Y$ and probabilities of the form
+
+$$
+\Pr[\Chi = \chi, Y = y] = \Pr[\{\omega \in \Omega \space \vert \space \Chi(\omega) = \chi, Y(\omega) = y\}].
+$$
+
+</aside>
+
+<aside>
+💡 The function
+
+$$
+f_{\Chi, Y} = \Pr[\Chi = \chi, Y = y]
+$$
+
+is called *joint density* of the random variables $\Chi$ and $Y$.
+
+If the joint density is given one can extract the density of the random variables themselves using 
+
+$$
+f_\Chi(\chi) = \sum_{y \in W_Y} f_{\Chi, Y}(\chi, y) \quad \text{respectively} \quad f_Y(y) = \sum_{x \in W_\Chi} f_{\Chi, Y}(\chi, y).
+$$
+
+The functions $f_\Chi$ and $f_Y$ are called *marginal densities*.
+
+</aside>
+
+<aside>
+💡 The function
+
+$$
+\begin{align*}
+F_{\Chi, Y}(\chi, y) & = \Pr[\Chi \leq \chi, Y \leq y] = \Pr[\{\omega \in \Omega \space \vert \space \Chi(\omega) \leq \chi, Y(\omega) \leq y\}] \\
+& = \sum_{\chi' \leq \chi} \sum_{y' \leq y} f_{\Chi, Y}(\chi', y').
+\end{align*}
+$$
+
+is called *joint distribution* of the random variables $\Chi$ and $Y$.
+
+If the joint distribution is given one can extract the distribution of the random variables themselves using 
+
+$$
+F_{\Chi}(\chi) = \sum_{\chi' \leq \chi} f_{\Chi}(\chi') = \sum_{\chi' \leq \chi} \sum_{y \in W_Y}f_{\Chi, Y}(\chi', y).
+$$
+
+The functions $F_\Chi$ and $F_Y$ are called *marginal distributions*.
+
+</aside>
+
+## Independence of Random Variables
+
+<aside>
+💡 Random variables $\Chi_1,...,\Chi_n$ are called independent, if and only if it holds for all $(\chi_1,...,\chi_n) \in W_{\Chi_1} \times ... \times W_{\Chi_n}$ that
+
+$$
+\Pr[\Chi_1 = \chi_1,..., \Chi_n = \chi_n] = \Pr[\Chi_1 = \chi_1]\cdot ... \cdot \Pr[\Chi_n = \chi_n].
+$$
+
+</aside>
+
+<aside>
+📌 *For independent random variables $\Chi_1,...,\Chi_n$ and arbitrary sets $S_1,...,S_n$ with $S_i \sube W_\Chi$ it holds that*
+
+$$
+\Pr[\Chi_1 \in S_1,..., \Chi_n \in S_n] = \Pr[\Chi_1 \in S_1] \cdot ... \cdot \Pr[\Chi_n \in S_n].
+$$
+
+</aside>
+
+<aside>
+📎 *For independent random variables $\Chi_1, ..., \Chi_n$ and the set $I = \{i_1,...,i_k\} \sube [n]$, then $\Chi_{i_1},...,\Chi_{i_k}$ are also independent.*
+
+</aside>
+
+<aside>
+📖 *Let $f_1,...,f_n$ be real-values functions ($f_i : \mathbb{R} \longrightarrow \mathbb{R}$ for $i = 1,...,n$). If the random variables $\Chi_1,...,\Chi_n$ are independent then so are $f_1(\Chi_1),...,f_n(\Chi_n)$.*
+
+</aside>
+
+## Composite Random Variables
