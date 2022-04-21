@@ -25,7 +25,7 @@ $$
 \Pr[\mathcal{A}(I) \space \text{is correct}] \geq \epsilon.
 $$
 
-*Then it holds for all $\delta \gt 0$: let $\mathcal{A}_\delta$ denote the algorithm that calls $\mathcal{A}$ until we get a value different from “???” or until “???” has been output $N = \epsilon^{-1} \ln \delta^{-1}$ times. Then it holds for the algorithm $A_\delta$ that* 
+*Then it holds for all $\delta \gt 0$: let $\mathcal{A}_\delta$ denote the algorithm that calls $\mathcal{A}$ until we get a value different from “???” or until “???” has been output $N = \epsilon^{-1} \ln \delta^{-1}$ times. Then it holds for the algorithm $\mathcal{A}_\delta$ that* 
 
 $$
 \Pr[\mathcal{A}_\delta(I) \space \text{is correct}] \geq 1 - \delta.
@@ -35,7 +35,7 @@ $$
 
 ## Monte-Carlo Algorithms
 
-In the special case where a Monte-Carlo algorithm outputs a boolean value and we know that one of these values is always correct we can apply the following:
+In the special case where a Monte-Carlo algorithm outputs a boolean value and we know that one of these values is always correct (i.e. an algorithm with a *one-sided error*) we can apply the following:
 
 <aside>
 📖 *Let $\mathcal{A}$ be a randomized algorithm that always outputs one of $\text{Yes}$ or $\text{No}$, where*
@@ -50,6 +50,46 @@ $$
 \Pr[\mathcal{A}(I) = \text{No}] \geq \epsilon \quad \text{if $I$ is a No-instance.}
 $$
 
-*Then it holds for all $\delta \gt 0$: let $\mathcal{A}_\delta$ denote the algorithm that calls $\mathcal{A}$ until either $\text{No}$ is output or until $\text{Yes}$ has been output $N = \epsilon^{-1} \ln\delta^{-1}$ times.*
+*Then it holds for all $\delta \gt 0$: let $\mathcal{A}_\delta$ denote the algorithm that calls $\mathcal{A}$ until either $\text{No}$ is output or until $\text{Yes}$ has been output $N = \epsilon^{-1} \ln\delta^{-1}$ times. Then it holds for the algorithm $\mathcal{A}_\delta$ that*
+
+$$
+\Pr[\mathcal{A}_\delta(I) \space \text{is correct}] \geq 1-\delta.
+$$
+
+</aside>
+
+We can similarly reduce the probability of failure of *two-sided error* Monte-Carlo algorithms when the original probability of success of the algorithm is strictly larger than $\frac{1}{2}$:
+
+<aside>
+📖 *Let $\epsilon \gt 0$ and $\mathcal{A}$ be a randomized algorithm that always outputs one of $\text{Yes}$ or $\text{No}$, where*
+
+$$
+\Pr[\mathcal{A}(I) \space \text{is correct}] \geq \frac{1}{2} + \epsilon.
+$$
+
+*Then it holds for all $\delta \gt 0$: let $\mathcal{A}_\delta$ denote the algorithm, that makes $N = 4 \epsilon^{-2} \ln \delta^{-1}$ independent calls of $\mathcal{A}$ and outputs the majority of the returned results. Then it holds for the algorithm $\mathcal{A}_\delta$ that*
+
+$$
+\Pr[\mathcal{A}_\delta(I) \space \text{is correct}] \geq 1 - \delta.
+$$
+
+</aside>
+
+For randomized algorithms for optimization problems we usually don’t refer to probabilities of success/failure, but to whether they output the desired result, e.g., if they output a value that is at least as big as the expected value: 
+
+<aside>
+📖 *Let $\epsilon \gt 0$ and $\mathcal{A}$ be a randomized algorithm for a maximization problem, where*
+
+$$
+\Pr[\mathcal{A}(I) \geq f(I)] \geq \epsilon.
+$$
+
+*Then it holds for all $\delta \gt 0$: let $\mathcal{A}_\delta$ the algorithm, that makes  $N = \epsilon^{-1} \ln \delta^{-1}$ independent calls of $\mathcal{A}$ and outputs the best of the returned results. Then it holds for the algorithm $\mathcal{A}_\delta$ that* 
+
+$$
+\Pr[\mathcal{A}_\delta(I) \geq f(I)] \geq 1 - \delta.
+$$
+
+*(For minimization problems the analogous statement holds if $\geq f(I)$ is swapped with $\leq f(I)$.)*
 
 </aside>

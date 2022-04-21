@@ -150,6 +150,14 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Randomized Algorithms](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Randomized%20Algorithms%20f5e5c1c9d8db4aedbdec1fba2421751a.md)
 
+[Sorting and Selecting (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sorting%20and%20Selecting%20(TODO)%202b7f52e90ad64c56b49053b5666629ef.md)
+
+[Primality Test (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Primality%20Test%20(TODO)%20326ba41e7d824799831ee8bfb74059e0.md)
+
+[Target-Shooting (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Target-Shooting%20(TODO)%20d5c89b39fda645e0a6872bd65a9ed1bb.md)
+
+[Finding Duplicates (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Finding%20Duplicates%20(TODO)%2038ce05d0c51f46ab9a51823a426b8d70.md)
+
 ## Analysis I - **401-0212-16L - FS22**
 
 ---

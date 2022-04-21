@@ -218,7 +218,7 @@ $$
 💡 In discrete probability spaces the *codomain* of a random variable
 
 $$
-W_\Chi = \Chi(\Omega) = \{\chi \in \mathbb{R} \space \vert \space \exists \space \omega \in \Omega \quad \Chi(\omega) = \chi\}
+W_\Chi = \Chi(\Omega) = \{\chi \in \mathbb{R} \space \vert \space \exists \omega \in \Omega \quad \Chi(\omega) = \chi\}
 $$
 
 is in all cases finite or countably infinite, depending on $\Omega$ being finite or countably infinite.
@@ -529,7 +529,7 @@ $$
 ### Waiting for the $n$-th Success - Negative Binomial Distribution
 
 <aside>
-💡 Let $Z$ be the random variable that counts how often we have to repeat an experiment with probability of success $p$ until the $n$-th success. For $n = 1$, $Z \sim \text{Geo}(p)$. For $n \geq 2$, $Z$ is called *negatively binomially distributed* (also *Pascal distributed*) with order $n$.
+💡 Let $Z$ be the random variable that counts how often we have to repeat an experiment with probability of success $p$ until the $n$-th success. For $n = 1$, $Z \sim \text{Geo}(p)$. For $n \geq 2$, $Z$ is called *negatively binomially distributed* with order $n$.
 
 The density of $Z$ is
 
@@ -538,6 +538,12 @@ f_Z(z) = \binom{z-1}{n-1} \cdot p^n(1-p)^{z-n}.
 $$
 
 Let $\Chi_i$ denote the number of experiments strictly after the $(i - 1)$-st success up until (including) the $i$-th success. Then, each of the $\Chi_i$ is geometrically distributed with parameter $p$.
+
+If a random variable $Z$ is negatively binomially distributed with parameters $n$ and $p$, then it is denoted by 
+
+$$
+Z \sim \text{NB}(n, p).
+$$
 
 Thus, by linearity of the expected value, it holds for the expected value $\mathbb{E}[Z]$ that 
 
