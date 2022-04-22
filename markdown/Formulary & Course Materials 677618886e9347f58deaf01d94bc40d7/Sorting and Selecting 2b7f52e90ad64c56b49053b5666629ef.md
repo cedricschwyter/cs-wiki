@@ -6,7 +6,7 @@
 
 ## Claim
 
-Let $T_{l,r}$ be the (random) number of comparisons that are performed per call of $\text{QuickSort}(A,l,r)$. Then it holds that 
+Let $T_{l,r}$ be the (random) number of comparisons that are performed per call of $\text{QuickSort}(A,l,r)$, where $A$ is an array of pairwise different numbers. Then it holds that 
 
 $$
 \mathbb{E}[T_{1,n}] \leq 2(n+1) \ln n + O(n).
@@ -75,3 +75,9 @@ This proves the claim.
 # QuickSelect
 
 ![Untitled](Sorting%20and%20Selecting%202b7f52e90ad64c56b49053b5666629ef/Untitled%201.png)
+
+## Claim
+
+We can find the $k$-th least element in a sequence of $n$ elements in $O(n)$ using the above $\text{QuickSelect}(A,l,r,k)$ algorithm, where $A$ is an array of pairwise different numbers.
+
+## Proof
