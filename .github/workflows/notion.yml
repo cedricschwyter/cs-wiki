@@ -22,11 +22,11 @@ jobs:
         run: git lfs checkout && git lfs pull
       - uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
       - name: Setup dependencies
         run: npm install -g notion-backup-d3psi
       - name: Run backup
-        run: notion-backup --max-http-header-size=800000
+        run: notion-backup
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_ID: ${{ secrets.NOTION_ID }}
