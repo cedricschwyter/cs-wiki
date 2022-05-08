@@ -1,4 +1,4 @@
-# Continuous Functions (TODO)
+# Continuous Functions
 
 # *Real-Valued Functions*
 
@@ -712,9 +712,127 @@ $$
 and 
 
 $$
-\lim_{x \to x_0} (f\cdot g)(x) = \lim_{x \to x_0}f(x) \cdot \lim_{x \to x_0}g(x)
+\lim_{x \to x_0} (f\cdot g)(x) = \lim_{x \to x_0}f(x) \cdot \lim_{x \to x_0}g(x).
 $$
 
 </aside>
+
+<aside>
+💡 Let $f,g:D\longrightarrow \mathbb{R}$ with $f \leq g$. Then it follows that
+
+$$
+\lim_{x \to x_0} f(x) \leq \lim_{x \to x_0} g(x)
+$$
+
+if both limits exist.
+
+</aside>
+
+<aside>
+💡 If $g_1 \leq f \leq g_2$ and
+
+$$
+\lim_{x \to x_0} g_1(x) = \lim_{x \to x_0} g_2(x)
+$$
+
+then $\lim_{x \to x_0} f(x)$ exists and 
+
+$$
+\lim_{x\to x_0} f(x) = \lim_{x \to x_0} g_1(x).
+$$
+
+</aside>
+
+</aside>
+
+<aside>
+📖 *Let $D,E \sube \mathbb{R}$, $x_0$ be an accumulation point of $D$, and let $f:D \longrightarrow E$ be a function. We assume that*
+
+$$
+y_0 = \lim_{x \to x_0} f(x)
+$$
+
+exists and $y_0 \in E$. If $g:E \longrightarrow \mathbb{R}$ is continuous in $y_0$ it follows that:
+
+$$
+\lim_{x \to x_0}g(f(x)) = g(y_0).
+$$
+
+</aside>
+
+### One-Sided Limits
+
+<aside>
+💡 Let’s entertain the example
+
+$$
+\begin{align*}
+f : \mathbb{R} \setminus \{0\} & \longrightarrow \mathbb{R} \\
+x & \mapsto \frac{1}{x}.
+\end{align*}
+$$
+
+Then for $x \gt 0$, where $x$ is arbitrarily close to $0$, $\frac{1}{x}$ gets arbitrarily positively big and for $x \lt 0$, where $x$ is arbitrarily close to 0, $\frac{1}{x}$ get arbitrarily negatively big. In both cases $\frac{1}{x}$ has a very simple behaviour.
+
+In the case of $a \in \mathbb{R}$, 
+
+$$
+\begin{align*}
+f : (0, \infty) & \longrightarrow \mathbb{R} \\
+x & \mapsto x^a
+\end{align*}
+$$
+
+$f$ is defined on $(0, \infty)$. If $a \gt 0$ we can see that 
+
+$$
+\lim_{x \to 0} f(x) = 0.
+$$
+
+Let $f : D \longrightarrow \mathbb{R}$ and $x_0 \in \mathbb{R}$. We assume that $x_0$ is an accumulation point of $D \cap (x_0, +\infty)$; that is a **right-side accumulation point**.
+
+If the limit of the restricted function 
+
+$$
+f \vert_{D \cap [x_0, +\infty)}
+$$
+
+for $x\to x_0$exists it is denoted by
+
+$$
+\lim_{x\to x_0^+}f(x)
+$$
+
+and is called the **right-side limit** of $f$ at $x_0$.
+
+We expand this definition to: 
+
+$$
+\lim_{x\to x_0^+}f(x) = +\infty
+$$
+
+if it holds that: 
+
+$$
+\forall \epsilon \gt0 \quad \exists \delta \gt 0, \quad \forall x \in D \cap (x_0,x_0+\delta) \quad f(x) \gt \frac{1}{\epsilon}
+$$
+
+and analogously 
+
+$$
+\lim_{x \to x_0^+} f(x) = - \infty
+$$
+
+if 
+
+$$
+\forall \epsilon \gt0 \quad \exists \delta \gt 0, \quad \forall x \in D \cap (x_0,x_0+\delta) \quad f(x) \lt -\frac{1}{\epsilon}.
+$$
+
+Left-side accumulation points and limits are defined analogously. With these definitions it holds that 
+
+$$
+\lim_{x \to 0^+} \frac{1}{x} = + \infty, \lim_{x \to 0^-}\frac{1}{x} = -\infty.
+$$
 
 </aside>
