@@ -110,31 +110,31 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Threads and Synchronization](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Threads%20and%20Synchronization%208eed6a728f094eb6ab3696275989e0c2.md)
 
-[Parallel Architectures](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Parallel%20Architectures%20f17dc1d4bf6b49a3996a6560066529ad.md)
+[Parallel Architectures (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Parallel%20Architectures%20(TODO)%20f17dc1d4bf6b49a3996a6560066529ad.md)
 
-[Basic Concepts in Parallelism](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Basic%20Concepts%20in%20Parallelism%2059fb3917cfd1426cb20db9e374d5da4f.md)
+[Basic Concepts in Parallelism (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Basic%20Concepts%20in%20Parallelism%20(TODO)%2059fb3917cfd1426cb20db9e374d5da4f.md)
 
-[Divide-and-Conquer, Cilk-Style Bounds](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Divide-and-Conquer,%20Cilk-Style%20Bounds%20f9d22e757a5e41249e50e4ec0186c10d.md)
+[Divide-and-Conquer, Cilk-Style Bounds (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Divide-and-Conquer,%20Cilk-Style%20Bounds%20(TODO)%20f9d22e757a5e41249e50e4ec0186c10d.md)
 
-[ForkJoin Framwork - Shared Memory Concurrency, Locks, Data Races](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/ForkJoin%20Framwork%20-%20Shared%20Memory%20Concurrency,%20Loc%206f251dfd9bf24720acfa816286446268.md)
+[ForkJoin Framwork - Shared Memory Concurrency, Locks, Data Races (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/ForkJoin%20Framwork%20-%20Shared%20Memory%20Concurrency,%20Loc%206f251dfd9bf24720acfa816286446268.md)
 
-[Locks using Atomic Registers](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Locks%20using%20Atomic%20Registers%20927248627b8e45f6b36f4f3c5c156392.md)
+[Locks using Atomic Registers (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Locks%20using%20Atomic%20Registers%20(TODO)%20927248627b8e45f6b36f4f3c5c156392.md)
 
-[Spinlocks, Deadlocks, Semaphores](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Spinlocks,%20Deadlocks,%20Semaphores%2051bef3e37b554375b1603db09778beb5.md)
+[Spinlocks, Deadlocks, Semaphores (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Spinlocks,%20Deadlocks,%20Semaphores%20(TODO)%2051bef3e37b554375b1603db09778beb5.md)
 
-[Barrier, Producer-/Consumer, Monitors](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Barrier,%20Producer-%20Consumer,%20Monitors%20ddcd7501a3b344d1bf9613eaca66789a.md)
+[Barrier, Producer-/Consumer, Monitors (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Barrier,%20Producer-%20Consumer,%20Monitors%20(TODO)%20ddcd7501a3b344d1bf9613eaca66789a.md)
 
-[Readers/Writers Lock, Lock Granularity: Coarse Grained, Fine Grained, Optimal and Lazy Synchronization](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Readers%20Writers%20Lock,%20Lock%20Granularity%20Coarse%20Grai%2049c5760163b5434f9f0f69b1a611c3c2.md)
+[Readers/Writers Lock, Lock Granularity: Coarse Grained, Fine Grained, Optimal and Lazy Synchronization (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Readers%20Writers%20Lock,%20Lock%20Granularity%20Coarse%20Grai%2049c5760163b5434f9f0f69b1a611c3c2.md)
 
-[Without Locks](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Without%20Locks%200ec49316493648a0a83d353277f8adea.md)
+[Without Locks (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Without%20Locks%20(TODO)%200ec49316493648a0a83d353277f8adea.md)
 
-[ABA Problem, Concurrency Theory](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/ABA%20Problem,%20Concurrency%20Theory%202e7e8d2d8fc64feba7b3b04ddfab2255.md)
+[ABA Problem, Concurrency Theory (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/ABA%20Problem,%20Concurrency%20Theory%20(TODO)%202e7e8d2d8fc64feba7b3b04ddfab2255.md)
 
-[Sequential Consistency, Consensus, Transactional Memory, Message Passing](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequential%20Consistency,%20Consensus,%20Transactional%20M%20468db7b5321e4b54b6b4307c42d82227.md)
+[Sequential Consistency, Consensus, Transactional Memory, Message Passing (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequential%20Consistency,%20Consensus,%20Transactional%20M%20468db7b5321e4b54b6b4307c42d82227.md)
 
-[Consensus Proof and Reductions](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Consensus%20Proof%20and%20Reductions%20bfa857a267ac4e6aba4f4228a20ce239.md)
+[Consensus Proof and Reductions (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Consensus%20Proof%20and%20Reductions%20(TODO)%20bfa857a267ac4e6aba4f4228a20ce239.md)
 
-[Parallel Sorting](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Parallel%20Sorting%20e422e3eea40e492a9f3fe4cfd0b5b65e.md)
+[Parallel Sorting (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Parallel%20Sorting%20(TODO)%20e422e3eea40e492a9f3fe4cfd0b5b65e.md)
 
 ## Algorithms and Probability - **252-0030-00L** - FS22
 

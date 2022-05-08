@@ -1,1 +1,1 @@
-# Sequential Consistency, Consensus, Transactional Memory, Message Passing
+# Sequential Consistency, Consensus, Transactional Memory, Message Passing (TODO)

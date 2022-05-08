@@ -1,1 +1,0 @@
-# Basic Concepts in Parallelism

@@ -650,3 +650,71 @@ $$
 </aside>
 
 ## Limits of Functions
+
+<aside>
+💡 Let $f : D \longrightarrow \mathbb{R}$ where $D \sube \mathbb{R}$. $x_0 \in \mathbb{R}$  is called a **limit point** (also **accumulation point**) of $D$ if $\forall \delta \gt 0$:
+
+$$
+((x_0-\delta, x_0+\delta) \setminus \{x_0\}) \cap D \neq \varnothing
+$$
+
+</aside>
+
+<aside>
+💡 Let $f : D \longrightarrow \mathbb{R}$, $x_0 \in \mathbb{R}$ be a limit point of $D$. Then $A \in \mathbb{R}$ is the limit of $f(x)$ for $x \to x_0$, denoted by
+
+$$
+\lim_{x \to x_0} f(x) = A,
+$$
+
+if $\forall \epsilon \gt 0 \quad \exists \delta \gt 0$ such that 
+
+$$
+\forall x \in D \cap ((x_0-\delta,x_0+\delta)\setminus\{x_0\}) \quad \lvert f(x)-A \rvert \lt \epsilon.
+$$
+
+</aside>
+
+<aside>
+💡 Note:
+
+<aside>
+💡 Let $f : D \longrightarrow \mathbb{R}$, $x_0 \in \mathbb{R}$ be a limit point of $D$. Then $\lim_{x \to x_0} f(x) = A$ holds if and only if for every sequence $(a_n)_{n \geq 1}$ in $D \setminus \{x_0\}$ with
+
+$$
+\lim_{n \to \infty} a_n = x_0
+$$
+
+it follows that 
+
+$$
+\lim_{n \to \infty} f(a_n) = A.
+$$
+
+</aside>
+
+<aside>
+💡 Let $x_0 \in D$. Then $f$ is continuous in $x_0$ if and only if
+
+$$
+\lim_{x\to x_0}f(x) = f(x_0).
+$$
+
+</aside>
+
+<aside>
+💡 If $f,g:D \longrightarrow \mathbb{R}$ and $\lim_{x \to x_0}f(x)$, $\lim_{x\to x_0}g(x)$ exist then
+
+$$
+\lim_{x\to x_0}(f+g)(x) = \lim_{x \to x_0}f(x) + \lim_{x\to x_0}g(x)
+$$
+
+and 
+
+$$
+\lim_{x \to x_0} (f\cdot g)(x) = \lim_{x \to x_0}f(x) \cdot \lim_{x \to x_0}g(x)
+$$
+
+</aside>
+
+</aside>
