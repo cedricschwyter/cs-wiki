@@ -156,6 +156,8 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Finding Duplicates (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Finding%20Duplicates%20(TODO)%2038ce05d0c51f46ab9a51823a426b8d70.md)
 
+[Flows and Cuts (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Flows%20and%20Cuts%20(TODO)%202c022b89007049699f7db1f46d67080f.md)
+
 [Hamiltonian Cycle in a Hypercube: Gray-Code](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Graphs%20(TODO)%20b149fa35dff041fb8a659592d3f9c6bd/Hamiltonian%20Cycle%20in%20a%20Hypercube%20Gray-Code%201e5ecb970a794ec7baa9a405b7023363.md) 
 
 [Coupon-Collector Problem](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Probability%20Theory%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.md) 
@@ -172,6 +174,4 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [*Continuous Functions (TODO)*](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Continuous%20Functions%20(TODO)%209465b36198f3482bae0b551afdc5cf01.md)
 
-[Cauchy-Product of the Exponential Function](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequences%20and%20Series%208a981a9ce10e4dfb82e989be6760ed05/Cauchy-Product%20of%20the%20Exponential%20Function%209768354a1fa247a2aff9ab665de61605.md) 
-
-[Coupon-Collector Problem](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Probability%20Theory%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.md)
+[Cauchy-Product of the Exponential Function](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequences%20and%20Series%208a981a9ce10e4dfb82e989be6760ed05/Cauchy-Product%20of%20the%20Exponential%20Function%209768354a1fa247a2aff9ab665de61605.md)
