@@ -71,7 +71,7 @@ A Hamiltonian path is a path that visits every vertex in a graph exactly once.
 
 ## Hamiltonian Cycle
 
-A Hamiltonian cycle is a Hamiltonian path where there is an edge between the starting and the ending vertex. Brute-force search appears to be unavoidable when computing whether there exists a Hamiltonian cycle for a given graph. The famous $P \neq NP$ conjecture turns out to be equivalent to conjecturing that there is no polynomial-time algorithm for computing Hamiltonian cycle.
+A Hamiltonian cycle is a Hamiltonian path where there is an edge between the starting and the ending vertex. Brute-force search appears to be unavoidable when computing whether there exists a Hamiltonian cycle for a given graph. The famous $P \neq NP$ conjecture turns out to be equivalent to conjecturing that there is no polynomial-time algorithm for computing a Hamiltonian cycle.
 
 # Bipartite Graph
 
