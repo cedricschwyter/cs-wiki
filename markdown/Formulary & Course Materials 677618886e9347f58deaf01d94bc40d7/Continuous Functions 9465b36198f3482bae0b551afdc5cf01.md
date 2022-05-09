@@ -768,7 +768,7 @@ $$
 $$
 \begin{align*}
 f : \mathbb{R} \setminus \{0\} & \longrightarrow \mathbb{R} \\
-x & \mapsto \frac{1}{x}.
+x & \longmapsto \frac{1}{x}.
 \end{align*}
 $$
 
@@ -779,7 +779,7 @@ In the case of $a \in \mathbb{R}$,
 $$
 \begin{align*}
 f : (0, \infty) & \longrightarrow \mathbb{R} \\
-x & \mapsto x^a
+x & \longmapsto x^a
 \end{align*}
 $$
 

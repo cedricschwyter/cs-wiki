@@ -104,5 +104,112 @@ $$
     (f\cdot g)'(x_0)=f'(x_0)g(x_0)+f(x_0)g'(x_0).
     $$
     
-3. *If $f(x_0) \neq 0$ then* 
+3. *If $f(x_0) \neq 0$ then $\frac{f}{g}$ is differentiable in $x_0$ and* 
+    
+    $$
+    \bigg(\frac{f}{g}\bigg)'(x_0) = \frac{f'(x_0)g(x_0) - f(x_0)g'(x_0)}{g(x_0)^2}.
+    $$
+    
+</aside>
+
+<aside>
+💡 Examples:
+
+1. $(x^n)'=nx^{n-1} \quad \forall x \in \mathbb{R}, n\geq1$
+2. The tangent function 
+    
+    $$
+    \tan x = \frac{\sin x}{\cos x}, x \notin \frac{\pi}{2}+\pi\mathbb{Z}
+    $$
+    
+    is differentiable on its domain and 
+    
+    $$
+    \tan'(x) = \frac{1}{\cos^2 x}.
+    $$
+    
+3. The cotangent function 
+    
+    $$
+    \cot x = \frac{\cos x}{\sin x}, x \notin \pi\mathbb{Z}
+    $$
+    
+    is differentiable on its domain and 
+    
+    $$
+    \cot'(x) = - \frac{1}{\sin^2(x)}.
+    $$
+    
+</aside>
+
+<aside>
+📖 *Let $D,E \sube \mathbb{R}$ and let $x_0 \in D$ be an accumulation point. Let $f : D \longrightarrow E$ be a function that is differentiable in $x_0$ such that $y_0=f(x_0)$ is an accumulation point of $E$, and let $g: E \longrightarrow \mathbb{R}$ be a function that is differentiable in $y_0$. Then $g \circ f : D \longrightarrow \mathbb{R}$ is differentiable in $x_0$ and*
+
+$$
+(g \circ f)'(x_0) = g'(f(x_0))f'(x_0).
+$$
+
+</aside>
+
+<aside>
+📎 *Let $f:D \longrightarrow E$ be a bijective function and let $x_0 \in D$ be an accumulation point. Let us assume that $f$ is differentiable in $x_0$ and $f'(x_0)\neq 0$. Assume also that $f^{-1}$ is continuous in $y_0=f(x_0)$. Then $y_0$ is an accumulation point of $E$, $f^{-1}$ is differentiable in $y_0$ and*
+
+$$
+(f^{-1})'(y_0)=\frac{1}{f'(x_0)}.
+$$
+
+</aside>
+
+<aside>
+💡 Examples:
+
+1. The derivative of $\ln:(0, +\infty) \longrightarrow \mathbb{R}$ is 
+    
+    $$
+    \ln'(x) = \frac{1}{x}.
+    $$
+    
+    For all $x \in \mathbb{R}$ it holds that: 
+    
+    $$
+    \ln (\exp(x)) = x.
+    $$
+    
+    Applying the chain rule to $f(x) = \exp x$ and $g(y) = \ln y$ we get by taking the derivative: 
+    
+    $$
+    \ln'(\exp x)\exp'(x) = 1 \quad \forall x \in \mathbb{R}.
+    $$
+    
+    Since $\exp'(x) = \exp(x) \quad \forall x \in \mathbb{R}$ it follows that 
+    
+    $$
+    \ln'(\exp x) \exp x = 1 \quad \forall x \in \mathbb{R}
+    $$
+    
+    and since $\exp:\mathbb{R} \longrightarrow (0, \infty)$ is bijective it follows that: 
+    
+    $$
+    \ln'(y)\cdot y = 1 \quad \forall y \in (0, \infty).
+    $$
+    
+2. Let $a \in \mathbb{R}$; the derivative of the function 
+    
+    $$
+    \begin{align*}
+    (0, \infty) & \longrightarrow \mathbb{R} \\
+    x & \longmapsto x^a
+    \end{align*}
+    $$
+    
+    is $a x^{a-1}$.
+    
+    By definition: $x^a = \exp(a \ln x), x \gt 0$. We apply the chain rule to $f(x) = a \ln x$ and $g(x)=\exp y$ and we get with $g'(y) = \exp y$ and $f'(x) = a \cdot \frac{1}{x}$,
+    
+    $$
+    \begin{align*}(x^a)'&=\exp'(a \ln x) \frac{a}{x} = \exp(a \ln x) \frac{a}{x} \\
+    &= x^a\frac{a}{x} = ax^{a-1}.\end{align*}
+    $$
+    
+3. 
 </aside>
