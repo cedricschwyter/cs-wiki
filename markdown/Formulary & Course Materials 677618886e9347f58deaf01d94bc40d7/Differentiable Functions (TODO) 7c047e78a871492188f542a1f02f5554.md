@@ -81,3 +81,28 @@ $$
 💡 $f:D \longrightarrow \mathbb{R}$ is **differentiable in $D$**, if for every accumulation point $x_0 \in D$, $f$ is differentiable in $x_0$,
 
 </aside>
+
+<aside>
+💡 Examples:
+
+1. $\exp : \mathbb{R} \longrightarrow \mathbb{R}$ is differentiable in $\mathbb{R}$ and $\exp' = \exp$.
+2. $\sin' = \cos$ and $\cos' = - \sin$.
+</aside>
+
+<aside>
+📖 *Let $D \sube \mathbb{R}$, $x_0 \in D$ be an accumulation point of $D$ and let $f,g : D \longrightarrow \mathbb{R}$ be differentiable in $x_0$. Then the following hold:*
+
+1. $f+g$ *is differentiable in $x_0$ and* 
+    
+    $$
+    (f+g)'(x_0) = f'(x_0)+g'(x_0)
+    $$
+    
+2. $f \cdot g$ *is differentiable in $x_0$ and* 
+    
+    $$
+    (f\cdot g)'(x_0)=f'(x_0)g(x_0)+f(x_0)g'(x_0).
+    $$
+    
+3. *If $f(x_0) \neq 0$ then* 
+</aside>
