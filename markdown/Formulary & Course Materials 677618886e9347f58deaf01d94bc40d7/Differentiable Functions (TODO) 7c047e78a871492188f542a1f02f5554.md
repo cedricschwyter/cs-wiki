@@ -211,5 +211,94 @@ $$
     &= x^a\frac{a}{x} = ax^{a-1}.\end{align*}
     $$
     
-3. 
+3. $f : \mathbb{R} \longrightarrow \mathbb{R}, x\longmapsto x^3$ is bijectively differentiable in $\mathbb{R}$. But $f^{-1}$ is not differentiable in $0$.
+</aside>
+
+# Central Theorems about the (first) Derivative
+
+<aside>
+💡 Let $f: D \longrightarrow \mathbb{R}, D \sube \mathbb{R}$ and $x_0 \in D$.
+
+1. $f$ has a local maximum in $x_0$ if there exists $\delta \gt 0$ with: 
+    
+    $$
+    f(x) \leq f(x_0) \quad \forall x \in (x_0- \delta, x_0 + \delta) \cap D
+    $$
+    
+2. $f$ has a local minimum in $x_0$ if there exists $\delta \gt 0$ with:
+    
+    $$
+    f(x) \geq f(x_0) \quad \forall x \in (x_0 - \delta, x_0 + \delta) \cap D
+    $$
+    
+3. $f$ has a local extremum in $x_0$ if $x_0$ is either a local minimum or maximum of $f$.
+</aside>
+
+<aside>
+📖 *Let $f: (a,b) \longrightarrow \mathbb{R}$, $x_0 \in (a,b)$. We assume that $f$ is differentiable in $x_0$.*
+
+1. *If $f'(x_0) \gt 0$ then there exists $\delta \gt 0$ with* 
+    
+    $$
+    \begin{align*}
+    &f(x) \gt f(x_0) \quad &\forall x \in (x_0, x_0 + \delta)& \\
+    &f(x) \lt f(x_0) \quad &\forall x \in (x_0 - \delta, x_0)&.
+    \end{align*}
+    $$
+    
+2. *If $f'(x_0) \lt 0$ then there exists $\delta \gt 0$ with* 
+    
+    $$
+    \begin{align*}
+    &f(x) \lt f(x_0) \quad &\forall x \in (x_0, x_0 + \delta)& \\
+    &f(x) \gt f(x_0) \quad &\forall x \in (x_0 - \delta, x_0)&.
+    \end{align*}
+    $$
+    
+3. *If $f$ has a local extremum in $x_0$, then $f'(x_0) = 0$.*
+</aside>
+
+<aside>
+📖 (Rolle 1690).
+
+*Let $f:[a,b] \longrightarrow \mathbb{R}$ be continuous and differentiable in $(a,b)$. If $f(a) = f(b)$ holds true, then there exists $\xi \in (a,b)$ with* 
+
+$$
+f'(\xi) = 0.
+$$
+
+</aside>
+
+<aside>
+📖 (Lagrange 1797).
+
+*Let $f : [a,b] \longrightarrow \mathbb{R}$ be continuous and differentiable in $(a,b)$. Then there exists $\xi \in (a,b)$ with* 
+
+$$
+f(b) - f(a) = f'(\xi)(b-a).
+$$
+
+</aside>
+
+<aside>
+📎 *Let $f,g:[a,b] \longrightarrow \mathbb{R}$ be continuous and differentiable in $(a,b)$.*
+
+1. *If $f'(\xi)=0 \quad \forall \xi \in(a,b)$ then $f$ is constant.*
+2. *If $f'(\xi) = g'(\xi) \quad \forall \xi \in(a,b)$ then there exists $c \in \mathbb{R}$ with $f(x) = g(x) + c \quad \forall x \in [a,b]$.*
+3. *If $f'(\xi) \geq 0 \quad \forall\xi \in (a,b)$ then $f$ is monotonically increasing on $[a,b]$.*
+4. *If $f'(\xi) \gt 0 \quad \forall \xi \in (a,b)$ then $f$ is strictly monotonically increasing on $[a,b]$.*
+5. *If $f'(\xi) \leq 0 \quad \forall \xi \in (a,b)$ then $f$ is monotonically decreasing on $[a,b]$.*
+6. *If $f'(\xi) \lt 0 \quad \forall \xi \in (a,b)$  then $f$ is strictly monotonically decreasing on $[a,b]$.*
+7. *If there exists $M \geq 0$ with* 
+    
+    $$
+    \lvert f'(\xi) \rvert \leq M \quad \forall \xi \in (a,b)
+    $$
+    
+    *then it follows that $\forall x_1, x_2 \in [a,b]$:* 
+    
+    $$
+    \lvert f(x_1) - f(x_2) \rvert \leq M \lvert x_1 - x_2 \rvert.
+    $$
+    
 </aside>
