@@ -27,3 +27,5 @@ The Diffie-Hellman protocol, as originally proposed, makes use of exponentiation
 The prime $p$ and the basis $g$ (e.g. $g = 2$) are public parameters, possibly generated once and for all users of the system. The protocol is symmetric, i.e., Alice and Bob perform the same operations. The exchange of the so-called *public keys* $y_A$ and $y_B$ must be authenticated, but not secret. It is easy to see that Alice and Bob end up with the same value $k_{AB} = k_{BA}$ which they can use as a secret key for encrypting subsequent communication. In order to compute $k_{AB}$ from $y_A$ and $y_B$, an adversary would have to compute either $x_A$ or $x_B$, which is believed to be infeasible.
 
 # Diffie-Hellman for General Groups
+
+[Diffie-Hellman Key-Agreement for General Groups](../Algebra%202e542e6a0045446282bf640875624025/Diffie-Hellman%20Key-Agreement%20for%20General%20Groups%202aace7f16b514c32bbb63981ea794c35.md)
