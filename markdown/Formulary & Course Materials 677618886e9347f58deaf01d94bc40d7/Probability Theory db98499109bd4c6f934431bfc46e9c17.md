@@ -52,7 +52,7 @@ $$
 
 $$
 \begin{align*}
-\Pr\bigg[\bigcup_{i = 1}^n A_i  = \bigg] & = \sum_{l=1}^n (-1)^{l+1} \sum_{1 \leq i_1 \lt ...\lt i_l \leq n} \Pr[A_{i_1}\cap...\cap A_{i_l}] \\
+\Pr\bigg[\bigcup_{i = 1}^n A_i \bigg] & = \sum_{l=1}^n (-1)^{l+1} \sum_{1 \leq i_1 \lt ...\lt i_l \leq n} \Pr[A_{i_1}\cap...\cap A_{i_l}] \\
 & = \sum_{i=1}^n \Pr[A_i] - \sum_{1 \leq i_1 \lt i_2 \leq n} \Pr[A_{i_1}\cap A_{i_2}] \\
 & \quad\quad + \sum_{1 \leq i_1 \lt i_2\lt i_3 \leq n} \Pr[A_{i_1}\cap A_{i_2} \cap A_{i_3}] - ... \\
 & \quad\quad + (-1)^{n+1} \cdot \Pr[A_1 \cap ... \cap A_n].
