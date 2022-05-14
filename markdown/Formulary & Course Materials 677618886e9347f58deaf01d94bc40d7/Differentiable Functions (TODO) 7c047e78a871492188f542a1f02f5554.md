@@ -302,3 +302,110 @@ $$
     $$
     
 </aside>
+
+<aside>
+📖 (Cauchy).
+
+*Let $f,g:[a,b] \longrightarrow \mathbb{R}$ be continuous and differentiable in $(a,b)$. Then there exists $\xi \in (a.b)$ with* 
+
+$$
+g'(\xi)(f(b)-f(a)) = f'(\xi)(g(b)-g(a)).
+$$
+
+*If $g'(x) \neq 0 \quad \forall x \in (a,b)$ then it follows that* 
+
+$$
+g(a) \neq g(b)
+$$
+
+*and* 
+
+$$
+\frac{f(b) - f(a)}{g(b) - g(a)} = \frac{f'(\xi)}{g'(\xi)}
+$$
+
+</aside>
+
+<aside>
+📖 (l’Hospital 1696, Johann Bernoulli 1691/92).
+
+*Let $f,g:(a,b) \longrightarrow \mathbb{R}$ be differentiable with $g'(x) \neq 0 \quad \forall x \in (a,b)$.*
+
+*If* 
+
+$$
+\lim_{x \to b^-}f(x) = 0, \quad \lim_{x \to b^-}g(x) = 0
+$$
+
+*and* 
+
+$$
+\lim_{x \to b^-} \frac{f'(x)}{g'(x)} = \lambda
+$$
+
+*exist, then* 
+
+$$
+\lim_{x \to b^-} \frac{f(x)}{g(x)} = \lim_{x \to b^-}\frac{f'(x)}{g'(x)}.
+$$
+
+<aside>
+💡 The theorem also holds
+
+- if $b = +\infty$
+- if $\lambda = + \infty$
+- if $x \to a^+.$
+</aside>
+
+</aside>
+
+<aside>
+💡 Let $I \sube \mathbb{R}$ be an interval and let $f : I \longrightarrow \mathbb{R}$ be a function
+
+1. $f$ is **convex** (on $I$) if for all $x \leq y, \quad x,y \in I$ and $\lambda \in [0,1]$ it holds that
+    
+    $$
+    f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda)f(y)
+    $$
+    
+2. $f$ is **strictly convex** if for all $x \lt y, \quad x,y \in I$ and $\lambda \in (0,1)$ it holds that 
+    
+    $$
+    f(\lambda x + (1-\lambda)y) \lt \lambda f(x) + (1-\lambda)f(y)
+    $$
+    
+</aside>
+
+<aside>
+💡 Let $f : I \longrightarrow \mathbb{R}$ be convex. Then the following holds for all $n \geq 1, \quad \{x_1,...,x_n\} \sube I$ and $\lambda_1,...,\lambda_n$ in $[0,1]$ with $\sum_{i=1}^n \lambda_i = 1$:
+
+$$
+f(\sum_{i=1}^n \lambda_i x_i) \leq \sum_{i=1}^n \lambda_i f(x_i).
+$$
+
+</aside>
+
+<aside>
+📌 *Let $f: I \longrightarrow \mathbb{R}$ be an arbitrary function. The function $f$ is convex if and only if for all $x_0 \lt x \lt x_1$ in $I$ it holds that*
+
+$$
+\frac{f(x) - f(x_0)}{x-x_0} \leq \frac{f(x_1) - f(x)}{x_1 - x}.
+$$
+
+$*f$ is strictly convex if*
+
+$$
+\frac{f(x) - f(x_0)}{x-x_0} \lt \frac{f(x_1) - f(x)}{x_1 - x}.
+$$
+
+</aside>
+
+<aside>
+📖 *Let $f : (a,b) \longrightarrow \mathbb{R}$ be differentiable in $(a,b)$. The function $f$ is (strictly) convex if and only if $f'$ is (strictly) monotonically increasing.*
+
+</aside>
+
+<aside>
+💡
+
+</aside>
