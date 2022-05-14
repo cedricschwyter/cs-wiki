@@ -1,4 +1,4 @@
-# Differentiable Functions (TODO)
+# Differentiable Functions
 
 # The Derivative: Definition and Elementary Consequences
 
@@ -406,6 +406,61 @@ $$
 </aside>
 
 <aside>
-💡
+💡 Let $f:(a,b) \longrightarrow \mathbb{R}$. If $f$ is differentiable in $(a,b)$ and its derivative $f'$ is differentiable in $(a,b)$, then $f''$ (or $f^{(2)}$) denotes the function $(f')'$. The function $f''$ is called the second derivative of $f$ and $f$ can be differentiated twice in $(a,b)$.
+
+</aside>
+
+<aside>
+📎 *Let $f : (a,b) \longrightarrow \mathbb{R}$ be a function such that it can be differentiated twice in $(a,b)$.Then the function $f$ is (strictly) convex if $f'' \geq 0$ (respectively $f'' \gt 0$) on $(a,b)$.*
+
+</aside>
+
+# Higher Derivatives
+
+<aside>
+💡 Let $D \sube \mathbb{R}$ such that every $x_0 \in D$ is an accumulation point of $D$. Let $f: D \longrightarrow \mathbb{R}$ be differentiable in $D$ and let $f'$ be its derivative, we set $f^{(1)} = f'$.
+
+1. For $n \geq 2$ $f$ **can be differentiated $n$-times** in $D$ if $f^{(n-1)}$ is differentiable in $D$. Then $f^{(n)} = (f^{(n-1)})'$ and is called the $n$-th derivative of $f$.
+2. The function $f$ can be differentiated $n$-times continuously in $D$, if it can be differentiated $n$-times and if $f^{(n)}$ is continuous in $D$.
+3. The function $f$ is **smooth** in $D$, if it can be differentiated $n$-times for all $n \geq 1$.
+</aside>
+
+<aside>
+💡 It follows that for $n \geq 1$ a function that can be differentiated $n$-times can be differentiated $(n-1)$-times continuously.
+
+</aside>
+
+<aside>
+📖 Let $D \sube \mathbb{R}$ such that every $x_0 \in D$ is an accumulation point of $D$. Let $n \geq 1$ and $f ,g : D \longrightarrow \mathbb{R}$ be differentiable $n$-times in $D$.
+
+1. $*f+g$ can be differentiated $n$-times and* 
+    
+    $$
+    (f+g)^{(n)} = f^{(n)} + g^{(n)}.
+    $$
+    
+2. $*f \cdot g$ can be differentiated $n$-times and* 
+
+$$
+(f\cdot g)^{(n)} = \sum_{k=0}^n \binom{n}{k} f^{(k)}g^{(n-k)}.
+$$
+
+</aside>
+
+<aside>
+📖 Let $D \sube \mathbb{R}$ such that every $x_0 \in D$ is an accumulation point of $D$. Let $n \geq 1$ and $f ,g : D \longrightarrow \mathbb{R}$ be differentiable $n$-times in $D$.
+
+*If $g(x) \neq 0 \quad \forall x \in D$, then $\frac{f}{g}$ is differentiable $n$-times in $D$.*
+
+</aside>
+
+<aside>
+📖 *Let $E,D \sube \mathbb{R}$ be subsets of the reals such that each of their points is an accumulation point for its respective set. Let $f: D \longrightarrow E$ and $g: E \longrightarrow \mathbb{R}$ be differentiable $n$-times. Then $g \circ f$ is differentiable $n$-times and*
+
+$$
+(g \circ f)^{(n)}(x) = \sum_{k=1}^nA_{n,k}(x)(g^{(k)} \circ f)(x)
+$$
+
+*where $A_{n,k}$ is a polynomial in the functions $f',f^{(2)},...,f^{(n+1-k)}$.*
 
 </aside>

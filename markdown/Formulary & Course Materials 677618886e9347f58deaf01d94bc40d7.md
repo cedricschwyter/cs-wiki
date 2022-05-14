@@ -174,6 +174,8 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [*Continuous Functions*](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Continuous%20Functions%209465b36198f3482bae0b551afdc5cf01.md)
 
-[Differentiable Functions (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Differentiable%20Functions%20(TODO)%207c047e78a871492188f542a1f02f5554.md)
+[Differentiable Functions](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Differentiable%20Functions%207c047e78a871492188f542a1f02f5554.md)
+
+[Powerseries and Taylor-Approximations (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Powerseries%20and%20Taylor-Approximations%20(TODO)%209fe142a34de84e4195ef3bbae9cfe04b.md)
 
 [Cauchy-Product of the Exponential Function](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequences%20and%20Series%208a981a9ce10e4dfb82e989be6760ed05/Cauchy-Product%20of%20the%20Exponential%20Function%209768354a1fa247a2aff9ab665de61605.md)
