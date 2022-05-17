@@ -61,7 +61,7 @@ X(R) = X_\phi(R) & = \{s \in R \space \vert \space \phi(R \setminus \{s\}) \neq 
 \end{align*}
 $$
 
-We call elements in $V(R)$ *destroyers* of $R$ and elements in $X(R)$ *extreme* in $R$.
+We call elements in $V(R)$ *violators* of $R$ and elements in $X(R)$ *extreme* in $R$.
 
 </aside>
 
@@ -78,7 +78,9 @@ Clearly, for $R \neq \varnothing$ it holds that $\lvert X(R) \rvert = 1$ and $\l
 
 ### Example: Smallest Enclosing Circle
 
-Let $P$ be a finite set of points. For $R \sube P$ let $\phi(R) = C(R)$ be the smallest enclosing circle of $R$ (with $\phi(\varnothing) = \varnothing$)
+Let $P$ be a finite set of points. For $R \sube P$ let $\phi(R) = C(R)$ be the smallest enclosing circle of $R$ (with $\phi(\varnothing) = \varnothing$). $V(R)$ is exactly the set of points outside of $C(R)$ and we already saw that $\lvert X(R) \rvert \leq 3$.
+
+The sampling lemma relates the number of violating elements to the number of extreme elements. 
 
 <aside>
 📌 (Sampling Lemma).
@@ -88,6 +90,13 @@ Let $P$ be a finite set of points. For $R \sube P$ let $\phi(R) = C(R)$ be the s
 $$
 \frac{v_r}{n-r} = \frac{v_{r+1}}{r+1}.
 $$
+
+</aside>
+
+<aside>
+📎 *If we choose $r$ elements $R$ from a set $A$ of $n$ numbers randomly, then the expected rang of the minimum of $R$ in $A$ exactly $\frac{n-r}{r+1}+1=\frac{n+1}{r+1}$.*
+
+*If we choose $r$ points $R$ from a set $P$ of $n$ points in a plane randomly, then the expected number of points of $P$ outside of $C(R)$ is at max $3\frac{n-r}{r+1}$.*
 
 </aside>
 
