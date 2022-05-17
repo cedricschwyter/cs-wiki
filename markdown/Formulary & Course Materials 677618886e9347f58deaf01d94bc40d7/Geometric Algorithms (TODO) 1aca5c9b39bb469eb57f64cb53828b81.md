@@ -49,7 +49,7 @@ With this lemma we can thus draw points from $P$ in such a way that the probabil
 
 This algorithm is a variation of the algorithm of Clarkson. There exist randomized algorithms that compute $C(P)$ optimally in linear time.
 
-# Sampling Lemma
+## Sampling Lemma
 
 <aside>
 💡 Let $S$ be a finite set with $n$ elements and let $\phi$ be an arbitrary function on $2^S$ into an arbitrary codomain. We define
@@ -64,3 +64,16 @@ $$
 We call elements in $V(R)$ *destroyers* of $R$ and elements in $X(R)$ *extreme* in $R$.
 
 </aside>
+
+<aside>
+📌 (Sampling Lemma).
+
+*Let $k \in \mathbb{N}, 0 \leq k \leq n$. We set $v_k = \mathbb{E}[\lvert V(R)\rvert]$ and $x_k = \mathbb{E}[\lvert X(R) \rvert]$, where $R$ is a subset of $S$ with $k$ elements that is random, uniformly distributed from $\binom{S}{k}$. The for $r \in \mathbb{N}, 0 \leq r \lt n$ it holds that* 
+
+$$
+\frac{v_r}{n-r} = \frac{v_{r+1}}{r+1}.
+$$
+
+</aside>
+
+# Convex Closure
