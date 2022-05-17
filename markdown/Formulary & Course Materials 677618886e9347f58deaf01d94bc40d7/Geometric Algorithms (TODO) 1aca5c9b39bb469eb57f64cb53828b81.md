@@ -65,6 +65,21 @@ We call elements in $V(R)$ *destroyers* of $R$ and elements in $X(R)$ *extreme* 
 
 </aside>
 
+We can see that $s \in V(R) \iff s \in X(R \cup \{s\})$. Our goal is to gather understanding about how big $V(R)$ is when $R$ is randomly chosen with given $r$.
+
+### Example: Smallest Number
+
+Let $A \sube \mathbb{N}$ be a finite subset of the naturals. For $R \sube A$ let $\phi(R) = \min(R)$, with $\min\varnothing = \infty$. The following holds: 
+
+- $X(R)=\{\min(R)\}$ (for $R \neq \varnothing$)
+- $V(R) = \{a \in A \space \vert \space a \lt \min(R)\}$.
+
+Clearly, for $R \neq \varnothing$ it holds that $\lvert X(R) \rvert = 1$ and $\lvert V(R) \rvert$ is the amount of elements in $A$ that are smaller than $\min(R)$, i.e., $\lvert V(R) \rvert + 1$ is the *rank* of $\min(R)$ in $A$, where the rank of $a \in A$ is the index of $a$ in the ascendingly sorted sequence of elements of $A$.
+
+### Example: Smallest Enclosing Circle
+
+Let $P$ be a finite set of points. For $R \sube P$ let $\phi(R) = C(R)$ be the smallest enclosing circle of $R$ (with $\phi(\varnothing) = \varnothing$)
+
 <aside>
 📌 (Sampling Lemma).
 
