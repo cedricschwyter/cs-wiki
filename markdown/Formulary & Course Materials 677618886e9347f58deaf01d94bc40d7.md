@@ -158,6 +158,8 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Flows and Cuts (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Flows%20and%20Cuts%20(TODO)%202c022b89007049699f7db1f46d67080f.md)
 
+[Geometric Algorithms (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Geometric%20Algorithms%20(TODO)%201aca5c9b39bb469eb57f64cb53828b81.md)
+
 [Hamiltonian Cycle in a Hypercube: Gray-Code](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Graphs%20(TODO)%20b149fa35dff041fb8a659592d3f9c6bd/Hamiltonian%20Cycle%20in%20a%20Hypercube%20Gray-Code%201e5ecb970a794ec7baa9a405b7023363.md) 
 
 [Coupon-Collector Problem](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Probability%20Theory%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.md) 
