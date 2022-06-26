@@ -96,6 +96,8 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20e4f94fe461eb427b8785490485b484a1.csv)
 
+[Introduction](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Introduction%201ba015f9cd614446bdb4213e70a154d9.md)
+
 ## Parallel Programming - **252-0029-00L - FS22**
 
 ---
