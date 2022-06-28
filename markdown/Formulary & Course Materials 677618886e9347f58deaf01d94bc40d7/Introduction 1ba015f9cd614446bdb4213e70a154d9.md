@@ -195,4 +195,58 @@ $$
 
 ## DC Transfer Characteristics
 
-The *DC transfer characteristics* of a gate describe the output voltage as a function of the input voltage when the input is changed slowly enough that the output can keep up. They are ca
+The *DC transfer characteristics* of a gate describe the output voltage as a function of the input voltage when the input is changed slowly enough that the output can keep up. They are called transfer characteristics because they describe the relationship between input and output voltages.
+
+An ideal inverter would have an abrupt switching threshold at $\frac{V_{DD}}{2}$ as shown on the left.
+
+A real inverter changes more gradually between the extremes, as shown on the right. When the input voltage $V(A)$ is 0, the output voltage $V(Y) = V_{DD}$. When $V(A) = V_{DD}$, $V(Y)=0$. However, the transition between these endpoints is smooth and may not be centered at exactly $\frac{V_{DD}}{2}$. This raises the question of how to define the logic levels.
+
+A reasonable place to choose the logic levels is where the slope of the transfer characteristic $\frac{dV(Y)}{dV(A)}$ is -1. These two points are called the *unity gain points*. Choosing logic levels at unity gain points usually maximizes the noise margins. If $V_{IL}$ were reduced, $V_{OH}$ would only increase by a small amount. But if $V_{IL}$ were increased, $V_{OH}$ would drop precipitously.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2013.png)
+
+## The Static Discipline
+
+To avoid inputs falling into the forbidden zone, digital logic gates are designed to conform to the *static discipline*. The static discipline requires that, given logically valid inputs, every circuit element will produce logically valid outputs. By conforming to the static discipline, digital designers sacrifice the freedom of using arbitrary analog circuit elements in return for the simplicity and robustness of digital circuits. They raise the level of abstraction from analog to digital, increasing design productivity by hiding needless detail.
+
+The choice of $V_{DD}$ and logic levels is arbitrary, but all gates that communicate must have compatible logic levels. Therefore, gates are grouped into *logic families* such that all gates in a logic family obey the static discipline when used with other gates in the family.
+
+Four major logic families that predominated from the 1970’s through the 1990’s are *Transistor-Transistor Logic (TTL), Complementary Metal-Oxide-Semiconductor Logic (CMOS), Low Voltage TTL Logic (LVTTL)*, and *Low Voltage CMOS Logic (LVCMOS)*. Since then, logic families have balkanized with a profliferation of even lower power supply voltages.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2014.png)
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2015.png)
+
+# CMOS Transistors
+
+Modern computers use transistors because they are reliable, small and cheap.. *Transistors* are electrically controlled switches that turn ON or OFF when a voltage or current is applied to a control terminal. The two main types of transistors are *bipolar transistors* and *metal-oxide-semiconductor field effect transistors (MOSFETs)*.
+
+MOSFETs are now the building blocks of almost all digital systems.
+
+## Semiconductors
+
+MOSFETs are built from silicon, the predominant atom in rock and sand. Silicon (Si) is a group IV element, so it has four electrons in its valence shell and forms bonds with four adjacent atoms, resulting in a crystalline lattice.
+
+By itself, silicone is a poor conductor because all the electrons are tied up in covalent bonds. However, it becomes a better conductor when small amounts of impurities, called *dopant* atoms, are carefully added. If a group V dopant such as arsenic (As) is added, the dopant atoms have an extra electron that is not involved in the bonds and can therefore move about the lattice freely, leaving an ionized dopant atom (As+) behind. The electron carries a negative charse, so we call arsenic an *n-type* dopant. On the other hand, if a group III dopant such as boron (B) is addedm the dopant atoms are missing an electron. This missing electron is called a *hole*. An electron from a neighboring silicon atom may mmove over to fill the missing bond, forming an ionized dopant atom (B-) and leaving a hole at the neighboring silicon atom. In a similar fashion, the hole can migrate around the lattice. The hole is a lack of negative charge, so it acts like a positively charged particle. Hence, we call boron a *p-type* dopant. Because the conductivity of silicon changes over many orders of magnitude depending on the concentration of dopants, silicon is called a *semiconductor*.
+
+## Diodes
+
+The junction between p-type and n-type silicon is called a *diode*. The p-type region is called the *anode* and the n-type region is called the *cathode*.
+
+When the voltage on the anode rises above the voltage on the cathode, the diode is *forward biased*, and current flows through the diode from the anode to the cathode. But when the anode voltage is lower than the voltage on the cathode, the diode is *reverse biased*, and no current flows.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2016.png)
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2017.png)
+
+## Capacitors
+
+A *capacitor* consists of two conductors separated by an insulator. When a voltage $V$ is applied to one of the conductors, the conductor accumulates electric *charge* $Q$ and the other conductor accumulates the opposite charge $-Q$, The *capacitance* $C$ of the capacitor is the ratio of charge to voltage: $C = \frac{Q}{V}$. The capacitance is proportional to the size of the conductors and inversely proportional to the distance between them. 
+
+Capacitance is important, because charging or discharging a conductor takes time and energy. More capacitance means that a circuit will be slower and require more energy to operate.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2018.png)
+
+## nMOS and pMOS Transistors
+
+A MOSFET is a sandwich of several layers of conducting and insulating materials. MOSFETs are built on thin flat *wafers* of silicon of about 15 to 30 cm in diameter. The manufacturing process begins with a bare wafer.The process involves a sequence of steps in which dopants are implanted into the silicon, thin films of silicon dioxide and silicon are grown, and metal is deposited.
