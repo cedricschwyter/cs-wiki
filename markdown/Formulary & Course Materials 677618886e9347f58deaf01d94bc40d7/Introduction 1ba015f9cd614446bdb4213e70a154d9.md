@@ -249,4 +249,46 @@ Capacitance is important, because charging or discharging a conductor takes time
 
 ## nMOS and pMOS Transistors
 
-A MOSFET is a sandwich of several layers of conducting and insulating materials. MOSFETs are built on thin flat *wafers* of silicon of about 15 to 30 cm in diameter. The manufacturing process begins with a bare wafer.The process involves a sequence of steps in which dopants are implanted into the silicon, thin films of silicon dioxide and silicon are grown, and metal is deposited.
+A MOSFET is a sandwich of several layers of conducting and insulating materials. MOSFETs are built on thin flat *wafers* of silicon of about 15 to 30 cm in diameter. The manufacturing process begins with a bare wafer.The process involves a sequence of steps in which dopants are implanted into the silicon, thin films of silicon dioxide and silicon are grown, and metal is deposited. Between each step, the wafer is *patterned* so that the materials only appear where they are desired. 
+
+Because transistors are a fraction of a micron in length and the entire wafer is processed at once, it is inexpensive to manufacture billions of transistors at a time. Once processing is complete, the wafer is cut into rectangles called chips or dice that contain thousands, millions, or even billions of transistors. The chip is tested, then placed in a plastic or ceramic package with metal pins to connect it to a circuit board.
+
+The MOSFET sandwich consists of a conducting layer called the *gate* on top of an insulating layer of *silicone dioxide* (SiO2) on top of the silicon wafer, called the *substrate*. Historically, the gate was constructed from metal, hence the name metal-oxide-semiconductor. modern manufacturing processes use polycrystalline silicon for the gate, because it does not melt during subsequent high-temperature processing steps. Silicon dioxide is better known as glass and is often simply called *oxide* in the semiconductor industry. The metal-oxide-semiconductor sandwich forms a capacitor, in which a thin layer of insulating oxide called a *dielectric* separates the metal and semiconductor plates.
+
+There are two flavors of MOSFETs: nMOS and pMOS. The n-type transistors, called nMOS, have regions of n-type dopants adjacent to the gate called the *source* and the *drain* and are built on a p-type semiconductor substrate. The pMOS transistory are just the opposite, consisting of p-type source and drain regions in an n-type substrate.
+
+A MOSFET behaves as a voltage-controlled switch in which the gate voltage creates an electric field that turns ON or OFF a connection between the source and drain. The term *field effect transistor* comes from this principle of operation.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2019.png)
+
+The substrate of an nMOS transistor is normally tied to GND. Consider the situation when the gate is also at 0 V, as shown. The diodes between the source or drain and the substrate are reverse biased because the source or drain voltage is nonnegative. Hence, there is no path for current to flow between the source and drain, so the transistor is OFF. Consider the situation when the gate is tied to $V_{DD}$. as shown. When a positive voltage is applied to the top plate of a capacitor, it establishes an electric field that attracts positive charge on the top plate and negative charge to the bottom plate. If the voltage is sufficiently large, so much negative charge is attracted to the underside of the gate that the region *inverts* from p-type to effectively become n-type. This inverted region is called the *channel*. Now the transistor has a continuous path from the n-type source through the n-type channel to the n-type drain, so electrons can flow from source to drain. The transistor is ON. The gate voltage required to turn on a transistor is called the *threshold voltage*, $V_t$, and is typically 0.3 to 0.7 V.
+
+pMOS transistors work just the opposite way. The substrate is tied to $V_{DD}$. When the gate is also at $V_{DD}$, the pMOS transistor is OFF. When the gate is at GND, the channel inverts to p-type and the pMOS transistor is ON.
+
+However, MOSFETs are not perfect switches. nMOS transistors are excellent at passing 0’s, but very poor at passing 1’s. Specifically, when the gate of an nMOS transistor is at $V_{DD}$, the drain will only swing between 0 and $V_{DD} - V_t$. Similarily, pMOS transistory pass 1’s well, but 0’s poorly.
+
+Considering both types of MOSFETs require both types of substrate, manufacturing processes typically start with a p-type wafer, then implant n-type regions called *wells* where the pMOS transistory will go. These processes that provide both flavors of transistors are called Complementary MOS, or CMOS. CMOS processes are used to build the vast majority of all transistors fabricated today.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2020.png)
+
+To summarize, CMOS processes give us two types of electrically controlled switches, as shown. The voltage at the gate (g) regulates the flow of current between the source (s) and drain (d). nMOS transistors are OFF when the gate is 0 and ON when the gate is 1. pMOS transistors are ON when the gate is 0 and OFF when the gate is 1.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2021.png)
+
+## CMOS $\text{NOT}$ Gate
+
+The triangle indicates GND, the flat bar indicates $V_{DD}$. The nMOS transistor, $N1$, is conneected between GND and the $Y$ output. The pMOS transistor, $P1$, is connected between $V_{DD}$ and the $Y$ output. Both transistor gates are controlled by the input, $A$.
+
+If $A = 0$, $N1$ is OFF and $P1$ is ON. Hence, $Y$ is connected to $V_{DD}$ but not to GND, and is pulled up to a logic 1. $P1$ passes a good 1. If $A = 1$, $N1$ is ON and $P1$ is OFF, and $Y$ is pulled down to a logic 0. $N1$ passes a good 0.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2022.png)
+
+## Other CMOS Logic Gates
+
+A two-input $\text{NAND}$ gate is displayed. In schematic diagrams, wires are always joined at three-way junctions. They are joined at four-way junctions only if a dot is shown. The nMOS transistors $N1$ and $N2$ are connected in series; both nMOS transistors must be ON to pull the output down to GND. The pMOS transistors $P1$ and $P2$ are in parallel; only one pMOS transistor must be ON to pull the output up to $V_{DD}$.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2023.png)
+
+The figure shows a general form to construct any inverting logic gate, such as $\text{NOT}$, $\text{NAND}$ or $\text{NOR}$. nMOS transistors are good at passing 0’s, so a pull-down network of nMOS transistors is places between the output and GND to pull the output down to 0. pMOS transistors are good at passing 1’s, so a pull-up network of pMOS transistors is placed between the output and $V_{DD}$ to pull the output up to 1. The networks may consist of transistors in series or in parallel. When transistors are in parallel, the network is ON if either transistor is ON. When transistors are in series, the network is ON only if both transistors are ON. The slash across the input wire indicates that the gate may receive multiple inputs.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2024.png)
