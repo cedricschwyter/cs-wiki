@@ -74,4 +74,26 @@ By coincidence, $2^{10} = 1024 \approx 10^3$. Therefore the term *kilo* indicate
 
 1024 bytes is called a *kilobyte* (KB). 1024 bits is called a *kilobit* (Kb or Kbit). Similarly, MB, Mb, GB and Gb are used for millions and billions of bytes and bits. Memory capacity is usually measured in bytes. Communication speed is usually measured in bits/sec.
 
-###
+## Binary Addition
+
+As in decimal addition, if the sum of two numbers is greater than what fits in a single digit, we *carry* a 1 into the next column. The bit that is carried over to the neighboring column is called the *carry bit*.
+
+Digital systems usually operate on a fixed number of digits. Addition is said to *overflow* if the result is too big to fit in the available digits. overflow can be detected by checking for a carry out of the most significant column.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%204.png)
+
+## Signed Binary Numbers
+
+### Sign/Magnitude Numbers
+
+*Sign/magnitude* numbers are intuitively appealing because they match our custom of writing negative numbers with a minus sign followed by the magnitude. An $N$-bit sign/magnitude number uses the most significant bit as the sign and the remaining $N - 1$ bits as the magnitude (absolute value). A sign bit of 0 indicates positive and a sign bit of 1 indicates negative.
+
+Unfortunately, ordinary binary addition does not work for sign/magnitude numbers. For example, using ordinary addition on $-5_{10}+5_{10}$ gives $1101_2+0101_2 = 10010_2$, which is nonsense.
+
+An $N$-bit sign/magnitude number spans the range $[-2^{N-1} + 1, 2^{N-1}-1]$. Sign/magnitude numbers are slightly odd in that both $+0$ and $-0$ exist. Both indicate zero.
+
+### Two’s Complement Numbers
+
+*Two’s complement* numbers are identical to unsigned binary numbers except that the most significant bit position has a weight of $-2^{N-1}$ instead of $2^{N-1}$. They overcome the shortcomings of sign/magnitude numbers: zero has a single representation, and ordinary addition works.
+
+In two’s complement representation, zero is written as all zeros: $000..0_2$. The most positive number has a 0 in the most significant position and 1’s elsewhere: $0111111...1_2$
