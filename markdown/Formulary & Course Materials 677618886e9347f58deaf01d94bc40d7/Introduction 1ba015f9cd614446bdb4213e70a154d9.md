@@ -96,4 +96,70 @@ An $N$-bit sign/magnitude number spans the range $[-2^{N-1} + 1, 2^{N-1}-1]$. Si
 
 *Two’s complement* numbers are identical to unsigned binary numbers except that the most significant bit position has a weight of $-2^{N-1}$ instead of $2^{N-1}$. They overcome the shortcomings of sign/magnitude numbers: zero has a single representation, and ordinary addition works.
 
-In two’s complement representation, zero is written as all zeros: $000..0_2$. The most positive number has a 0 in the most significant position and 1’s elsewhere: $0111111...1_2$
+In two’s complement representation, zero is written as all zeros: $000..0_2$. The most positive number has a 0 in the most significant position and 1’s elsewhere: $0111111...1_2$. The most negative number has a 1 in the most significant position and o’s elsewhere: $100000...0_2 = -2^{N-1}$. -1 is written as all ones: $1111...1_2$.
+
+The sign of a two’s complement number is reversed in a process called *taking the two’s complement*. The process consists of inverting all of the bits in the number, then adding 1 to the least significant bit position. This is useful to find the representation of a negative number or to determine the magnitude of a negative number.
+
+Two’s complement numbers have the advantage that addition works properly for both positive and negative numbers. Recall that when adding $N$-bit numbers, the carry out of the $N$th bit is discarded.
+
+Subtraction is performed by taking the two’s complement of the second number, then adding.
+
+Unlike the sign/magnitude system, the two’s complement system has no separate -0.
+
+In general, the range of an $N$-bit two’s complement number spans $[-2^{N-1}, 2^{N-1}-1]$. It should make sense that there is one more negative number than positive number because there is no -0.
+
+The most negative number $100...000_2 = -2^{N-1}$ is sometimes called the *weird number*. Its two’s complement is found by inverting the bits (producing $01...111_2$) and adding 1, which produces $10...000_2$, the weird number, again. Hence, this negative number has no positive counterpart.
+
+Adding two $N$-bit positive numbers or negative numbers may cause overflow if the result is greater than $2^{N-1} - 1$ or less than $-2^{N-1}$. Adding a positive number to a negative number never causes overflow. Unlike signed numbers, a carry out of the most significant column does not indicate overflow. Instead, overflow occurs if the two numbers being added have the same sign bit and the result has the opposite sign bit.
+
+When a two’s complement number is extended to more bits, the sign bit must be copied into the most significant bit positions. This process is called *sign extension*. For example the numbers 3 and -3 are written as 4-bit two’s complement numbers 0011 and 1101 respectively. They are sign-extended to seven bits by copying the sign bit into the three new upper bits to form 0000011 and 1111101 respectively.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%205.png)
+
+# Logic Gates
+
+*Logic gates* are simple digital circuits that take one or more binary inputs and produce a binary output. Logic gates are drawn with a symbol showing the input (or inputs) and the output. Inputs are usually drawn to the left (or top) and outputs on the right (or bottom). Digital designers typically use letters near the beginning of the alphabet for gate inputs and the letter $Y$ for the gate output. The relationship between the inputs and the output can be described with a truth table or a boolean equation. A *truth table* lists inputs on the left and the corresponding output on the right. It has one row for each possible combination of inputs. A *Boolean equation* is a mathematical expression using binary variables.
+
+## $\text{NOT}$ Gate
+
+A $\text{NOT}$ gate has one input, $A$, and one output, $Y$, as shown.
+
+The $\text{NOT}$ gate’s output is the inverse of its input. If $A$ is $\text{FALSE}$, then $Y$ is $\text{TRUE}$. If $A$ is $\text{TRUE}$, then $Y$ is $\text{FALSE}$. This relationship is summarized by the truth table and boolean equation in the figure. This gate is also called an *inverter*.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%206.png)
+
+## Buffer
+
+The other one-input logic gate is called a *buffer* as shown. From the logical point of view, a buffer is no different from a wire, so it might seem useless. However, from the analog point of view, the buffer might have desirable characteristics such as the ability to deliver large amounts of current to a motor, or the ability to quickly send its output to many gates. This is an example of why we need to consider multiple levels of abstraction to fully understand a system; the digital abstraction hides the real purpose of a buffer.
+
+The triangle symbol indicates a buffer. A circle on the output is called a *bubble* and indicates inversion, as was seen in the $\text{NOT}$ gate symbol.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%207.png)
+
+## $\text{AND}$ Gate
+
+Two-input logic gates are more interesting. The $\text{AND}$ gate as shown produces a $\text{TRUE}$ output $Y$ if and only if both $A$ and $B$ are $\text{TRUE}$. Otherwise, the output is $\text{FALSE}$. By convention, the inputs are listed in the order you would count up in binary.
+
+The Boolean equation for an $\text{AND}$ gate can be written in several ways: $Y = A \bullet B$, $Y = AB$ or $Y = A \cap B$.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%208.png)
+
+## $\text{OR}$ Gate
+
+The $\text{OR}$ gate as shown produces a $\text{TRUE}$ output $Y$, if either $A$ or $B$ (or both) are $\text{TRUE}$.
+
+The Boolean equation for an $\text{OR}$ gate is written as $Y = A + B$ or $Y = A \cup B$.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%209.png)
+
+## Other Two-Input Gates
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2010.png)
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2011.png)
+
+## Multiple-Input Gates
+
+Many Boolean functions of three or more inputs exist. The most common are $\text{AND}$, $\text{OR}$, $\text{XOR}$, $\text{NAND}$, $\text{NOR}$ and $\text{XNOR}$. An $N$-input $\text{AND}$ gate produces a $\text{TRUE}$ output when all $N$ inputs are $\text{TRUE}$. An $N$-input $\text{OR}$ gate produces a $\text{TRUE}$ output when at least one input is $\text{TRUE}$. An $N$-input $\text{XOR}$ gate is sometimes called a *parity* gate and produces a $\text{TRUE}$ output if an odd number of inputs are $\text{TRUE}$.
+
+# Beneath the Digital Abstraction
