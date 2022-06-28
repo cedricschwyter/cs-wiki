@@ -163,3 +163,36 @@ The Boolean equation for an $\text{OR}$ gate is written as $Y = A + B$ or $Y = A
 Many Boolean functions of three or more inputs exist. The most common are $\text{AND}$, $\text{OR}$, $\text{XOR}$, $\text{NAND}$, $\text{NOR}$ and $\text{XNOR}$. An $N$-input $\text{AND}$ gate produces a $\text{TRUE}$ output when all $N$ inputs are $\text{TRUE}$. An $N$-input $\text{OR}$ gate produces a $\text{TRUE}$ output when at least one input is $\text{TRUE}$. An $N$-input $\text{XOR}$ gate is sometimes called a *parity* gate and produces a $\text{TRUE}$ output if an odd number of inputs are $\text{TRUE}$.
 
 # Beneath the Digital Abstraction
+
+A digital system uses discrete-valued variables. However, the variables are represented by continuous physical quantities such as the voltage on a wire, the position of a gear, or the level of fluid in a cylinder. hence, the designer must choose a way to relate the continuous variable to the discrete variable.
+
+For example, consider representing a binary signal $A$ with a voltage on a wire. Let 0 volts (V) indicate $A = 0$ and 5 V indicate $A=1$. Any real system must tolerate some noise, so 4.97 V probably ought to be interpreted as $A=1$ as well. But what about 4.3 V? or 2.8 V?
+
+## Supply Voltage
+
+Suppose the lowest voltage in the system is 0 V, also called *ground* or GND. The highest voltage in the system comes from the power supply and is usually called $V_{DD}$. In 1970’s and 1980’s technology, $V_{DD}$ was generally 5 V. As chips have progressed to smaller transistors, $V_{DD}$ has dropped to 3.3 V, 2.5 V, 1.8 V, 1.5 V, 1.2 V or even lower to save power and avoid overloading the transistors.
+
+## Logic Levels
+
+The mapping of a continuous variable onto a discrete binary variable is done by defining *logic levels*, as shown.
+
+The first gate is called the *driver* and the second gate is called the *receiver*. The output of the driver is connected to the input of the receiver. The driver produces a $\text{LOW}$ (0) output in the range of 0 to $V_{OL}$ or a $\text{HIGH}$ (1) output in the range of $V_{OH}$ to $V_{DD}$.
+
+If the receiver gets an input in the range of 0 to $V_{IL}$, it will consider the input to be $\text{LOW}$. If the receiver gets an input in the range of $V_{IH}$ to $V_{DD}$, it will consider the input to be $\text{HIGH}$. If for some reason such as noise or faulty components, the receiver’s input should fall in the *forbidden zone* between $V_{IL}$ and $V_{IH}$, the behavior of the gate is unpredictable. $V_{OH}, V_{OL}, V_{IH}$ and $V_{IL}$ are called the output and input high and low logic levels.
+
+## Noise Margins
+
+Of course, the input and output levels must be chosen such that $V_{OL} \lt V_{IL}$ and $V_{OH} \gt V_{IH}$, otherwise the input of the receiver can not possibly be interpreted in a correct way. Thus, even if the output of the driver is contaminated by some noise, the input of the receiver will still detect the correct logic level. The *noise margin* is the amount of noise that could be added to a worst-case output such that the signal can still be interpreted as a valid input: 
+
+$$
+\begin{align*}
+NM_L & = V_{IL}-V_{OL} \\
+NM_H & = V_{OH} - V_{IL}
+\end{align*}
+$$
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2012.png)
+
+## DC Transfer Characteristics
+
+The *DC transfer characteristics* of a gate describe the output voltage as a function of the input voltage when the input is changed slowly enough that the output can keep up. They are ca
