@@ -310,13 +310,35 @@ When using decoders to build logic, it is easiest to express functions as a trut
 
 ![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2028.png)
 
+## Priority Circuit
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2029.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2030.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2031.png)
+
+## Full Adder
+
+The figure shows a combinational circuit with multiple outputs. This circuit is called a *full adder* and will be revisited later.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2032.png)
+
+## Seven-Segment Display Decoder
+
+A seven-segment display decoder takes a 4-bit data input, $d_{3:0}$, and produces seven outputs to control LEDs to display a digit from 0 to 9. The seven outputs are often called segments $a$ through $g$, or $S_a-S_g$, as shown.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2033.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2034.png)
+
 # Timing
 
 One of the most challenging issues in circuit design is *timing*; making a circuit run fast*.*
 
 An output takes time to change in response to an input change. We show the *delay* between an input change and the subsequent output change for a buffer. The figure is called a *timing diagram*; it portrays the *transient response* of the buffer circuit when an input changes. The transition from LOW to HIGH is called the *rising edge*. Similarly, the transition from HIGH to LOW is called the *falling edge*. The blue arrow indicates that the rising edge of $Y$ is caused by the rising edge of $A$. We measure delay from the *50% point* of the input signal, $A$, to the 50% point of the output signal, $Y$. The 50% point is the point at which the signal is half-way between its LOW and HIGH values as it transitions.
 
-![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2029.png)
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2035.png)
 
 ## Propagation and Contamination Delay
 
@@ -332,6 +354,22 @@ The underlying causes of delay in circuits include the time required to charge t
 
 Calculating $t_{pd}$ and $t_{cd}$ requires delving into the lower levels of abstraction. However, manufacturers normally supply data sheets specifying these delays for each gate.
 
-![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2030.png)
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2036.png)
 
-Along with the factors already listed, propagation and contamination delays are also determined by the *path* a signal takes from input to output. We show a four-input logic circuit. The *critical path*, shown in blue, is the path from input
+Along with the factors already listed, propagation and contamination delays are also determined by the *path* a signal takes from input to output. We show a four-input logic circuit. 
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2037.png)
+
+The *critical path*, shown in blue, is the path from input $A$ or $B$ to output $Y$. It is the longest, and therefore the slowest, path, because the input travels through three gates to the output. This path is critical because it limits the speed at which the circuit operates. The *short path* through the circuit, shown in gray, is from input $D$ to output $Y$. This is the shortest, and therefore the fastest, path through the circuit, because the input travels through only a single gate to the output.
+
+The propagation delay of a combinational circuit is the sum if the propagation delays through each element on the critical path. The contamination delay is the sum of the contamination delays through each element on the shortest path. These delays are described by the following equations:
+
+$$
+\begin{align*}t_{pd} & = 2t_{pd\_\text{AND}} + t_{pd\_\text{OR}} \\
+t_{cd} & = t_{cd\_\text{AND}}
+\end{align*}
+$$
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2038.png)
+
+## Glitches
