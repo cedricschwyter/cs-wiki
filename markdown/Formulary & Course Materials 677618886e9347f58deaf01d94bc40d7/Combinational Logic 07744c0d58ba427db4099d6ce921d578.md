@@ -145,6 +145,93 @@ Logic in sum-of-products form is called *two-level logic* because it consists of
 
 Some logic functions require an enormous amount of hardware when built using two-level logic. A notable example is the $\text{XOR}$ function of multiple variables.
 
-An eight input $\text{XOR}$ would require 128 eight-input $\text{AND}$ and one 128-input $\text{OR}$ gate fir a 
+An eight input $\text{XOR}$ would require 128 eight-input $\text{AND}$ and one 128-input $\text{OR}$ gate for a two-level sum-of-products implementation. A much better option is to use a tree of two-input $\text{XOR}$ gates, as shown.
 
 ![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%209.png)
+
+Already, a three-input $\text{XOR}$ built with two-level logic would require more individual gates than the above 128-input variant, as shown.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2010.png)
+
+Selecting the best multilevel implementation of a specific logic function is not a simple process. Moreover, “best” is dependent on design goals and requirements. For example, we have been using $\text{AND}$s and $\text{OR}$s, but in CMOS, $\text{NAND}$s and $\text{NOR}$s are more efficient.
+
+## Bubble Pushing
+
+Guidelines:
+
+- begin at the output of the circuit and work towards the inputs
+- push any bubbles on the final output back towards the inputs so that you can read an equation in terms of the output $Y$, instead of the complement $\bar{Y}$
+- working backward, draw each gate in a form so that bubbles cancel. If the current gate has an input bubble, draw the preceding gate with an output bubble. If the current gate does not have an input bubble, draw the preceding gate without an output bubble.
+
+An example is shown.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2011.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2012.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2013.png)
+
+# X’s and Z’s
+
+[https://www.notion.so](https://www.notion.so)
+
+Boolean algebra is limited to 0’s and 1’s. However, real circuits can also have illegal and floating values, represented symbolically by X and Z.
+
+## Illegal Value: X
+
+The symbol X indicates that the circuit node has an *unknown* or *illegal* value. This commonly happens if it is being driven to both 0 and 1 at the same time. This situation, as shown, is called *contention* and is considered to be an error that must be avoided. The actual voltage on a node with contention may be somewhere between 0 and $V_{DD}$, depending on the relative strengths of the gates driving HIGH and LOW. Oftentimes, the value is in the forbidden zone. Contention can also cause large amounts of power to flow between the fighting gates, resulting in the circuit getting hot and possibly damaged.
+
+X values are also sometimes used by circuit simulators to indicate an uninitialized value. Digital designers also use the symbol X to indicate “don’t care” values in truth tables.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2014.png)
+
+## Floating Value: Z
+
+The symbol Z indicates that a node is being driven neither HIGH nor LOW. The node is said to be *floating, high impedance*, or *high Z*. A floating node does not always mean there is an error in the circuit, so long as some other circuit element does drive the node to a valid logic level when the value of the node is relevant to circuit operation.
+
+The *tristate buffer*, as shown, has three possible output states: HIGH (1), LOW (0) and floating (Z). The tristate buffer has an input, $A$, an output, $Y$, and an *enable*, $E$. When the enable is TRUE, the tristate buffer acts as a simple buffer, transferring the input value to the output. When the enable is FALSE, the output is allowed to float ($Z$).
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2015.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2016.png)
+
+Tristate buffers are commonly used on *busses* that connect multiple chips. For example, a microprocessor, a video controller, and an Ethernet controller might all need to communicate with the memory system in a personal computer. Each chip can connect to a shared memory bus using tristate buffers, as shown.
+
+Only one chip at a time is allowed to assert its enable signal to drive a value onto the bus. The other chips must produce floating outputs so that they do not cause contention with the chip talking to the memory. Any chip can read the information from the shared bus at any time. Such tristate busses were once common, nowadays however higher speeds are possible with *point-to-point links*, in which chips are connected to each other directly rather than over a shared bus.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2017.png)
+
+# Karnaugh Maps
+
+*Karnaugh maps (K-maps)* are a graphical method for simplifying Boolean equations. K-maps work well for problems with up to four variables. Recall that logic minimization involves combining terms. Two terms containing an implicant, $P$, and the true and complementary forms of some variable $A$ are combined to eliminate $A$: $PA + P\bar{A} = P$. Karnaugh maps make these combinable terms easy to see by putting them next to each other in a grid.
+
+An example for a three-input function is shown. The top row of the K-map gives the four possible values for the $A$ and $B$ inputs. The left column gives the two possible values for the $C$ input. Each square in the K-map corresponds to a row in the truth table and contains the value of the output, $Y$, for that row. For example, the top left square corresponds to the first row in the truth table and indicates that the output value $Y = 1$ when $ABC = 000$. Just like each row in a truth table, each square in a K-map represents a single minterm, as seen in c).
+
+Each square, or minterm, differs from an adjacent square by a change in a single variable. This means that adjacent squares share all the same literals except one, which appears in true form in one square and in complementary form in the other.
+
+The $A$ and $B$ combinations in the top row are in Gray code order. More about Gray codes here: [Hamiltonian Cycle in a Hypercube: Gray-Code](Graphs%20(TODO)%20b149fa35dff041fb8a659592d3f9c6bd/Hamiltonian%20Cycle%20in%20a%20Hypercube%20Gray-Code%201e5ecb970a794ec7baa9a405b7023363.md). Gray code order differs from ordinary binary order in that adjacent entries differ only in a single variable. Hence, writing the combinations in binary order would not have produced our desired property of adjacent squares differing only in one variable.
+
+The K-map also “wraps around”. The squares on the far right are effectively adjacent to the squares on the far left, in that they differ only in one variable. Same holds for top and bottom.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2018.png)
+
+## Circular Thinking
+
+In the above K-map, only two minterms are present in the equation as indicated by the 1’s in the left column. Reading the minterms from the K-map is exactly equivalent to reading equations in sum-of-products from directly from the truth table.
+
+K-maps help us simplify Boolean equations in sum-of-products form. Let $Y = \bar{A}\bar{B}\bar{C} + \bar{A}\bar{B}C = \bar{A}\bar{B}(\bar{C}+C) = \bar{A}\bar{B}$. By *circling* 1’s in the adjacent squares, as shown, we can identify minterms that can be simplified. For each circle, we write the corresponding implicant. Variables whose true *and* complementary forms are both in the circle are excluded from the implicant. In this case, the variable $C$ has both its true form and its complementary form in the circle, so we do not include it in the implicant. So the implicant is $\bar{A}\bar{B}$. This K-map gives the same answer we reached using Boolean algebra.
+
+## Logic Minimization with K-Maps
+
+K-maps provide an easy visual way to minimize logic. Simply circle all the rectangular blocks of 1’s in the map, using the fewest possible number of circles. Each circle should be as large as possible. Then read off the implicants that were circled. More formally, recall that a Boolean equation is minimized when it is written as a sum of the fewest number of prime implicants. Each circle on the K-map represents an implicant. The largest possible circles are prime implicants.
+
+For example, in the figure shown, $\bar{A}\bar{B}\bar{C}$ and $\bar{A}\bar{B}C$ are implicants, but *not* prime implicants. Only $\bar{A}\bar{B}$ us a prime implicant in that K-map. Rules for finding a minimized equation from a K-map are as follows:
+
+- use the fewest circles necessary to cover all the 1’s
+- all the squares in each circle must contain 1’s
+- each circle must span a rectangular block that is a power of 2 squares in each direction
+- each circle should be as large as possible
+- a circle may wrap around the edges of the K-map
+- a 1 in a K-map may be circled multiple times if doing so allows fewer circles to be used.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2019.png)
