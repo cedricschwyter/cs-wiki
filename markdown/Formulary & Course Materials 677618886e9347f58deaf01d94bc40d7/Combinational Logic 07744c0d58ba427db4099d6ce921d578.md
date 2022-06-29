@@ -235,3 +235,103 @@ For example, in the figure shown, $\bar{A}\bar{B}\bar{C}$ and $\bar{A}\bar{B}C$ 
 - a 1 in a K-map may be circled multiple times if doing so allows fewer circles to be used.
 
 ![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2019.png)
+
+## Don’t Cares
+
+Recall that “don’t care” entries for truth table inputs were introduced to reduce the number of rows in the table when some variables do not affect the output. They are indicated by the symbol X, which means that the entry can be either 0 or 1.
+
+Don’t cares also appear in truth table outputs where the output value is unimportant or the corresponding input combination can never happen, such outputs can be treated as either 0’s or 1’s at the designer’s discretion.
+
+In a K-map, X’s allow for even more logic minimization. They can be circled if they help cover the 1’s with fewer or larger circles, but they do not have to be circled if they are not helpful.
+
+## The Big Picture
+
+Boolean algebra and Karnaugh maps are two methods for logic simplification. Ultimately, the goal is to find a low-cost method of implementing a particular logic function.
+
+In modern engineering practice, computer programs called *logic synthesizers* produce simplified circuits from a description of the logic function. For large problems, logic synthesizers are much more efficient than humans. For small problems, a human with a bit of experience can find a good solution by inspection.
+
+# Combinational Building Blocks
+
+Combinational logic is often grouped into larger building blocks to build more complex systems. This is an application of the principle of abstraction, hiding the unnecessary gate-level details to emphasize the function of the building block.
+
+## Multiplexers
+
+*Multiplexers* are among the most commonly used combinational circuits. They choose an output from among several possible inputs based on the value of a *select* signal. A multiplexer is sometimes affectionately called a *mux*.
+
+### 2:1 Multiplexer
+
+A schematic and truth table for a 2:1 multiplexer with two data inputs, $D_0$ and $D_1$, a select input, $S$, and one output, $Y$, is shown. The multiplexer chooses between the two data inputs based on the select: if $S = 0$, $Y = D_0$ and if $S = 1$, $Y = D_1$. $S$ is also called a *control signal* because it controls what the multiplexer does.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2020.png)
+
+A 2:1 multiplexer can be built from sum-of-products logic as shown. The Boolean equation for the multiplexer may be derived with a Karnaugh map or read off by inspection.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2021.png)
+
+Alternatively, multiplexers can be built from tristate buffers, as shown. The tristate enables are arranged such that, at all times, exactly one tristate buffer is active.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2022.png)
+
+### Wider Multiplexers
+
+A 4:1 multiplexer has four data inputs and one output, as shown. Two select signals are needed to choose among the four data inputs. The 4:1 multiplexer can be built using sum-of-products logic, tristates, or multiple 2:1 multiplexers, as shown.
+
+The product terms enabling the tristates can be formed using $\text{AND}$ gates and inverters. They can also be formed using a decoder, which will be introduced later.
+
+Wider multiplexers, such as 8:1 and 16:1 multiplexers, can be built by expanding the methods shown on the right. In general, an $N$:1 multiplexer needs $\log_2N$ select lines. Again, the best implementation choice depends on the target technology.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2023.png)
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2024.png)
+
+### Multiplexer Logic
+
+Multiplexers can be used as *lookup tables* to perform logic functions. We show a 4:1 multiplexer used to implement a two-input $\text{AND}$ gate. The inputs, $A$ and $B$, serve as select lines. The multiplexer data inputs are connected to 0 or 1 according to the corresponding row of the truth table. In general, a $2^N$-input multiplexer can be programmed to perform any $N$-input logic function by applying 0’s and 1’s to the appropriate data inputs. Indeed, by changing the data inputs, the multiplexer can be reprogrammed to perform a different function.
+
+With a little cleverness, we can cut the multiplexer size in half, using only a $2^{N-1}$ input multiplexer to perform any $N$-input logic function.The strategy is to provide one of the literals, as well as 0’s, and 1’s, to the multiplexer data inputs.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2025.png)
+
+To illustrate, we show two-input $\text{AND}$ and $\text{XOR}$ functions implemented with 2:1 multiplexers.  We start with an ordinary truth table, and then combine pairs of rows to eliminate the rightmost input variable by expressing the output in terms of this variable. We then use the multiplexer as a lookup table according to the new, smaller truth table.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2026.png)
+
+## Decoders
+
+A decoder has $N$ inputs and $2^N$ outputs. It asserts exactly one of its outputs depending on the input combination. We show a 2:4 decoder. The outputs are called *one-hot,* because exactly one is “hot” (HIGH) at a given time.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2027.png)
+
+### Decoder Logic
+
+Decoders can be combined with $\text{OR}$ gates to build logic functions. We show the two-input $\text{XNOR}$ function using a 2:4 decoder and a single $\text{OR}$ gate. Because each output of a decoder represents a single minterm, the function is built as the $\text{OR}$ of all the minterms in the function. In the example, $Y = \bar{A}\bar{B} + AB = \overline{A \oplus B}$.
+
+When using decoders to build logic, it is easiest to express functions as a truth table or in canonical sum-of-products from. An $N$-input function with $M$ 1’s in the truth table can be built with an $N$:$2^N$ decoder and an $M$-input $\text{OR}$ gate attached to all of the minterms containing 1’s in the truth table. This concept will later be applied to the buildig of Read Only Memories (ROMs).
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2028.png)
+
+# Timing
+
+One of the most challenging issues in circuit design is *timing*; making a circuit run fast*.*
+
+An output takes time to change in response to an input change. We show the *delay* between an input change and the subsequent output change for a buffer. The figure is called a *timing diagram*; it portrays the *transient response* of the buffer circuit when an input changes. The transition from LOW to HIGH is called the *rising edge*. Similarly, the transition from HIGH to LOW is called the *falling edge*. The blue arrow indicates that the rising edge of $Y$ is caused by the rising edge of $A$. We measure delay from the *50% point* of the input signal, $A$, to the 50% point of the output signal, $Y$. The 50% point is the point at which the signal is half-way between its LOW and HIGH values as it transitions.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2029.png)
+
+## Propagation and Contamination Delay
+
+Combinational logic is characterized by its *propagation delay* and *contamination delay*. The propagation delay, $t_{pd}$, is the maximum time from when an input changes until the output or outputs reach their final value. The contamination delay, $t_{cd}$, is the minimum time from when an input changes until any output starts to change its value.
+
+We illustrate a buffer’s propagation delay and contamination delay in blue and gray, respectively. The figure shows that $A$ is initially either HIGH or LOW and changes to the other state at a particular time; we are interested only in the fact that it changes, not what value it has. In response, $Y$ changes some time later. The arcs indicate that $Y$ may start to change $t_{cd}$ after $A$ transitions and that $Y$ definitely settles to its new value within $t_{pd}$.
+
+The underlying causes of delay in circuits include the time required to charge the capacitance in a circuit and the speed of light. $t_{pd}$ and $t_{cd}$ may be different for many reasons, including
+
+- different rising and falling delays
+- multiple inputs and outputs, some of which are faster than others
+- circuits slowing down when hot and speeding up when cold.
+
+Calculating $t_{pd}$ and $t_{cd}$ requires delving into the lower levels of abstraction. However, manufacturers normally supply data sheets specifying these delays for each gate.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2030.png)
+
+Along with the factors already listed, propagation and contamination delays are also determined by the *path* a signal takes from input to output. We show a four-input logic circuit. The *critical path*, shown in blue, is the path from input
