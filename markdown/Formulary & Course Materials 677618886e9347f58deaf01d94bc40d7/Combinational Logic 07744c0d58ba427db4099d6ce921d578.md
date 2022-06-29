@@ -173,8 +173,6 @@ An example is shown.
 
 # X’s and Z’s
 
-[https://www.notion.so](https://www.notion.so)
-
 Boolean algebra is limited to 0’s and 1’s. However, real circuits can also have illegal and floating values, represented symbolically by X and Z.
 
 ## Illegal Value: X
