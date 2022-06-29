@@ -1,3 +1,3 @@
-# Formuary for the exam
+# Formulary for the exam
 
 Media: Formelsammlung.pdf

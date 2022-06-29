@@ -1,6 +1,6 @@
 # Formulary & Course Materials
 
-This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net). Insight into version history can be obtained from the downstream-only [GitHub repository](https://github.com/D3PSI/cs-wiki). Changes, comments and feedback may be emailed to [cschwyter@ethz.ch](mailto:cschwyter@ethz.ch).
+This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net). Insight into version history can be obtained from the downstream-only [GitHub repository](https://github.com/D3PSI/cs-wiki). Changes, comments and feedback may be emailed to [cschwyter@ethz.ch](mailto:cschwyter@ethz.ch). Not all content on here is original, some content belongs to the respective content owners/copyright holders as listed in the ‘Resources and Materials’-sections of the respective subject.
 
 ## Discrete Mathematics - 252-0025-01L - HS21
 
