@@ -291,4 +291,42 @@ A two-input $\text{NAND}$ gate is displayed. In schematic diagrams, wires are al
 
 The figure shows a general form to construct any inverting logic gate, such as $\text{NOT}$, $\text{NAND}$ or $\text{NOR}$. nMOS transistors are good at passing 0’s, so a pull-down network of nMOS transistors is places between the output and GND to pull the output down to 0. pMOS transistors are good at passing 1’s, so a pull-up network of pMOS transistors is placed between the output and $V_{DD}$ to pull the output up to 1. The networks may consist of transistors in series or in parallel. When transistors are in parallel, the network is ON if either transistor is ON. When transistors are in series, the network is ON only if both transistors are ON. The slash across the input wire indicates that the gate may receive multiple inputs.
 
+If both the pull-up and pull-down networks were ON simultaneously, a *short circuit* would exists between $V_{DD}$ and GND. The output of the gate might be in the forbidden zone and the transistors would consume large amounts of power, possibly enough to burn out. On the other hand, if both the pull-up and pull-down networks were OFF simultaneously, the output would be connected to neither $V_{DD}$ nor GND. We say that the output *floats*. Its value is again undefined. Floating outputs are usually undesirable, but in some cases they can be used to the designer’s advantage.
+
 ![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2024.png)
+
+In a properly functioning logic gate, one of the networks should be ON and the other OFF at any given time, so that the output is pulled HIGH or LOW but never shorted or floating. We can guarantee this by using the rule of *conduction complements*. When nMOS transistors are in series, the pMOS transistors must be in parallel. When nMOS transistors are in parallel, the pMOS transistors must be in series.
+
+## Transmission Gates
+
+Recall that nMOS transistors are good at passing 0 and pMOS transistors are good at passing 1, so the parallel combination of the two passes both values well. This is what’s called a *transmission gate* or *pass gate*. The control signals are called *enables*, $\text{EN}$ and $\overline{\text{EN}}$. 
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2025.png)
+
+## Pseudo-nMOS Logic
+
+An $N$-input CMOS $\text{NOR}$ gate uses $N$ nMOS transistors in parallel and $N$ pMOS transistors in series. Transistors in series are slower than transistors in parallel, just as resistors in series have more resistance than resistors in parallel. Moreover, pMOS transistors are slower than nMOS transistors because holes cannot move around the silicon lattice as fast as electrons. Therefore the parallel nMOS transistors are fast and the series pMOS transistors are slow.
+
+Pseudo-nMOS logic replaces the slow stack of pMOS transistors with a single weak pMOS transistor that is always ON, as shown. This pMOS transistor is often called a *weak pull-up*. The physical dimensions of the pMOS transistor are selected so that the pMOS transistor will pull the output, $Y$, HIGH weakly - that is, only if none of the nMOS transistors are ON. But if any nMOS transistor is ON, it overpowers the weak pull-up and pulls $Y$ down close enough to GND to produce a logic 0.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2026.png)
+
+The advantage of pseudo-nMOS logic is that it can be used to build fast $\text{NOR}$ gates with many inputs. For example, as shown, a pseudo-nMOS four-input $\text{NOR}$ gate. Pseudo-nMOS gates are useful for certain memory and logic arrays discussed later. The disadvantage is that a short circuit exists between $V_{DD}$ and GND when the output is LOW; the weak pMOS and nMOS transistors are both ON. The short circuit draws continuous power, so pseudo-nMOS logic must be used sparingly.
+
+![Untitled](Introduction%201ba015f9cd614446bdb4213e70a154d9/Untitled%2027.png)
+
+## Power Consumption
+
+*Power consumption* is the amount of energy used per unit time. Digital systems draw both *dynamic* and *static* power. Dynamic power is the power used to charge capacitance as signals change between 0 and 1. Static power is the power used even when signals do not change and the system is idle.
+
+Logic gates and the wires that connect them have capacitance. The energy drawn from the power supply to charge a capacitance $C$ to voltage $V_{DD}$ is $CV_{DD}^2$. If the voltage on the capacitor switches at frequency $f$, it charges the capacitor $\frac{f}{2}$ times and discharges it $\frac{f}{2}$ times per second. Discharging does not draw energy from the power supply, so the dynamic power consumption is 
+
+$$
+P_{\text{dynamic}} = \frac{1}{2} CV_{DD}^2f.
+$$
+
+Electrical systems draw some current even when they are idle. When transistors are OFF, they leak a small amount of current. Some circuits, such as the pseudo-nMOS gate, have a path from $V_{DD}$ to GND through which current flows continuously. The total static current, $I_{DD}$, is also called the *leakage current* or the *quiescent supply current* flowing between $V_{DD}$ and GND. The static power consumption is proportional to this static current: 
+
+$$
+P_{\text{static}} = I_{DD}V_{DD}.
+$$

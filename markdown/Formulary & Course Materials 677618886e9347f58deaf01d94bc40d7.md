@@ -98,6 +98,20 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Introduction](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Introduction%201ba015f9cd614446bdb4213e70a154d9.md)
 
+[Combinational Logic](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578.md)
+
+[Sequential Logic](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequential%20Logic%2042c224c8465c4576ac93922cb2672120.md)
+
+[Hardware Description Languages](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae.md)
+
+[Digital Building Blocks](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d.md)
+
+[Architecture](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Architecture%20e7b6c5364ca640708d9efe9eca1ba07e.md)
+
+[Microarchitecture](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8.md)
+
+[Memory Systems](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Memory%20Systems%20f4d8ed2c175644e8919b090d6392f985.md)
+
 ## Parallel Programming - **252-0029-00L - FS22**
 
 ---
