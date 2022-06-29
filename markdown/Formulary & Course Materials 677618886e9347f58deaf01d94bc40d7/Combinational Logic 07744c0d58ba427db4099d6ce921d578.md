@@ -136,3 +136,15 @@ Any Boolean equation in sum-of-products form can be drawn as a schematic in a sy
 By taking advantage of inverting gates, sometimes the number of gates can be reduced even further. Depending on the implementation technology, it may be cheaper to use the fewest gates or to use certain types of gates in preference to others. For example, $\text{NAND}$s and $\text{NOR}$s are preferred over $\text{AND}$s and $\text{OR}$s in CMOS implementations.
 
 ![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%208.png)
+
+# Multilevel Combinational Logic
+
+Logic in sum-of-products form is called *two-level logic* because it consists of literals connected to a level of $\text{AND}$ gates connected to a level of $\text{OR}$ gates. Oftentimes, we build circuits with more than two levels of logic gates. These multilevel combinational circuits may use less hardware than their two-level counterparts. Bubble pushing is especially helpful in analyzing and designing multilevel circuits.
+
+## Hardware Reduction
+
+Some logic functions require an enormous amount of hardware when built using two-level logic. A notable example is the $\text{XOR}$ function of multiple variables.
+
+An eight input $\text{XOR}$ would require 128 eight-input $\text{AND}$ and one 128-input $\text{OR}$ gate fir a 
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%209.png)
