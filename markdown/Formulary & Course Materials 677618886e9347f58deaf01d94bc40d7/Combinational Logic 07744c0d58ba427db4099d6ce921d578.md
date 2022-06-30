@@ -371,3 +371,33 @@ $$
 ![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2038.png)
 
 ## Glitches
+
+It is possible that a single input transition can cause *multiple* output transitions. These are called *glitches* or *hazards*. Although they don’t usually cause problems, it is important to realize that they exist and recognize them when looking at a timing diagram.
+
+The figure shows a circuit with a glitch and the K-map of the circuit. The Boolean equation is correctly minimized, but let’s look at what happens when $A = 0$, $C = 1$ and $B$ transitions from 1 to 0.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2039.png)
+
+This scenario is illustrated here. The short path, in gray, goes through two gates, the $\text{AND}$ and $\text{OR}$ gates. The critical path, in blue, goes through an inverter and two gates, the $\text{AND}$ and $\text{OR}$ gates. As $B$ transitions from 1 to 0, n2 (on the short path) falls before n1 (on the critical path) can rise. Until n1 rises, the two inputs to the $\text{OR}$ gate are 0, and the output $Y$ drops to 0. When n1 eventually rises, $Y$ returns to 1. As shown in the timing diagram of the figure, $Y$ starts at 1 and ends at 1 but momentarily glitches to 0.
+
+As long as we wait for the propagation delay to elapse before we depend on the output, glitches are not a problem, because the output eventually settles to the right answer.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2040.png)
+
+If we choose to, we can avoid this glitch by adding another gate to the implementation. This is easiest to understand in terms of the K-map. The figure shows how an input transition on $B$ from $ABC=001$ to $ABC=011$ moves from one prime implicant circle to another. The transition across the boundary of two prime implicants in the K-map indicates a possible glitch. 
+
+As we saw from the timing diagram, if the circuitry implementing one of the prime implicants turns *off* before the circuitry of the other prime implicant can turn *on*, there is a glitch.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2041.png)
+
+To fix this, we add another circle that *covers* that prime implicant boundary, as shown. We have used the consensus theorem, where the added term, $\bar{A}\bar{C}$, is the consensus or redundant term.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2042.png)
+
+The glitch-proof circuit now looks as shown. The added $\text{AND}$ gate is highlighted in blue. Now a transition on $B$ when $A = 0$ and $C = 1$ does not cause a glitch on the output, because the blue $\text{AND}$ gate outputs 1 throughout the transition.
+
+![Untitled](Combinational%20Logic%2007744c0d58ba427db4099d6ce921d578/Untitled%2043.png)
+
+In general, a glitch can occur when a change in a single variable crosses the boundary between two prime implicants in a K-map. We can eliminate the glitch by adding redundant implicants to the K-map to cover these boundaries. This of course comes at the cost of extra hardware.
+
+However, simultaneous transitions on multiple variables can also cause glitches. These glitches cannot be fixed by adding hardware. Because the vast majority of interesting systems have simultaneous (or near-simultaneous) transitions on multiple variables, glitches are a fact of life in most circuits. Although we have shown how to eliminate one kind of glitch, the point of discussing glitches is not to eliminate them but to be aware that they exist. This is especially important when looking at timing diagrams on a simulator or oscilloscope.
