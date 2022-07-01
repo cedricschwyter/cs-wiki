@@ -102,7 +102,7 @@ Verilog is case-sensitive. `y1` and `Y1` are different signals in Verilog.
 
 Reduction operators imply a multiple-input gate acting on a single bus. The example describes an eight-input $\text{AND}$ gate with inputs `a_7, a_6,...,a_0`. 
 
-As one would expect
+As one would expect, `|`, `^`, `~&`, and `~|` reduction operators are available for $\text{OR}$, $\text{XOR}$, $\text{NAND}$, and $\text{NOR}$ as well. Recall that a multi-input $\text{XOR}$ performs parity, returning TRUE if an odd number of inputs are TRUE.
 
 ```verilog
 module and8 (input  [7:0] a,
@@ -113,6 +113,26 @@ module and8 (input  [7:0] a,
 	//            a[3] & a[2] & a[1] & a[0];
 endmodule
 ```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%204.png)
+
+## Conditional Assignment
+
+*Conditional assignments* select the output from among alternatives based on an input called the *condition*. The example illustrates a 2:1 multiplexer using conditional assignment.
+
+The *conditional operator* `?:` chooses, based on a first expression, between a second and third expression. The first expression is called the *condition*. If the condition is 1, the operator chooses the second expression. If the condition is 0, the operator chooses the third expression.
+
+`?:` is especially useful for describing a multiplexer because, based on the first input, it selects between two others. The example code demonstrates the idiom for a 2:1 multiplexer with 4-bit inputs and outputs using the conditional operator.
+
+```verilog
+module mux2 (input  [3:0] d0, d1,
+						 input        s,
+						 output [3:0] y);
+	assign y = s ? d1 : d0;
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%205.png)
 
 # Structural Modeling
 
