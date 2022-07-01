@@ -134,6 +134,87 @@ endmodule
 
 ![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%205.png)
 
+This example shows a 4:1 multiplexer based on the same principle as the 2:1 multiplexer in the previous example. 
+
+The synthesized circuit’s multiplexer in the schematic has multiple data and one-hot enable inputs. When one of the enables is asserted, the associated data is passed to the output.
+
+if `s[1]` is 1, then the multiplexer chooses the first expression, `(s[0] ? d3 : d2)`. This expression in turn chooses either `d3` or `d2` based on `s[0]` (`y = d3` if `s[0]` is 1 and `d2` if `s[0]` is 0). If `s[1]` is 0, then the multiplexer similarly chooses the second expression, which gives either `d1` or `d0` based on `s[0]`.
+
+```verilog
+module mux4 (input  [3:0] d0, d1, d2, d3,
+						 input  [1:0] s,
+						 output [3:0] y);
+	assign y = s[1] ? (s[0] ? d3 : d2)
+									: (s[0] ? d1 : d0);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%206.png)
+
+## Internal Variables
+
+Often it is convenient to break a complex function into intermediate steps. 
+
+A full adder for example is a circuit with three inputs and two outputs defined by the following equations: 
+
+$$
+\begin{align*}
+S & = A \oplus B \oplus C_{\text{ín}} \\
+C_{\text{out}} & = AB + AC_{\text{in}} + BC_{\text{in}}
+\end{align*}
+$$
+
+If we define intermediate signals, $P$ and $G$,
+
+$$
+\begin{align*}
+P &= A \oplus B \\
+G &= AB
+\end{align*}
+$$
+
+we can rewrite the full adder as follows: 
+
+$$
+\begin{align*}
+S &= P \oplus C_{\text{in}} \\
+C_{\text{out}} &= G + PC_{\text{in}}
+\end{align*}
+$$
+
+$P$ and $G$ are called *internal variables*, because they are neither inputs nor outputs but are used only internal to the module. The example shows how they are used in HDLs.
+
+HDL assignment statements take place concurrently. In an HDL, the order does not matter. Like hardware, HDL assignment statements are evaluated any time the inputs, signals on the right hand side, change their value, regardless of the order in which the assignment statements appear in a module.
+
+In Verilog, *wires* are used to represent internal variables whose values are defined by `assign` statements such as `assign p = a ^ b;` Wires technically have to be declared only for multibit busses, but it is good practice to include them for all internal variables; their declaration could have been omitted in this example.
+
+```verilog
+module fulladder (input  a, b, cin,
+									output s, cout);
+	wire p, g;
+	assign p  a  b;
+	assign g  a & b;
+	assign s  p  cin;
+	assign cout  g | (p & cin);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%207.png)
+
+## Precedence
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%208.png)
+
+## Numbers
+
+Numbers can be specified in a variety of bases. Underscores in numbers are ignored and can be helpful in breaking long numbers into more readable chunks.
+
+Verilog numbers can specify their base and size (the number of bits used to represent them). The format for declaring constants is `N'Bvalue`, where `N` is the size in bits, `B` is the base, and `value` gives the value. For example `9'h25` indicates a 9-bit number with a value of $25_{16} = 37_{10} = 000100101_2$. Verilog supports `'b` for binary, `'o` for octal, `'d` for decimal and `'h` for hexadecimal. If the base is omitted, the base defaults to decimal.
+
+If the size is not given, the number is assumed to have as many bits as the expression in which it is being used. Zeros are automatically padded on the front of the number to bring it up to full size. For example, if `w` is a 6-bit bus, `assign w = 'b11` gives `w` the value 000011. It is better practice to explicitly give the size.
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%209.png)
+
 # Structural Modeling
 
 # Sequential Logic
