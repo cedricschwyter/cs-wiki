@@ -398,7 +398,62 @@ endmodule
 
 ## Enabled Registers
 
-Enabled registers respond to the clock only when the enable is asserted. The example shows an asynchronously resettable enabled reg
+Enabled registers respond to the clock only when the enable is asserted. The example shows an asynchronously resettable enabled register that retains its old value if both `reset` and `en` are FALSE. 
+
+```verilog
+module flopenr (input            clk,
+								input            reset,
+								input            en,
+								input      [3:0] d,
+								output reg [3:0] q);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2018.png)
+
+## Multiple Registers
+
+A single `always` statement can be used to describe multiple pieces of hardware. For example, consider our synchronizer circuit from earlier, which made use of two back-to-back flip-flops, as shown.
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2019.png)
+
+The example describes the synchronizer. On the rising edge of `clk`, `d` is copied to `n1`. At the same time, `n1` is copied to `q`. 
+
+`n1`must be declared as `reg` because it is an internal signal used on the left hand side of `<=` in an `always` statement. Also notice that the `begin/end` construct is necessary because multiple statements appear in the `always` statement. This is analogous to `{ }` in C or Java. The `begin/end` was not needed in the `flopr` example because `if/else` counts as a single statement.
+
+```verilog
+module sync (input clk,
+						 input d,
+						 output reg q);
+	reg n1;
+	always @ (posedge clk)
+		begin
+			n1 <= d;
+			q <= n1;
+		end
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2020.png)
+
+## Latches
+
+Recall from earlier that a D latch is transparent when the clock is HIGH, allowing data to flow from input to output. The latch becomes opaque when the clock is LOW, retaining its old state. The example shows the idiom for a D latch. Not all synthesis tools support latches well. Unless you know that your tool does support latches and you have a good reason to use them, avoid them and use edge-triggered flip-flops instead. Furthermore, take care that your HDL does not imply any unintended latches, something that is easy to do if you aren’t attentive. Many synthesis tools warn you when a latch is created; if you didn’t expect one, track down the bug in your HDL.
+
+The sensitivity list contains both `clk` and `d`, so that the `always` statement evaluates any time `clk` or `d` changes. If `clk` is HIGH, `d` flows through to `q`.
+
+`q` must be declared to be a `reg` because it appears on the left hand side of `<=` in an `always` statement. This does not always mean that `q` is the output of a register.
+
+```verilog
+module latch (input            clk,
+							input      [3:0] d,
+							output reg [3:0] q);
+	always @ (clk, d)
+		if (clk) q  d;
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2021.png)
 
 # More Combinational Logic
 
