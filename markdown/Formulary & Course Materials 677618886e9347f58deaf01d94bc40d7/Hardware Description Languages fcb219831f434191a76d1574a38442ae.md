@@ -215,7 +215,122 @@ If the size is not given, the number is assumed to have as many bits as the expr
 
 ![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%209.png)
 
+## Z’s and X’s
+
+HDLs use `z` to indicate a floating value. `z` is particularly useful for describing a tristate buffer, whose output floats when the enable is 0. The example shows the idiom for a tristate buffer. If the buffer is enabled, the output is the same as the input. If the buffer is disabled, the output is assigned a floating value. 
+
+```verilog
+module tristate (input  [3:0] a,
+								 input        en,
+                 output [3:0] y),
+	assign y = en ? a : 4'bz;
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2010.png)
+
+Similarly, HDLs use `x` to indicate an invalid logic level. If a bus is simultaneously driven to 0 and 1 by two enabled tristate buffers (or other gates), the result is `x`, indicating contention. If all the tristate buffers driving a bus are simultaneously OFF, the bus will float, indicated by `z`. 
+
+At the start of simulation, state nodes such as flip-flop outputs are initialized to an unknown state. This is helpful to track errors caused by forgetting to reset a flip-flop before its output is used.
+
+If a gate receives a floating input, it may produce an `x` output when it can’t determine the correct output value. Similarly, if it receives an illegal or uninitialized input, it may produce an `x` output. The example shows how Verilog combines these different signal values in logic gates.
+
+Verilog signal values are `0`, `1`, `z` and `x`. Verilog constants starting with `z` or `x` are padded with leading `z`'s or `x`'s (instead of 0’s) to reach their full length when necessary.
+
+The table shows a truth table for an $\text{AND}$ gate using all four possible signal values. Note that the gate can sometimes determine the output despite some inputs being unknown. For example `0 & z` returns `0` because the output of an $\text{AND}$ gate is always 0 if either input is 0. Otherwise, floating or invalid inputs cause invalid outputs.
+
+Seeing `x` values in a simulation is almost always an indication of a bug or bad coding practice. In the synthesized circuit, this corresponds to a floating gate input, uninitialized state, or contention. The `x` may be interpreted randomly by the circuit as 0 or 1, leading to unpredictable behavior.
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2011.png)
+
+## Bit Swizzling
+
+Often it is necessary to operate on a subset of a bus or to concatenate (join together) signals to form busses. These operations are collectively known as *bit swizzling*. In the example, `y` is given the 9-bit value $c_2c_1d_0d_0d_0c_0101$ using bit swizzling operations.
+
+The `{}` operator is used to concatenate busses. `{3{d[0]}}` indicates three copies of `d[0]`.
+
+don’t confuse the 3-bit binary constant `3'b101` with a bus named `b`. Note that it was critical to specify the length of 3 bits in the constant; otherwise, it would have had an unknown number of leading zeros that might appear in the middle of `y`.
+
+if `y` were wider than 9 bits, zeros would be placed in the most significant bits.
+
+```verilog
+assign y = {c[2:1], {3{d[0]}}, c[0], 3'b101};
+```
+
+## Delays
+
+HDL statements may be associated with delays specified in arbitrary units. They are helpful during simulation to predict how fast a circuit will work (if one specify meaningful delays) and also for debugging purposes to understand cause and effect (deducing the source of a bad output is tricky if all signals change simultaneously in the simulation results). These delays are ignored during synthesis; the delay of a gate produced by the synthesizer depends on its $t_{pd}$ and $t_{cd}$ specifications, not on numbers in HDL code.
+
+The example adds delays to the original function from the first example, $Y = \bar{A}\bar{B}\bar{C}+A\bar{B}\bar{C}+A\bar{B}C$. It assumes that inverters have a delay of 1 ns, three-input $\text{AND}$ gates have a delay of 2 ns, and three-input $\text{OR}$ gates have a delay of 4 ns. The figure shows the simulation waveforms, with `y` lagging 7 ns after the inputs. Note that `y` is initially unknown at the beginning of a simulation.
+
+Verilog files can include a timescale directive that indicates the value of each time unit. The statement is of the form `'timescale unit/precision`. In this file, each unit is 1 ns, and the simulation has 1 ps precision. If no timescale directive is given in the file, a default unit and precision (usually 1 ns for both) is used. In Verilog, a `#` symbol is used to indicate the number of units of delay. It can be placed in `assign` statements, as well as non-blocking (`<=`) and blocking (`=`) assignments, which will be discussed.
+
+```verilog
+‘timescale 1ns/1ps
+
+module example (input  a, b, c,
+								output y);
+	wire ab, bb, cb, n1, n2, n3;
+	assign #1 {ab, bb, cb} = ~{a, b, c};
+	assign #2 n1 = ab & bb & cb;
+	assign #2 n2 = a  & bb & cb;
+	assign #2 n3 = a  & bb & c;
+	assign #4 y = n1 | n2 | n3;
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2012.png)
+
 # Structural Modeling
+
+The previous section discussed *behavioral* modeling, describing a module in terms of the relationships between inputs and outputs. This section examines *structural* modeling, describing a module in terms of how it is composed of simple modules.
+
+This example shows how to assemble a 4.1 multiplexer from three 2:1 multiplexers. Each copy of the 2:1 multiplexer is called an *instance*. Multiple instances of the same module are distinguished by distinct names, in this case `lowmux`, `highmux` and `finalmux`. This is an example of regularity, in which the 2:1 multiplexer is reused many times. 
+
+The `mux2` module must be defined elsewhere in the Verilog source.
+
+```verilog
+module mux4 (input  [3:0] d0, d1, d2, d3,
+						 input  [1:0] s,
+						 output [3:0] y);
+	wire [3:0] low, high,
+	mux2 lowmux (d0, d1, s[0], low);
+	mux2 highmux (d2, d3, s[0], high);
+	mux2 finalmux (low, high, s[1], y);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2013.png)
+
+This example uses structural modeling to construct a 2:1 multiplexer from a pair of tristate buffers.
+
+In Verilog, expressions such as `~s` are permitted in the port list for an instance. Arbitrarily complicated expressions are legal but discouraged because they make the code difficult to read.
+
+```verilog
+module mux2 (input  [3.0] d0, d1,
+						 input        s,
+						 output [3:0] y);
+	tristate t0 (d0, ~s, y);
+	tristate t1 (d1, s, y);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2014.png)
+
+This example shows how modules can access part of a bus. An 8-bit wide 2:1 multiplexer is built using two of the 4-bit 2:1 multiplexers already defined, operating on the low and high nibbles of the byte. 
+
+```verilog
+module mux2_8 (input  [7:0] d0, d1,
+							 input        s,
+							 output [7:0] y);
+	mux2 lsbmux (d0[3:0], d1[3:0], s, y[3:0]);
+	mux2 msbmux (d0[7:4], d1[7:4], s, y[7:4]);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2015.png)
+
+In general, complex systems are designed *hierarchically*. The overall system is described structurally by instantiating its major components. Each of these components is described structurally from its building blocks, and so forth recursively until the pieces are simple enough to describe behaviorally. It is good style to avoud (or at least to minimize) mixing structural and behavioral descriptions within a single module.
 
 # Sequential Logic
 
