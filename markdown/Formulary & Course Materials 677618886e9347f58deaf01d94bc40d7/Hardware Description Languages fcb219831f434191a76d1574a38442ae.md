@@ -334,6 +334,21 @@ In general, complex systems are designed *hierarchically*. The overall system is
 
 # Sequential Logic
 
+## Registers
+
+The vast majority of modern commercial systems are built with registers using positive edge-triggered D flip-flops. The example shows the idiom for such flip-flops.
+
+In Verilog `always` statements, signals keep their old value until an event in the sensitivity list takes place that explicitly causes them to change. Hence, such code, with appropriate sensitivity lists, can be used to describe sequential circuits with memory. For example, the flip-flop includes only `clk` in the sensitivity list. It remembers its old value of `q` until the next rising edge of the `clk`, even if `d` changes in the interim.
+
+```verilog
+module flop (input            clk,
+						 input      [3:0] d,
+						 output reg [3:0] q);
+	always @ (posedge clk)
+		q <= d;
+endmodule
+```
+
 # More Combinational Logic
 
 # Finite State Machines
