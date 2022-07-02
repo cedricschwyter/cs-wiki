@@ -398,6 +398,8 @@ endmodule
 
 ## Enabled Registers
 
+Enabled registers respond to the clock only when the enable is asserted. The example shows an asynchronously resettable enabled reg
+
 # More Combinational Logic
 
 # Finite State Machines
