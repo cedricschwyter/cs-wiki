@@ -813,6 +813,8 @@ endmodule
 
 ### Mealy FSM
 
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2029.png)
+
 ```verilog
 module patternMealy (input  clk,
 									   input  reset,
@@ -825,26 +827,249 @@ module patternMealy (input  clk,
 	parameter S3 = 2b11;
 	// state register
 	always @ (posedge clk, posedge reset)
-		if (reset) state  S0;
-		else state  nextstate;
+		if (reset) state <= S0;
+		else state <= nextstate;
 	// next state logic
 	always @ (*)
 		case (state)
-			S0: if (a) nextstate  S1;
-					else nextstate  S0;
-			S1: if (a) nextstate  S2;
-					else nextstate  S0;
-			S2: if (a) nextstate  S2;
-					else nextstate  S3;
-			S3: if (a) nextstate  S1;
-					else nextstate  S0;
-			default: nextstate  S0;
-endcase
-// output logic
-assign y  (a & state  S3);
+			S0: if (a) nextstate = S1;
+					else nextstate = S0;
+			S1: if (a) nextstate = S2;
+					else nextstate = S0;
+			S2: if (a) nextstate = S2;
+					else nextstate = S3;
+			S3: if (a) nextstate = S1;
+					else nextstate = S0;
+			default: nextstate = S0;
+		endcase
+	// output logic
+	assign y = (a & state == S3);
 endmodule
 ```
 
 # Parameterized Modules
 
+So far all of our modules have had fixed-width inputs and outputs. For example, we had to define separate modules for 4- and 8-bit wide 2:1 multiplexers. HDLs permit variable bit widths using parameterized modules.
+
+### Parameterized $N$-bit Multiplexers
+
+Verilog allows a `# (parameter ... )` statement before the inputs and outputs to define parameters. The `parameter` statement includes a default value (8) of the parameter, `width`. The number of bits in the inputs and outputs can depend on this parameter.
+
+```verilog
+module mux2
+	# (parameter width = 8)
+		(input  [width-1:0] d0, d1,
+		 input              s,
+		 output [width-1:0] y);
+		assign y  s ? d1 : d0;
+endmodule
+```
+
+The 8-bit 4:1 multiplexer instantiates three 2:1 multiplexers using their default widths. 
+
+```verilog
+module mux4_8 (input  [7:0] d0, d1, d2, d3,
+							 input  [1:0] s,
+							 output [7:0] y);
+	wire [7:0] low, hi;
+	mux2 lowmux (d0, d1, s[0], low);
+	mux2 himux (d2, d3, s[1], hi);
+	mux2 outmux (low, hi, s[1], y);
+endmodule
+```
+
+In contrast, a 12-bit 4:1 multiplexer, `mux4_12`, would need to override the default width using `#()` before the instance name, as shown below. 
+
+Do not confuse the use of the `#` sign indicating delays with the use of `#(...)` in defining and overriding parameters.
+
+This example declares a parameterized 2:1 multiplexer with a default width of 8, then uses it to create 8- and 12-bit 4:1 multiplexers.
+
+```verilog
+module mux4_12 (input  [11:0] d0, d1, d2, d3,
+								input  [1:0]  s,
+								output [11:0] y);
+	wire [11:0] low, hi;
+	mux2 #(12) lowmux(d0, d1, s[0], low);
+	mux2 #(12) himux(d2, d3, s[1], hi);
+	mux2 #(12) outmux(low, hi, s[1], y);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2030.png)
+
+### Parameterized $N$:$2^N$ Decoder
+
+`2**N` indicates $2^N$.
+
+This example shows a decoder, which is an even better application of parameterized modules. A large $N$:$2^N$ decoder is cumbersome to specify with `case` statements, but easy using parameterized code that simply sets the appropriate output bit to 1. Specifically, the decoder uses blocking assignments to set all the bits to 0, then changes the appropriate bit to 1.
+
+```verilog
+module decoder # (parameter N = 3)
+							   (input      [N-1:0]    a,
+									output reg [2**N-1:0] y);
+	always @ (*)
+		begin
+			y = 0;
+			y[a] = 1;
+		end
+endmodule
+```
+
+### Parameterized $N$-Input $\text{AND}$ Gate
+
+HDLs also provide `generate` statements to produce a variable amount of hardware depending on the value of a parameter. `generate` supports `for` loops and `if` statements to determine how many of what types of hardware to produce.
+
+The example uses `generate` statements to produce an $N$-input $\text{AND}$ function from a cascade of two-input $\text{AND}$ gates.
+
+Use `generate` statements with caution; it is easy to produce a large amount of hardware unintentionally.
+
+The `for` statement loops through `i = 1, 2, ..., width - 1` to produce many consecutive $\text{AND}$ gates. The `begin` in a `generate for` loop mmust be followed by a : and an arbitrary label (`forloop`, in this case).
+
+Of course, writing `assign y = &a` would be much easier.
+
+```verilog
+module andN
+	# (parameter width = 8)
+		(input [width-1:0] a,
+		 output           y);
+	genvar i;
+	wire [width-1:1] x;
+	generate
+		for (i=1; i<width; i=i+1) begin:forloop
+			if (i == 1)
+				assign x[1] = a[0] & a[1];
+			else
+				assign x[i] = a[i] & x[i-1];
+		end
+	endgenerate
+	assign y = x[width-1];
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2031.png)
+
 # Testbenches
+
+A *testbench* is an HDL module that is used to test another module, called the *device under test (DUT)*. The testbench contains statements to apply inputs to the DUT and, ideally, to check that the correct outputs are produced. The input and desired output patterns are called *test vectors*.
+
+Consider testing the `sillyfunction` module from the first example of this page that computes $Y = \bar{A}\bar{B}\bar{C}+A\bar{B}\bar{C}+A\bar{B}C$
+. This is a simple module, so we can perform exhaustive testing by applying all eight possible test vectors.
+
+The example demonstrates a simple testbench. It instantiates the DUT, then applies the inputs. Blocking assignments and delays are used to apply the inputs in the appropriate order. The user must view the results of the simulation and verify by inspection that the correct outputs are produced. Testbenches are simulates as every other HDL module. However, they are not synthesizable.
+
+The `initial` statement executes the statements in its body at the start of simulation. In this case, it first applies the input pattern 000 and waits for 10 time units. It then applies 001 and waits 10 more units, and so forth until all eight possible inputs have been applied. `initial` statements should be used only in testbenches for simulation, not in modules intended to be synthesized into actual hardware. Hardware has no way of magically executing a sequence of special steps when it is first turned on.
+
+Like signals in `always` statements, signals in `initial` statements must be declared to be `reg`.
+
+```verilog
+module testbench1 ();
+	reg a, b, c;
+	wire y;
+	// instantiate device under test
+	sillyfunction dut (a, b, c, y);
+	// apply inputs one at a time
+		initial begin
+		a = 0; b = 0; c = 0; #10;
+		c = 1; #10;
+		b = 1; c = 0; #10;
+		c = 1; #10;
+		a = 1; b = 0; c = 0; #10;
+		c = 1; #10;
+		b = 1; c = 0; #10;
+		c = 1; #10;
+	end
+endmodule
+```
+
+Checking for correct outputs is tedious and error-prone. Moreover, determining the correct outputs is much easier when the design is fresh in your mind; if you make minor changes and need to retest weeks later, determining the correct outputs becomes a hassle. A much better approach is to write a self-checking testbench, as shown in the example.
+
+This module checks `y` against expectations after each input test vector is applied. In Verilog, comparison using `==` or `!=` is effective between signals that do not take on the values of `x` and `z`. Testbenches use the `===` and `!==` operators for comparisons of equality and inequality, respectively, because these operators work correctly with operands that could be `x` or `z`. It uses the `$display` *system task* to print a message on the simulator console if an error occurs. `$display` is meaningful only in simulation, not synthesis.
+
+```verilog
+module testbench2 ();
+	reg a, b, c;
+	wire y;
+	// instantiate device under test
+	sillyfunction dut (a, b, c, y);
+	// apply inputs one at a time
+	// checking results
+	initial begin
+		a = 0; b = 0; c = 0; #10;
+		if (y !== 1) $display(“000 failed.”);
+		c = 1; #10;
+		if (y !== 0) $display(“001 failed.”);
+		b = 1; c = 0; #10;
+		if (y !== 0) $display(“010 failed.”);
+		c = 1; #10;
+		if (y !== 0) $display(“011 failed.”);
+		a = 1; b = 0; c = 0; #10;
+		if (y !== 1) $display(“100 failed.”);
+		c = 1; #10;
+		if (y !== 1) $display(“101 failed.”);
+		b = 1; c = 0; #10;
+		if (y !== 0) $display(“110 failed.”);
+		c = 1; #10;
+		if (y !== 0) $display(“111 failed.”);
+	end
+endmodule
+```
+
+Writing code for each test vector also becomes tedious, especially for modules that require a large number of vectors. An even better approach is to place the test vectors in a separate file. The testbench simply reads the test vectors from the file, applies the input test vector to the DUT, waits, checks that the output values from the DUT match the output vector, and repeats until reaching the end of the test vectors file. The example demonstrates such a testbench. The testbench generates a clock using an `always` statement with no stimulus list, so that it is continuously reevaluated. At the beginning of the simulation, it reads the test vectors from a text file and pulses `reset` for two cycles. `[example.tv](http://example.tv)` is a text file containing the inputs and expected output written in binary: 
+
+```verilog
+000_1
+001_0
+010_0
+011_0
+100_1
+101_1
+110_0
+111_0
+```
+
+```verilog
+module testbench3 ();
+	reg clk, reset;
+	reg a, b, c, yexpected;
+	wire y;
+	reg [31:0] vectornum, errors;
+	reg [3:0] testvectors [10000:0];
+	// instantiate device under test
+	sillyfunction dut (a, b, c, y);
+	// generate clock
+	always
+		begin
+			clk = 1; #5; clk = 0; #5;
+		end
+	// at start of test, load vectors
+	// and pulse reset
+	initial
+		begin
+			$readmemb (“example.tv”, testvectors);
+			vectornum = 0; errors = 0;
+			reset = 1; #27; reset = 0;
+		end
+	// apply test vectors on rising edge of clk
+	always @ (posedge clk)
+		begin
+			#1; {a, b, c, yexpected} =
+					 testvectors[vectornum];
+		end
+	// check results on falling edge of clk
+	always @ (negedge clk)
+		if (~reset) begin // skip during reset
+			if (y !== yexpected) begin
+				$display (“Error: inputs = %b”, {a, b, c});
+				$display (“ outputs = %b (%b expected)”,
+									y, yexpected);
+				errors = errors + 1;
+			end
+			vectornum = vectornum + 1;
+			if (testvectors[vectornum] === 4’bx) begin
+				$display (“%d tests completed with %d errors”,
+							vectornum, errors);
+$finish;
+end
+end
+endmodule
+```
