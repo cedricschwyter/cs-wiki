@@ -722,6 +722,129 @@ endmodule
 
 # Finite State Machines
 
+Recall that a finite state machine consists of a state register and two blocks of combinational logic to compute the next state and the output given the current state and the input. HDL descriptions of state machines are correspondingly divided into three parts to model the state register, the next state logic, and the output logic.
+
+The example describes the divide-by-3 FSM from earlier. It provides an asynchronous reset to initialize the FSM. The state register uses the ordinary idiom for flip-flops. The next state and output logic blocks are combinational.
+
+The `parameter` statement is used to define constants within a module. Naming the states with parameters is not required, but it makes changing state encodings much easier and makes the code more readable.
+
+Notice how a `case` statement is used to define the state transition table. Because the next state logic should be combinational, a `default` is necessary even though the state `2'b11` should never arise.
+
+The output, `y`, is 1 when the state is `S0`. The *equality comparison* `a == b` evaluates to 1 if `a` equals `b` and 0 otherwise. The *inequality comparison* `a != b` does the inverse, evaluating to 1 if `a` does not equal `b`.
+
+The synthesis tool used just produces a block diagram and state transition diagram for state machines; it does not show the logic gates or the inputs and outputs on the arcs and states. Therefore, be careful that you have specified the FSM correctly in your HDL code. The state transition diagram for the divide-by-3 FSM is analogous to the diagram we saw earlier. The double circle indicates that S0 is the reset state.
+
+If for some reason, we had wanted the output to be HIGH in states S= and S1, the output logic would be modified as follows:
+
+```verilog
+// output logic
+assign y = (state == S0 | state == S1);
+```
+
+```verilog
+module divideby3FSM (input  clk,
+										 input  reset,
+										 output y);
+	reg [1:0] state, nextstate;
+	parameter S0  2b00;
+	parameter S1  2b01;
+	parameter S2  2b10;
+	// state register
+	always @ (posedge clk, posedge reset)
+		if (reset) state <= S0;
+		else state <= nextstate;
+	// next state logic
+	always @ (*)
+		case (state)
+			S0: nextstate = S1;
+			S1: nextstate = S2;
+			S2: nextstate = S0;
+			default: nextstate = S0;
+		endcase
+	// output logic
+	assign y = (state == S0);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2027.png)
+
+The next two examples describe the snail pattern recognizer FSM from earlier. The code shows how to use `case` and `if` statements to handle next state and output logic that depend on the inputs as well as the current state. We show both Moore and Mealy modules. In the Moore machine, the output depends only on the current state, whereas in the Mealy machine, the output logic depends on both the current state and inputs.
+
+### Moore FSM
+
+Note how nonblocking assignments (`<=`) are used in the register to describe sequential logic, whereas blocking assignments (`=`) are used in the next state logic to describe combinational logic.
+
+```verilog
+module patternMoore (input  clk,
+										 input  reset,
+										 input  a,
+										 output y);
+	reg [2:0] state, nextstate;
+	parameter S0 = 3b000;
+	parameter S1 = 3b001;
+	parameter S2 = 3b010;
+	parameter S3 = 3b011;
+	parameter S4 = 3b100;
+	// state register
+	always @ (posedge clk, posedge reset)
+		if (reset) state <= S0;
+		else state <= nextstate;
+	// next state logic
+	always @ (*)
+		case (state)
+			S0: if (a) nextstate = S1;
+					else nextstate = S0;
+			S1: if (a) nextstate = S2;
+					else nextstate = S0;
+			S2: if (a) nextstate = S2;
+					else nextstate = S3;
+			S3: if (a) nextstate = S4;
+					else nextstate = S0;
+			S4: if (a) nextstate = S2;
+					else nextstate = S0;
+			default: nextstate = S0;
+		endcase
+	// output logic
+	assign y = (state == S4);
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2028.png)
+
+### Mealy FSM
+
+```verilog
+module patternMealy (input  clk,
+									   input  reset,
+										 input  a,
+										 output y);
+	reg [1:0] state, nextstate;
+	parameter S0 = 2b00;
+	parameter S1 = 2b01;
+	parameter S2 = 2b10;
+	parameter S3 = 2b11;
+	// state register
+	always @ (posedge clk, posedge reset)
+		if (reset) state  S0;
+		else state  nextstate;
+	// next state logic
+	always @ (*)
+		case (state)
+			S0: if (a) nextstate  S1;
+					else nextstate  S0;
+			S1: if (a) nextstate  S2;
+					else nextstate  S0;
+			S2: if (a) nextstate  S2;
+					else nextstate  S3;
+			S3: if (a) nextstate  S1;
+					else nextstate  S0;
+			default: nextstate  S0;
+endcase
+// output logic
+assign y  (a & state  S3);
+endmodule
+```
+
 # Parameterized Modules
 
 # Testbenches
