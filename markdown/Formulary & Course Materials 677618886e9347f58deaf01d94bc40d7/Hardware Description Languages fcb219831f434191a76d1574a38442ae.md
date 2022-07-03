@@ -406,6 +406,10 @@ module flopenr (input            clk,
 								input            en,
 								input      [3:0] d,
 								output reg [3:0] q);
+	// asynchronous reset
+	always @ (posedge clk, posedge reset)
+		if (reset) q <= 4’b0;
+		else if (en) q <= d;
 endmodule
 ```
 
@@ -449,7 +453,7 @@ module latch (input            clk,
 							input      [3:0] d,
 							output reg [3:0] q);
 	always @ (clk, d)
-		if (clk) q  d;
+		if (clk) q <= d;
 endmodule
 ```
 
@@ -489,10 +493,10 @@ module fulladder (input      a, b, cin,
 	reg p, g;
 	always @ (*)
 		begin
-			p  a  b; // blocking
-			g  a & b; // blocking
-			s  p  cin; // blocking
-			cout  g | (p & cin); // blocking
+			p = a ^ b; // blocking
+			g = a & b; // blocking
+			s = p ^ cin; // blocking
+			cout = g | (p & cin); // blocking
 		end
 endmodule
 ```
@@ -523,17 +527,17 @@ module sevenseg (input      [3:0] data,
 	always @ (*)
 		case (data)
 			// abc_defg
-			0: segments  7’b111_1110;
-			1: segments  7’b011_0000;
-			2: segments  7’b110_1101;
-			3: segments  7’b111_1001;
-			4: segments  7’b011_0011;
-			5: segments  7’b101_1011;
-			6: segments  7’b101_1111;
-			7: segments  7’b111_0000;
-			8: segments  7’b111_1111;
-			9: segments  7’b111_1011;
-			default: segments  7’b000_0000;
+			0: segments = 7’b111_1110;
+			1: segments = 7’b011_0000;
+			2: segments = 7’b110_1101;
+			3: segments = 7’b111_1001;
+			4: segments = 7’b011_0011;
+			5: segments = 7’b101_1011;
+			6: segments = 7’b101_1111;
+			7: segments = 7’b111_0000;
+			8: segments = 7’b111_1111;
+			9: segments = 7’b111_1011;
+			default: segments = 7’b000_0000;
 		endcase
 endmodule
 ```
@@ -549,14 +553,14 @@ module decoder3_8 (input      [2:0] a,
 									 output reg [7:0] y);
 	always @ (*)
 		case (a)
-			3’b000: y  8’b00000001;
-			3’b001: y  8’b00000010;
-			3’b010: y  8’b00000100;
-			3’b011: y  8’b00001000;
-			3’b100: y  8’b00010000;
-			3’b101: y  8’b00100000;
-			3’b110: y  8’b01000000;
-			3’b111: y  8’b10000000;
+			3’b000: y = 8’b00000001;
+			3’b001: y = 8’b00000010;
+			3’b010: y = 8’b00000100;
+			3’b011: y = 8’b00001000;
+			3’b100: y = 8’b00010000;
+			3’b101: y = 8’b00100000;
+			3’b110: y = 8’b01000000;
+			3’b111: y = 8’b10000000;
 		endcase
 endmodule
 ```
@@ -575,11 +579,11 @@ In Verilog, `if` statements must appear inside of `always` statements.
 module priority (input      [3:0] a,
 								 output reg [3:0] y);
 	always @ (*)
-		if (a[3]) y  4’b1000;
-		else if (a[2]) y  4’b0100;
-		else if (a[1]) y  4’b0010;
-		else if (a[0]) y  4’b0001;
-		else y  4’b0000;
+		if (a[3]) y = 4’b1000;
+		else if (a[2]) y = 4’b0100;
+		else if (a[1]) y = 4’b0010;
+		else if (a[0]) y = 4’b0001;
+		else y = 4’b0000;
 endmodule
 ```
 
@@ -594,11 +598,11 @@ module priority_casez(input      [3:0] a,
 											output reg [3:0] y);
 	always @ (*)
 		casez (a)
-			4’b1???: y  4’b1000;
-			4’b01??: y  4’b0100;
-			4’b001?: y  4’b0010;
-			4’b0001: y  4’b0001;
-			default: y  4’b0000;
+			4’b1???: y = 4’b1000;
+			4’b01??: y = 4’b0100;
+			4’b001?: y = 4’b0010;
+			4’b0001: y = 4’b0001;
+			default: y = 4’b0000;
 		endcase
 endmodule
 ```
@@ -609,11 +613,112 @@ endmodule
 
 The guidelines explaining when and how to use which type of assignment follow below. If these guidelines are not followed, it is possible to write code that appears to work in simulation but synthesizes to incorrect hardware.
 
+1. Use `always @ (posedge clk)` and nonblocking assignments to model synchronous sequential logic.
+    
+    ```verilog
+    always @ (posedge clk)
+    	begin
+    		nl <= d; // nonblocking
+    		q <= nl; // nonblocking
+    	end
+    ```
+    
+2. Use continuous assignments to model simple combinational logic. 
+    
+    ```verilog
+    assign y = s ? d1 : d0;
+    ```
+    
+3. Use `always @ (*)` and blocking assignments to model more complicated combinational logic where the `always` statement is helpful.
+    
+    ```verilog
+    always @ (*)
+    	begin
+    		p = a ^ b; // blocking
+    		g = a & b; // blocking
+    		s = p ^ cin;
+    		cout = g | (p & cin);
+    	end
+    ```
+    
+4. Do not make assignments to the same signal in more than one `always` statement or continuous assignment statement.
+
 ### Combinational Logic
 
 The full adder from above is correctly modeled using blocking assignments.
 
-Imagine that `a`, `b`, and `cin` are all initially 0. `p`, `g`, `s` and `cout` are thus 0 as well. At some time, `a` changes to 1, triggering the `always` statement. 
+Imagine that `a`, `b`, and `cin` are all initially 0. `p`, `g`, `s` and `cout` are thus 0 as well. At some time, `a` changes to 1, triggering the `always` statement. The four blocking assignments evaluate in the order shown here. Note that `p` and `g` get their new values before `s` and `cout` are computed because of the blocking assignments. This is important because we want to compute `s` and `cout` using the new values of `p` and `g`.
+
+1. `p` ← $1 \oplus 0 = 1$
+2. `g` ← $1 \bullet 0 = 0$
+3. `s` ← $1 \oplus 0 = 1$
+4. `cout` ← $0+1\bullet 0 = 0$
+
+In contrast, the example illustrates the use of nonblocking assignments.
+
+Because `p` and `g` appear on the left hand side of an assignment in an `always` statement, they must be declared to be `reg`.
+
+Now consider the same case of `a` rising from 0 to 1 while `b` and `cin` are 0. The four nonblocking assignments evaluate concurrently:
+
+`p` ← $1 \oplus 0 = 1$, `g` ← $1 \bullet 0 = 0$, `s` ← $0 \oplus 0 = 0$, `cout` ← $0 + 0\bullet 0 = 0$
+
+Observe that `s` is computed concurrently with `p` and hence uses the old value of `p`, not the new value. Therefore, `s` remains 0 rather than becoming 1. However, `p` does change from 0 to 1. This change triggers the `always` statement to evaluate a second time, as follows:
+
+`p` ← $1 \oplus 0 = 1$, `g` ← $1 \bullet 0 = 0$, `s` ← $1 \oplus 0 = 1$, `cout` ← $0 + 1\bullet 0 = 0$
+
+This time, `p` is already 1, so `s` correctly changes to 1. The nonblocking assignments eventually reach the right answer, but the `always` statement had to evaluate twice. This makes simulation slower, though it synthesizes to the same hardware.
+
+If the sensitivity list of the `always` statement in the example were written as `always @ (a, b, cin)` rather than `always @ (*)`, then the statement would not reevaluate when `p` or `g` changes. In the example, `s` would be incorrectly left at 0, not 1.
+
+Another drawback of nonblocking assignments in modeling combinational logic is that the HDL will produce the wrong result if you forget to include the intermediate variables in the sensitivity list.
+
+Worse yet, some synthesis tools will synthesize the correct hardware even when a faulty sensitivity list causes incorrect simulation. This leads to a mismatch between the simulation results and what the hardware actually does.
+
+```verilog
+// nonblocking assignments (not recommended)
+module fulladder (input      a, b, cin,
+									output reg s, cout);
+	reg p, g;
+	always @ (*)
+		begin
+			p <= a ^ b; // nonblocking
+			g <= a & b; // nonblocking
+			s <= p ^ cin;
+			cout <= g | (p & cin);
+		end
+endmodule
+```
+
+### Sequential Logic
+
+The synchronizer from the example earlier is correctly modeled using nonblocking assignments. On the rising edge of the clock, `d` is copied to `n1` at the same time that `n1` is copied to `q`, to the code properly describes two registers. For example, suppose initially that `d` = 0, `n1` = 1, and `q` = 0. On the rising edge of the clock, the following two assignments occur concurrently, so that after the clock edge, `n1` = 0 and `q` = 1.
+
+`n1` ← `d` = 0, `q` ← `n1` = 1
+
+The example tries to describe the same module using blocking assignments. On the rising edge of `clk`, `d` is copied to `n1`. Then this new value of `n1` is copied to `q`, resulting in `d` improperly appearing at both `n1` and `q`. The assignments occur one after the other so that after the clock edge, `q = n1` = 0. 
+
+1. `n1` ← `d` = 0
+2. `q` ← `n1` = 0
+
+Because `n1` is invisible to the outside world and does not influence the behavior of `q`, the synthesizer optimizes it away entirely, as shown in the figure.
+
+The moral of this illustration is to exclusively use nonblocking assignment in `always` statements when modeling sequential logic. With sufficient cleverness, such as reversing the orders of the assignments, you could make blocking assignments work correctly, but blocking assignments offer no advantages and only introduce the risk of unintended behavior. Certain sequential circuits will not work with blocking assignments no matter what the order.
+
+```verilog
+// Bad implementation using blocking assignments
+module syncbad (input clk,
+								input d,
+	output reg q);
+	reg n1;
+	always @ (posedge clk)
+		begin
+			n1 = d; // blocking
+			q = n1; // blocking
+		end
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2026.png)
 
 # Finite State Machines
 
