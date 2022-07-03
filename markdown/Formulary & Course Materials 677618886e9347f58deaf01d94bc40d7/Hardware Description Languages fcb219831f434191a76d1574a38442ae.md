@@ -1027,6 +1027,18 @@ Writing code for each test vector also becomes tedious, especially for modules t
 111_0
 ```
 
+`$readmmemb` reads a file of binary numbers into the `testvectors` array. `$readmemh` is similar but reads a file of hexadecimal numbers.
+
+The next block of code waits one time unit after the rising edge of the clock (to avoid any confusion if clock and data change simultaneously), then sets the three inputs and the expected output based on the four bits in the current test vector. The next block of code checks the output of the DUT at the negative edge of the clock, after the inputs have had time to propagate through the DUT to produce the output, `y`. The testbench compares the generated output, `y`, with the expected output, `yexpected`, and prints an error if they don’t match. `%b` and `%d` indicate to print the values in binary and decimal, respectively. `%h` prints a value in hexadecimal.
+
+This process repeats until there are no more valid test vectors in the `testvectors` array. `$finish` terminates the simulation.
+
+Not that even though the Verilog module supports up to 10’001 test vectors, it will terminate the simulation after executing the eight vectors in the file.
+
+New inputs are applied on the rising edge of the clock, and the output is checked on the falling edge of the clock. This clock (and `reset`) would also be provided to the DUT if sequential logic were being tested. Errors are reported as they occur. At the end of the simulation, the testbench prints the total number of test vectors applied and the number of errors detected.
+
+The testbench in this example is overkill for such a simple circuit. However, it can easily be modified to test more complex circuits by changing the `[example.tv](http://example.tv)` file, instantiating the new DUT, and changing a few lines of code to set the inputs and check the outputs.
+
 ```verilog
 module testbench3 ();
 	reg clk, reset;
@@ -1067,9 +1079,9 @@ module testbench3 ();
 			vectornum = vectornum + 1;
 			if (testvectors[vectornum] === 4’bx) begin
 				$display (“%d tests completed with %d errors”,
-							vectornum, errors);
-$finish;
-end
-end
+									vectornum, errors);
+				$finish;
+			end
+		end
 endmodule
 ```
