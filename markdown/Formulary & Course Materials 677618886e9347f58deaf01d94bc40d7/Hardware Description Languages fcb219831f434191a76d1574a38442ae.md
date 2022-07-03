@@ -477,7 +477,11 @@ HDLs support *blocking* and *nonblocking assignments* in an `always` statement. 
 
 The example defines a full adder using intermediate signals `p` and `g` to compute `s` and `cout`. It produces the same circuit from earlier, but uses `always` statements in place of assignment statements.
 
-In this case, an `@` (a,b,cin)
+In this case, an `@ (a, b, cin)` would have been equivalent to `@ (*)`. However, `@ (**)` is better because it avoids common mistakes of missing signals in the stimulus list.
+
+For reasons that will be discussed later, it is best to use blocking assignments for combinational logic. This example uses blocking assignments, first computing `p`, then `q`, then `s` and finally `cout`.
+
+Because `p` and `g` appear on the left hand side of an assignment in an `always` statement, they must be declared to be `reg`.
 
 ```verilog
 module fulladder (input      a, b, cin,
@@ -492,6 +496,124 @@ module fulladder (input      a, b, cin,
 		end
 endmodule
 ```
+
+These two examples are poor applications of `always` statements for modeling combinational logic because they require more lines than the equivalent approach with assignment statements from earlier. Moreover, they pose the risk of inadvertently implying sequential logic if the inputs are left out of the sensitivity list. However, `case` and `if` statements are convenient for modeling more complicated combinational logic. `case` and `if` statements must appear within `always` statements and are examined in the next sections.
+
+In a Verilog `always` statement, `=` indicates a blocking assignment and `<=` indicates a non-blocking assignment (also called a concurrent assignment).
+
+Do not confuse either type with continuous assignment using the `assign` statement. `assign` statements must be used outside `always` statements and are also evaluated concurrently.
+
+## Case Statements
+
+A better application of using the `always` statement for combinational logic is a seven-segment display decoder that takes advantage of the `case` statement that must appear inside an `always` statement.
+
+As one might have noticed, the design process for large blocks of combinational logic is tedious and prone to error. HDLs offer a great improvement, allowing you to specify the function at a higher level of abstraction, and then automatically synthesize the function into gates. The example uses `case` statements to describe a seven-segment display decoder based on its truth table. The `case` statement performs different actions depending on the value of its input. A `case` statement implies combinational logic if all possible input combinations are defined; otherwise it implies sequential logic, because the output will keep its old value in the undefined cases. The synthesizer used synthesizes the seven-segment display decoder into a *read-only memory (ROM)* containing the 7 outputs for each of the 16 possible inputs. ROMs are discussed further later.
+
+If the `default` clause were left out of the `case` statement, the decoder would have remembered its previous output anytime data were in the range of 10-15. This is strange behavior for hardware.
+
+The `case` statement checks the value of `data`. When `data` is 0, the statement performs the action after the colon, setting `segments` to 1111110. The `case` statement similarly checks other `data` values up to 9 (note the use of the default base, base 10).
+
+The `default` clause is a convenient way to define the output for all cases not explicitly listed, guaranteeing combinational logic.
+
+In Verilog, `case` statements must appear inside `always` statements.
+
+```verilog
+module sevenseg (input      [3:0] data,
+								 output reg [6:0] segments);
+	always @ (*)
+		case (data)
+			// abc_defg
+			0: segments  7’b111_1110;
+			1: segments  7’b011_0000;
+			2: segments  7’b110_1101;
+			3: segments  7’b111_1001;
+			4: segments  7’b011_0011;
+			5: segments  7’b101_1011;
+			6: segments  7’b101_1111;
+			7: segments  7’b111_0000;
+			8: segments  7’b111_1111;
+			9: segments  7’b111_1011;
+			default: segments  7’b000_0000;
+		endcase
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2022.png)
+
+Ordinary decoders are also commonly written with `case` statements. The example describes a 3:8 decoder. 
+
+No `default` statement is needed because all cases are covered.
+
+```verilog
+module decoder3_8 (input      [2:0] a,
+									 output reg [7:0] y);
+	always @ (*)
+		case (a)
+			3’b000: y  8’b00000001;
+			3’b001: y  8’b00000010;
+			3’b010: y  8’b00000100;
+			3’b011: y  8’b00001000;
+			3’b100: y  8’b00010000;
+			3’b101: y  8’b00100000;
+			3’b110: y  8’b01000000;
+			3’b111: y  8’b10000000;
+		endcase
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2023.png)
+
+## If Statements
+
+`always` statements may also contain `if` statements. The `if` statement may be followed by an `else` statement. If all possible input combinations are handled, the statement implies combinational logic; otherwise, it produces sequential logic.
+
+The example uses `if` statements to describe a priority circuit. Recall that an $N$-input priority circuit sets the output TRUE that corresponds to the most significant input that is true. 
+
+In Verilog, `if` statements must appear inside of `always` statements.
+
+```verilog
+module priority (input      [3:0] a,
+								 output reg [3:0] y);
+	always @ (*)
+		if (a[3]) y  4’b1000;
+		else if (a[2]) y  4’b0100;
+		else if (a[1]) y  4’b0010;
+		else if (a[0]) y  4’b0001;
+		else y  4’b0000;
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2024.png)
+
+## Verilog `casez`
+
+Verilog also provides the `casez` statement to describe truth tables with don’t cares (indicated with `?` in the `casez` statement). The example shows how to describe a priority circuit with `casez`. The synthesizer used synthesizes a slightly different circuit for this module, shown in the figure, than it did for the previous priority circuit. However, the circuits are logically equivalent.
+
+```verilog
+module priority_casez(input      [3:0] a,
+											output reg [3:0] y);
+	always @ (*)
+		casez (a)
+			4’b1???: y  4’b1000;
+			4’b01??: y  4’b0100;
+			4’b001?: y  4’b0010;
+			4’b0001: y  4’b0001;
+			default: y  4’b0000;
+		endcase
+endmodule
+```
+
+![Untitled](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae/Untitled%2025.png)
+
+## Blocking and Nonblocking Assignments
+
+The guidelines explaining when and how to use which type of assignment follow below. If these guidelines are not followed, it is possible to write code that appears to work in simulation but synthesizes to incorrect hardware.
+
+### Combinational Logic
+
+The full adder from above is correctly modeled using blocking assignments.
+
+Imagine that `a`, `b`, and `cin` are all initially 0. `p`, `g`, `s` and `cout` are thus 0 as well. At some time, `a` changes to 1, triggering the `always` statement. 
 
 # Finite State Machines
 
