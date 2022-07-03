@@ -457,6 +457,42 @@ endmodule
 
 # More Combinational Logic
 
+Earlier, we used assignment statements to describe combinational logic behaviorally. Verilog `always` statements are used to describe sequential circuits, because they remember the old state when no new state is prescribed. However, `always` statements can also be used to describe combinational logic behaviorally if the sensitivity list is written to respond to changes in all of the inputs and the body prescribes the output value for every possible input combination. The example uses `always` statements to describe a bank of four inverters.
+
+`alyways @ (*)` reevaluates statements inside the `always` statement anytime any of the signals on the right hand side of `<=` or `=` inside the `always` statement change. Thus, `@ (**)` is a safe way to model combinational logic. in this particular example, `@ (a)` would also have sufficed.
+
+The `=` in the `always` statement is called a *blocking assignment*, in contrast to the `<=` nonblocking assignment. In Verilog, it is good practice to use blocking assignments for combinational logic and nonbloocking assignments for sequential logic.
+
+Note that `y` must be declared as `reg` because it appears on the left hand side of a `<=` or `=` sign in an `always` statement. Nevertheless, `y` is the output of combinational logic, not a register.
+
+```verilog
+module inv (input      [3:0] a,
+						output reg [3:0] y);
+	always @ (*)
+		y = ~a;
+endmodule
+```
+
+HDLs support *blocking* and *nonblocking assignments* in an `always` statement. A group of blocking assignments are evaluated in the order in which they appear in the code, just as one would expect in a standard programming language. A group of nonblocking assignments are evaluated concurrently; all of the statements are evaluated before any of the signals on the left hand sides are updated.
+
+The example defines a full adder using intermediate signals `p` and `g` to compute `s` and `cout`. It produces the same circuit from earlier, but uses `always` statements in place of assignment statements.
+
+In this case, an `@` (a,b,cin)
+
+```verilog
+module fulladder (input      a, b, cin,
+									output reg s, cout);
+	reg p, g;
+	always @ (*)
+		begin
+			p  a  b; // blocking
+			g  a & b; // blocking
+			s  p  cin; // blocking
+			cout  g | (p & cin); // blocking
+		end
+endmodule
+```
+
 # Finite State Machines
 
 # Parameterized Modules
