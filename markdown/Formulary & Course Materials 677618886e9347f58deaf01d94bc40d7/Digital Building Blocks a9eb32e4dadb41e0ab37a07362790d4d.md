@@ -202,7 +202,83 @@ The figure shows the symbol for an $N$-bit ALU with $N$-bit inputs and outputs. 
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2014.png)
 
-The figure shows an implementation of the ALU. The ALU contains an $N$-bit adder and $N$ two-input $\text{AND}$ and $\text{OR}$ gates. It also contains an inverter and a multiplexer to optionally invert input $B$ when the $F_2$ control signal is asserted. A 4:1 multiplexer chooses the d
+The figure shows an implementation of the ALU. The ALU contains an $N$-bit adder and $N$ two-input $\text{AND}$ and $\text{OR}$ gates. It also contains an inverter and a multiplexer to optionally invert input $B$ when the $F_2$ control signal is asserted. A 4:1 multiplexer chooses the desired function based on the $F_{1:0}$ control signals. More specifically, the arithmetic and logical blocks in the ALU operate on $A$ and $BB$. $BB$ is either $B$ or $\bar{B}$, depending on $F_2$. If $F_{1:0}=00$, the output multiplexer chooses $A \text{ AND } B$. If $F_{1:0}=01$, the ALU computes $A \text{ OR } B$. If $F_{1:0}=10$, the ALU performs addition or subtraction. Note that $F_2$ is also the carry in to the adder. Also remember that $\bar{B} + 1 = -B$ in two’s complement arithmetic. If $F_2 = 0$, the ALU computes $A+B$. If $F_2=1$ the ALU computes $A + \bar{B} + 1 = A - B$.
+
+When $F_{2:0} = 111$, the ALU performs the *set if less than (SLT)* operation. When $A < B$, $Y = 1$. Otherwise, $Y = 0$. In other words, $Y$ is set to 1 if $A$ is less than $B$.
+
+SLT is performed by computing $S = A -B$. If $S$ is negative, $A < B$. The *zero extend unit* produces an $N$-bit output by concatenating its 1-bit input with 0’s in the most significant bits. The sign bit of $S$ is their input to the zero extend unit.
+
+Some ALUs produce extra outputs, called *flags*, that indicate information about the ALU output. For example, an *overflow flag* indicates that the result of the adder overflowed. A *zero flag* indicates that the ALU output is 0.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2015.png)
+
+## Shifters and Rotators
+
+*Shifters* and *rotators* move bits and multiply or divide by powers of 2. As the name implies, a shifter shifts a binary number left or right by a specified number of positions. There are several kinds of commonly used shifters:
+
+- Logical shifter - shifts the number to the left (LSL) or right (LSR) and fills empty spots with 0’s.
+    - Ex: 11001 LSR 2 = 00110; 11001 LSL 2 = 00100
+- Arithmetic shifter - is the same as a logical shifter, but on right shifts fills the most significant bits with a copy of the old most significant bit. This is useful for multiplying and dividing signed numbers. Arithmetic shift left (ASL) is the same as logical shift left (LSL).
+    - Ex: 11001 ASR 2 = 11110; 11001 ASL 2 = 00100
+- Rotator - rotates number in circle such that empty spots are fulled with bits shifted off the other end.
+    - Ex: 11001 ROR 2 = 01110; 11001 ROL 2 = 00111
+
+An $N$-bit shifter can be built from $N$ $N$:1 multiplexers. The input is shifted by 0 to $N-1$ bits, depending on the value of the $\log_2N$-bit select lines. The figure shows the symbol and hardware of 4-bit shifters. The operators $<<$, $>>$, and $>>>$ typically indicate shift left (a)), logical shift right (b)), and arithmetic shift right (c)), respectively. Depending on the value of the 2-bit shift amount, $\text{shamt}_{1:0}$, the output, $Y$, receives the input, $A$, shifted by 0 to 3 bits. For all shifters, when $\text{shamt}_{1:0} = 00$, $Y = A$.
+
+A left shift is a special case of multiplication. A left shift by $N$ bits multiplies the number by $2^N$. For example, $000011_2 << 4 = 110000_2$ is equivalent to $3_{10} \cdot 2_{10}^4 = 48_{10}$.
+
+An arithmetic right shift is a special case of division. An arithmetic right shift by $N$ bits divides the number by $2^N$. For example, $11100_2 >>> 2 = 11111_2$ is equivalent to $-4_{10}/2_{10}^2 = -1_{10}$.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2016.png)
+
+## Multiplication
+
+Multiplication of unsigned binary numbers is similar to decimal multiplication but involves only 1’s and 0’s. The figure compares multiplication in decimal and binary. In both cases, *partial products* are formed by multiplying a single digit of the multiplies with the entire multiplicand. The shifted partial products are summed to form the result.
+
+In general, an $N \times N$ multiplies multiplies two $N$-bit numbers and produces a $2N$-bit result. The partial products in binary multiplication are either the multiplicand or all 0’s. Multiplication of 1-bit binary numbers is equivalent to the $\text{AND}$ operation, so $\text{AND}$ gates are used to form the partial products.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2017.png)
+
+The figure shows the symbol, function and implementation of a $4 \times 4$ multiplier. The multiplier receives the multiplicand and multiplier, $A$ and $B$, and produces the product, $P$. Each partial product is a single multiplier bit ($B_3$, $B_2$, $B_1$ or $B_0$) $\text{AND}$ the multiplicand bits ($A_3, A_2, A_1, A_0$). With $N$-bit operands, there are $N$ partial products and $N-1$ stages of 1-bit adders. For example, for a $4 \times 4$ multiplier, the partial product of the first row is $B_0 \text{ AND } (A_3, A_2, A_1, A_0)$. This partial product is added to the shifted second partial product, $B_1 \text{ AND } (A_3, A_2, A_1, A_0)$. Subsequent rows of $\text{AND}$ gates and adders form and add the remaining partial products.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2018.png)
+
+As with adders, many different multiplier designs with different speed/cost trade-offs exist. Synthesis tools may pick the most appropriate design given the timing constraints. 
+
+```verilog
+module multiplier # (parameter N = 8)
+										(input  [N-1:0]   a, b,
+										 output [2*N-1:0] y);
+	assign y = a * b;
+endmodule
+```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2019.png)
+
+## Division
+
+Binary division can be performed using the following algorithm for normalized unsigned numbers in the range $[2^N-1, 2^{N-1}]$:
+
+```
+R = A
+for i = N - 1 to 0
+	D = R - B
+	if D < 0 then Q_i = 0, R' = R
+	else          Q_i = 1, R' = D
+	if i != 0 then R = 2*R'
+```
+
+The *partial remainder*, $R$, is initialized to the dividend, $A$. The divisor, $B$, is repeatedly subtracted from this partial remainder to determine whether it fits. If the difference, $D$, is negative, then the quotient bit, $Q_i$, is 0 and the difference is discarded. Otherwise, $Q_i$ is 1, and the partial remainder is updated to be the difference. In any event, the partial remainder is then doubled, and the process repeats. The result satisfies: 
+
+$$
+\frac{A}{B} = (Q+\frac{R}{B}) 2^{-(N-1)}
+$$
+
+The figure shows a schematic of a 4-bit array divider. The divider computes $A/B$ and produces a quotient, $Q$, and a remainder, $R$. The legend shows the symbol and schematic for each block in the array divider. The signal $P$ indicates whether $R - B$ is negative. It is obtained from the $C_{\text{out}}$ output of the leftmost block in the row, which is the sign of the difference.
+
+The delay of an $N$-bit array
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2020.png)
 
 # Number Systems
 
