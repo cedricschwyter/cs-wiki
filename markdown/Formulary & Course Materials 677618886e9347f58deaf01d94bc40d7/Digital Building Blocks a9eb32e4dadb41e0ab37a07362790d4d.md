@@ -111,7 +111,33 @@ $$
 
 In other words, a block spanning bits $i:j$ will generate a carry if the upper part generates a carry or if the upper part propagates a carry generated in the lower part. The block will propagate a carry if both the upper and lower parts propagate the carry. Finally, the prefix adder computes the sums using the equations for $S_i$ above.
 
+In summary, the prefix adder achieves a delay that grows logarithmically rather than linearly with the number of columns in the adder. This speedup is significant, especially for adders with 32 or more bits, but it comes at the expense of more hardware than a simple carry-lookahead adder. The network of black cells is called a *prefix tree*.
+
+The general principle of using prefix trees to perform computations in time that grows logarithmically with the number of inputs is a powerful technique. With some cleverness, it can be applied to many other types of circuits.
+
+The critical path for an $N$-bit prefix adder involves the precomputation of $P_i$ and $G_i$ followed by $\log_2N$ stages of black prefix cells to obtain all the prefixes. $G_{i-1:-1}$ then proceeds through the final $\text{XOR}$ gate at the bottom to compute $S_i$. Mathematically, the delay of an $N$-bit prefix adder is 
+
+$$
+t_{PA} = t_{pg}+\log_2N(t_{pg\_\text{prefix}}) + t_{\text{XOR}}
+$$
+
+where $t_{pg\_\text{prefix}}$ is the delay of a black prefix cell.
+
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%206.png)
+
+Hardware description languages provide the $+$ operation to specify a CPA. Modern synthesis tools select among many possible implementations, choosing the cheapest (smallest) design that meets the speed requirements. This greatly simmplifies the designer’s job. The example describes a CPA with carries in and out. 
+
+```verilog
+module adder #(parameter N = 8)
+							(input  [N-1:0] a, b,
+							 input          cin,
+							 output [N-1:0] s,
+							 output         cout);
+	assign {cout, s} = a + b + cin;
+endmodule
+```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%207.png)
 
 # Number Systems
 
