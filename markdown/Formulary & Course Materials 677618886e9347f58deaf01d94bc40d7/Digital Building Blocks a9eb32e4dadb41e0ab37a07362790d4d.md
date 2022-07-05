@@ -82,6 +82,37 @@ where $t_{pg}$ is the delay of the individual generate/propagate gates (a single
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%205.png)
 
+### Prefix Adder
+
+*Prefix adders* extend the generate and propagate logic of the carry-lookahead adder to perform addition even faster. They first compute $G$ and $P$ for pairs of columns, then for blocks of 4, then for blocks of 8, then 16, and so forth until the generate signal for every column is known. The sums are computed from these generate signals.
+
+In other word, the strategy of a prefix adder is to compute the carry in, $C_{i-1}$, for each column, $i$, as quickly as possible, then to compute the sum using 
+
+$$
+S_i=(A_i \oplus B_i) \oplus C_{i-1}
+$$
+
+Define column $i = -1$ to hold $C_{\text{in}}$, so $G_{-1}=C_{\text{in}}$ and $P_{-1} = 0$. Then $C_{i-1}=G_{i-1:-1}$ because there will be a carry out of column $i-1$ if the block spanning columns $i-1$ through $-1$ generates a carry. The generated carry is either generated in column -1 or generated in a previous column and propagated. Thus, we can rewrite above equation as 
+
+$$
+S_i=(A_i \oplus B_i) \oplus G_{i-1:-1}
+$$
+
+Hence, the main challenge is to rapidly compute all the block generate signals $G_{-1:-1}$, $G_{0:-1}$, $G_{1:-1}$,…, $G_{N-2:-1}$. These signals, along with $P_{-1:-1}, P_{0:-1}, P_{1:-1},...,P_{N-2:-1}$ are called *prefixes*.
+
+The figure shows an $N = 16$-bit prefix adder. The adder begins with a *precomputation* to form $P_i$ and $G_i$ for each column from $A_i$ and $B_i$ using $\text{AND}$ and $\text{OR}$ gates. It then uses $\log_2N=4$ levels of black cells to form the prefixes of $G_{i:j}$ and $P_{i:j}$. A black cell takes inputs from the upper part of a block spanning bits $i:k$ and from the lower part of a block spanning bits $k-1:j$. It combines these parts to form generate and propagate signals for the entire block spanning bits $i:j$ using the following equations: 
+
+$$
+\begin{align*}
+G_{i:j} & = G_{i:k}+P_{i:k}G_{k- 1:j} \\
+P_{i:j} &= P_{i:k}P_{k-1:j}
+\end{align*}
+$$
+
+In other words, a block spanning bits $i:j$ will generate a carry if the upper part generates a carry or if the upper part propagates a carry generated in the lower part. The block will propagate a carry if both the upper and lower parts propagate the carry. Finally, the prefix adder computes the sums using the equations for $S_i$ above.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%206.png)
+
 # Number Systems
 
 # Sequential Building Blocks
