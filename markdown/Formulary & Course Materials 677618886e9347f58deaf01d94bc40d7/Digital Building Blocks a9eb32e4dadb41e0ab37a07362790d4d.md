@@ -276,11 +276,13 @@ $$
 
 The figure shows a schematic of a 4-bit array divider. The divider computes $A/B$ and produces a quotient, $Q$, and a remainder, $R$. The legend shows the symbol and schematic for each block in the array divider. The signal $P$ indicates whether $R - B$ is negative. It is obtained from the $C_{\text{out}}$ output of the leftmost block in the row, which is the sign of the difference.
 
-The delay of an $N$-bit array
+The delay of an $N$-bit array divider increases proportionally to $N^2$ because the carry must ripple through all $N$ stages in a row before the sign is determined and the multiplexer selects $R$ or $D$. This repeats for all $N$ rows. Division is a slow and expensive operation in hardware and theerefore should be used as infrequently as possible.
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2020.png)
 
 # Number Systems
+
+Computers operate on both integers and fractions. So far, we have only considered representing signed or unsigned integers. This section introduces fixed- and floating point number systems that can also represent rational numbers. Fixed-point numbers are analogous to decimals; some of the bits represent the integer part, and the rest represent the fraction. Floating-point numbers are analogous to scientific notation, with a mantissa and an exponent.
 
 # Sequential Building Blocks
 
