@@ -139,6 +139,71 @@ endmodule
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%207.png)
 
+## Subtraction
+
+Adders can add positive and negative numbers using two’s complement number representation. Subtraction is almost as easy: flip the sign of the second number, then add. Flipping the sign of a two’s complement number is done by inverting the bits and adding 1.
+
+To compute $Y = A - B$, first create the two’s complement of $B$: Invert the bits of $B$ to obtain $\bar{B}$ and add 1 to get $-B = \bar{B} + 1$. Add this quantity to $A$ to get $Y = A + \bar{B} + 1 = A - B$. This sum can be performed with a single CPA by adding $A + \bar{B}$ with $C_{\text{in}}=1$. The figure shows the symbol for a subtractor and the underlying hardware for performing $Y = A-B$.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%208.png)
+
+This example describes a subtractor. 
+
+```verilog
+module subtractor #(parameter N = 8)
+									 (input  [N-1:0] a, b,
+										output [N-1:0] y);
+	assign y = a - b;
+endmodule
+```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%209.png)
+
+## Comparators
+
+A *comparator* determines whether two binary numbers are equal or if one is greater or less than the other. A comparator receives two $N$-bit binary numbers, $A$ and $B$. There are two common types of comparators.
+
+An *equality comparator* produces a single output indicating whether $A$ is equal to $B$ ($A == B$). A *magnitude comparator* produces one or more outputs indicating the relative values of $A$ and $B$.
+
+The equality comparator is the simpler piece of hardware. The figure shows the symbol and implementation of a 4-bit equality comparator. It first checks to determine whether the corresponding bits in each column of $A$ and $B$ are equal, using $\text{XNOR}$ gates. The numbers are equal if all of the columns are equal.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2010.png)
+
+Magnitude comparison is usually done by computing $A-B$ and looking at the sign (most significant bit) of the result, as shown. If the result is negative (i.e., the sign bit is 1), then $A$ is less than $B$. Otherwise $A$ is greater or equal to $B$. 
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2011.png)
+
+The example shows how to use various comparison operations. 
+
+```verilog
+module comparators # (parameter N = 8)
+										 (input  [N-1:0] a, b,
+											output         eq, neq,
+											output         lt, lte,
+											output         gt, gte);
+	assign eq = (a == b);
+	assign neq = (a != b);
+	assign lt = (a < b);
+	assign lte = (a <= b);
+	assign gt = (a > b);
+	assign gte = (a >= b);
+endmodule
+```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2012.png)
+
+## ALU
+
+An *Arithmetic/Logical Unit (ALU)* combines a variety of mathematical and logical operations into a single unit. For example, a typical ALU might perform addition, subtraction, magnitude comparison, $\text{AND}$ and $\text{OR}$ operations. The ALU forms the heart of most computer systems.
+
+The figure shows the symbol for an $N$-bit ALU with $N$-bit inputs and outputs. The ALU receives a control signal, $F$, that specifies which function to perform. Control signals will generally be shown in blue to distinguish them from the data. The table lists typical functions that the ALU can perform.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2013.png)
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2014.png)
+
+The figure shows an implementation of the ALU. The ALU contains an $N$-bit adder and $N$ two-input $\text{AND}$ and $\text{OR}$ gates. It also contains an inverter and a multiplexer to optionally invert input $B$ when the $F_2$ control signal is asserted. A 4:1 multiplexer chooses the d
+
 # Number Systems
 
 # Sequential Building Blocks
