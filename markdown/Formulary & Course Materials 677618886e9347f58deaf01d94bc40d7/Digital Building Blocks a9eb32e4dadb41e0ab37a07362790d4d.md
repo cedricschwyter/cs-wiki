@@ -366,9 +366,58 @@ module counter # (parameter N = 8)
 								 (input              clk,
 									input              reset,
 									output reg [N-1:0] q);
-	always @ (posedge clk or p
+	always @ (posedge clk or posedge reset)
+		if (reset) q <= 0;
+		else q <= q + 1;
 endmodule
 ```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2030.png)
+
+## Shift Registers
+
+A *shift register* has a clock, a serial input, $S_{\text{in}}$, a serial output, $S_{\text{out}}$, and $N$ parallel outputs, $Q_{N-1:0}$, as shown. On each rising edge of the clock, a new bit is shifted in from $S_{\text{in}}$ and all the subsequent contents are shifted forward. The last bit in the shift register is available at $S_{\text{out}}$. Shift registers can be viewed as *serial-to-parallel converters*. The input is provided serially at $S_\text{in}$. After $N$ cycles, the past $N$ inputs are available in parallel at $Q$.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2031.png)
+
+A shift register can be constructed from $N$ flip-flops connected in series, as shown. Some shift registers also have a reset signal to initialize all of the flip-flops.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2032.png)
+
+A related circuit is a *parallel-to-serial* converter that loads $N$ bits in parallel, then shifts them out one at a time. A shift register can be modified to perform both serial-to-parallel and parallel-to-serial operations by adding a parallel input, $D_{N-1:0}$, and a control signal, $\text{Load}$, as shown. When $\text{Load}$ is asserted, the flip-flops are loaded in parallel from the $D$ inputs. Otherwise, the shift register shifts normally.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2033.png)
+
+The example describes such a circuit. 
+
+```verilog
+module shiftreg # (parameter N = 8)
+									(input              clk,
+									 input              reset, load,
+									 input              sin,
+									 input      [N-1:0] d,
+									 output reg [N-1:0] q,
+									 output             sout);
+	always @ (posedge clk or posedge reset)
+		if (reset) q <= 0;
+		else if (load) q <= d;
+		else q <= {q[N-2:0], sin};
+
+	assign sout = q[N-1]
+endmodule
+```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2034.png)
+
+### Scan Chains
+
+Shift registers are often used to test sequential circuits using a technique called *scan chains*. Testing combinational circuits is relatively straightforward. Known inputs called *test vectors* are applied, and the outputs are checked against the expected result. Testing sequential circuits is more difficult, because the circuits have state. Starting from a known initial condition, a large number of cycles of test vectors may be needed to put the circuit into a desired state. For example, testing that the most significant bit of a 32-bit counter advances from 0 to 1 require resetting the counter, then applying $2^{31}$ clock pulses.
+
+To solve this problem, designers like to be able to directly observe and control all the state of the machine. This is done by adding a test mode in which the contents of all flip-flops can be read out or loaded with desired values. Most systems have too many flip-flops to dedicate individual pins to read and write each flip-flop. Instead, all the flip-flops in the system are connected together into a shift register called a scan chain. In normal operation, the flip-flops load data from their $D$ input and ignore the scan chain. In test mode, the flip-flops serially shift their contents out and shift in new contents using $S_{\text{in}}$ and $S_{\text{out}}$. The load multiplexer is usually integrated into the flip-flop to produce a *scannable flip-flop*.  The figure shows the schematic and symbol for a scannable flip-flop and illustrates how the flops are cascaded to build an $N$-bit scannable register.
+
+For example, the 32-bit counter could be tested by shifting in the pattern 01111….111 in test mode, counting for one cycle in normal mode, then shifting out the result, which should be 10000…000. This requires only 32 + 1 + 32 = 65 cycles.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2035.png)
 
 # Memory Arrays
 
