@@ -284,6 +284,14 @@ The delay of an $N$-bit array divider increases proportionally to $N^2$ because 
 
 Computers operate on both integers and fractions. So far, we have only considered representing signed or unsigned integers. This section introduces fixed- and floating point number systems that can also represent rational numbers. Fixed-point numbers are analogous to decimals; some of the bits represent the integer part, and the rest represent the fraction. Floating-point numbers are analogous to scientific notation, with a mantissa and an exponent.
 
+## Fixed-Point Number Systems
+
+*Fixed-point notation* has an implied *binary point* between the integer and fraction bits, analogous to the decimal point between the integer and fraction digits of an ordinary decimal number. The figure a) shows a fixed-point number with four integer bits and four fraction bits. b) shows the implied binary point in blue, and c) shows the equivalent decimal value.
+
+Signed fixed-point numbers can use either two’s complement or sign/magnitude notations. The figure shows the fixed-point representation of -2.375 using both notations with four integer and four fraction bits. The implicit binary point is shown in blue for clarity. In sign/magnitude form, the most significant bit is used to indicate the sign. The two’s com
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2021.png)
+
 # Sequential Building Blocks
 
 # Memory Arrays
