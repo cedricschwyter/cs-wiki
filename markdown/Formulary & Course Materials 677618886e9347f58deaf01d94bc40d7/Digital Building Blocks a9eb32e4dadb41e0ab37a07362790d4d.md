@@ -335,7 +335,17 @@ Addition with floating-point numbers is not as simple as addition with two’s c
 1. Extract exponent and fraction bits
 2. Prepend leading 1 to form the mantissa
 3. Compare exponents
-4. Shift 
+4. Shift smaller mantissa if necessary
+5. Add mantissas
+6. Normalize mantissa and adjust exponent if necessary
+7. Round result
+8. Assemble exponent and fraction back into floating-point number
+
+The figure show the floating-point addition of 7.875 ($1.11111 \times 2^2$) and 0.1875 ($1.1 \times 2^{-3}$). The result is 8.0625 ($1.0000001 \times 2^3$). After the fraction and exponent bits are extracted and the implicit leading 1 is prepended in steps 1 and 2, the exponents are compared by subtracting the smaller exponent from the larger exponent. The result is the number of bits by which the smaller number is shifted to the right to align the implied binary point (i.e. to make the exponents equal) in step 4. The aligned numbers are added. Because the sum has a mantissa that is greater than or equal to 2.0, the result is normalized by shifting it to the right by one bit and incrementing the exponent. In this example, the result is exact, so no rounding is necessary. The result is stored in floating-point notation by removing the implicit leading one of the mantissa and prepending the sign bit.
+
+Floating-point arithmetic is usually done in hardware to make it fast. This hardware, called the *floating-point unit (FPU)* is typically distinct from the *central processing unit (CPU)*
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2027.png)
 
 # Sequential Building Blocks
 
