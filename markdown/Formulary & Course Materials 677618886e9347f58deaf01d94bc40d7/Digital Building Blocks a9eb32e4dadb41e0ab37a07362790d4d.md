@@ -288,9 +288,54 @@ Computers operate on both integers and fractions. So far, we have only considere
 
 *Fixed-point notation* has an implied *binary point* between the integer and fraction bits, analogous to the decimal point between the integer and fraction digits of an ordinary decimal number. The figure a) shows a fixed-point number with four integer bits and four fraction bits. b) shows the implied binary point in blue, and c) shows the equivalent decimal value.
 
-Signed fixed-point numbers can use either two’s complement or sign/magnitude notations. The figure shows the fixed-point representation of -2.375 using both notations with four integer and four fraction bits. The implicit binary point is shown in blue for clarity. In sign/magnitude form, the most significant bit is used to indicate the sign. The two’s com
-
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2021.png)
+
+Signed fixed-point numbers can use either two’s complement (c)) or sign/magnitude (b)) notations. The figure shows the fixed-point representation of -2.375 using both notations with four integer and four fraction bits. The implicit binary point is shown in blue for clarity. In sign/magnitude form, the most significant bit is used to indicate the sign. The two’s complement representation is formed by inverting the bits of the absolute value (a)) and adding a 1 to the least significant /rightmost) bit. In this case, the least significant bit position is the $2^{-4}$ column.
+
+Like all binary number representations, fixed-point numbers are just a collection of bits. There is no way of knowing the existence of the binary point except through agreement of those people interpreting the number.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2022.png)
+
+## Floating-Point Number Systems
+
+Floating-point numbers are analogous to scientific notation. They circumvent the limitation of having a constant number of integer and fractional bits, allowing the representation of very large and very small numbers. Like scientific notation, floating-point numbers have a *sign*, *mantissa* (M), *base* (B), and *exponent* (E), as shown. For example. the number $4.1\times 10^3$ is the decimal scientific notation for 4100. It has a mantissa of 4.1, a base of 10, and an exponent of 3. The decimal point *floats* to the position right after the most significant digit. Floating-point numbers are base 2 with a binary mantissa. 32 bits are used to represent 1 sign bit, 8 exponent bits, and 23 mantissa bits.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2023.png)
+
+In binary floating-point, the first bit of the mantissa (to the left of the binary point) is always 1 and therefore need not be stored. It is called the *implicant leading one*. The figure shows the modified floating point representation of $228_{10}=11100100_2 \times 2^0 = 1.11001_2 \times 2^7$. The implicit leading one is not included in the 23-bit mantissa for efficiency. Only the fraction bits are stored. This frees up an extra bit for useful data.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2024.png)
+
+We make one final modification to the exponent field. The exponent needs to represent both positive and negative exponents. To do so, floating-point uses a *biased* exponent, which is the original exponent plus a constant bias. 32-bit floating-point uses a bias of 127. For example, for the exponent 7, the biased exponent is $7 + 127 = 134 =10000110_2$. For the exponent -4, the biased exponent is $-4 + 127 = 123=01111011_2$. The figure shows $1.11001_2 \times 2^7$ represented in floating-point notation with an implicit leading one and a biased exponent of 134. This notation conforms to the IEEE 754 floating-point standard.
+
+### Special Cases: 0, $\pm \infty$, and NaN
+
+The IEEE floating-point standard has special cases to represent numbers such as zero, infinity, and illegal results. For example, representing the number zero is problematic in floating-point notation because of the implicit leading one. Special codes with exponents of all 0’s or all 1’s are reserved for these special cases. The table shows the floating-point representations of 0, $\pm \infty$, and NaN. As with sign/magnitude numbers, floating-point has both positive and negative 0. NaN is used for numbers that don’t exist, such as $\sqrt{-1}$ or $\log_2(-5)$.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2025.png)
+
+### Single- and Double-Precision Formats
+
+So far, we have examined 32-bit floating-point numbers. This format is also called *single-precision*, *single*, or *float*. The IEEE 754 standard also defines 64-bit *double-precision* (also called *double*) numbers that provide greater precision and greater range. The table shows the number of bits used for the fields in each format.
+
+Excluding the special cases mentioned earlier, normal single-precision numbers span a range of $\pm 1.175494 \times 10^{-38}$ to $\pm 3.402824 \times 10^{38}$. They have a precision of about seven significant decimal digits (because $2^{-24} \approx 10^{-7}$). Similarly, normal double-precision numbers span a range of $\pm 2.22507385850720 \times 10^{-308}$ to $\pm 1.79769313486232 \times 10^{308}$ and have a precision of about 15 significant decimal digits.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2026.png)
+
+### Rounding
+
+Arithmetic results that fall outside of the available precision must round to a neighboring number. The rounding modes are (1) round down, (2) round up, (3) round toward zero, and (4) round to nearest. The default rounding mode is round to nearest. In the round to nearest mode, if two numbers are equally near, the one with a 0 in the least significant position of the fraction is chosen.
+
+Recall that a number *overflows* when its magnitude is too large to be represented. Likewise, a number *underflows* when it is too tiny to be represented. In round to nearest mode, overflows are rounded up to $\pm \infty$ and underflows are rounded down to 0.
+
+### Floating-Point Addition
+
+Addition with floating-point numbers is not as simple as addition with two’s complement numbers. The steps for adding floating-point numbers with the same sign are as follows:
+
+1. Extract exponent and fraction bits
+2. Prepend leading 1 to form the mantissa
+3. Compare exponents
+4. Shift 
 
 # Sequential Building Blocks
 
