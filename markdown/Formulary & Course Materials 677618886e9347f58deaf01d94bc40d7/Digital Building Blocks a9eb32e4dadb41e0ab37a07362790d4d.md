@@ -105,7 +105,7 @@ The figure shows an $N = 16$-bit prefix adder. The adder begins with a *precompu
 $$
 \begin{align*}
 G_{i:j} & = G_{i:k}+P_{i:k}G_{k- 1:j} \\
-P_{i:j} &= P_{i:k}P_{k-1:j}
+P_{i:j} & = P_{i:k}P_{k-1:j}
 \end{align*}
 $$
 

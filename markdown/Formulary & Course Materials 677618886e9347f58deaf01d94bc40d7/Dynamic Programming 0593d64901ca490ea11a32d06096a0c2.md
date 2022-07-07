@@ -22,7 +22,7 @@ DP can be used to easily reduce recursive problems from exponential runtime to d
 
 We have a set $A$ of $n$ elements that need to be split into two sets such that the sum of those sets is equal. Let $b \in \mathbb{N}$ be that sum.
 
-Idea: $b$ is subset sum of $A_1,...,A_{n-1}$ or $b - A_n$ is subset sum of $A_1,...,A_{n - 1}$. Let $TS(i, s)$ be a predicate defined by $TS(i, s) = 1 \iff \text{$s$ is subset sum of $A_1,...,A_i$}$.
+Idea: $b$ is subset sum of $A_1,...,A_{n-1}$ or $b - A_n$ is subset sum of $A_1,...,A_{n - 1}$. Let $TS(i, s)$ be a predicate defined by $TS(i, s) = 1 \iff s \text{ is subset sum of }A_1,...,A_i$.
 
 Recurrence: $TS(i, s) = TS(i - 1, s) \lor TS(i - 1, s-A_i)$
 
