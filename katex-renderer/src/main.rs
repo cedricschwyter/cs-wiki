@@ -28,8 +28,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut md_katex = String::new();
     let mut start = 0;
     let mut end = false;
+    let code_tags: Vec<usize> = markdown
+        .match_indices("`")
+        .into_iter()
+        .map(|(sz, _)| sz)
+        .collect();
     let indices: Vec<(usize, &str)> = markdown.match_indices("$$").into_iter().collect();
     for (index, _) in &indices {
+        if code_tags.iter().filter(|v| *v < index).count() % 2 != 0 {
+            continue;
+        }
         if !end {
             md_katex.push_str(&markdown[start..*index]);
             end = true;
@@ -41,11 +49,19 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
     md_katex.push_str(&markdown[start..]);
+    let code_tags: Vec<usize> = md_katex
+        .match_indices("`")
+        .into_iter()
+        .map(|(sz, _)| sz)
+        .collect();
     let mut start = 0;
     let mut end = false;
     let mut preprocessed_markdown = String::new();
     let indices: Vec<(usize, &str)> = md_katex.match_indices("$").into_iter().collect();
     for (index, _) in &indices {
+        if code_tags.iter().filter(|v| *v < index).count() % 2 != 0 {
+            continue;
+        }
         if !end {
             preprocessed_markdown.push_str(&md_katex[start..*index]);
             end = true;
