@@ -1,0 +1,4 @@
+title: CS Wiki | Cedric Schwyter
+theme: jekyll-theme-cayman
+plugins:
+  - jekyll-optional-front-matter

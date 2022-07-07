@@ -14,10 +14,10 @@ Verilog signals such as the inputs and outputs are Boolean variables. They may a
 
 ```verilog
 module sillyfunction (input a, b, c, 
-											output y);
-	assign y = ~a & ~b & ~c |
-							a & ~b & ~c |
-							a & ~b &  c;
+                      output y);
+  assign y = ~a & ~b & ~c |
+              a & ~b & ~c |
+              a & ~b &  c;
 endmodule
 ```
 
@@ -63,8 +63,8 @@ The endianness of a bus is purely arbitrary. Indeed, endianness is also irreleva
 
 ```verilog
 module inv (input  [3:0] a,
-						output [3:0] y);
-	assign y = ~a;
+            output [3:0] y);
+  assign y = ~a;
 endmodule
 ```
 
@@ -78,13 +78,13 @@ The `gates` module in this example demonstrates bitwise operations acting on 4-b
 
 ```verilog
 module gates (input  [3:0] a, b,
-							output [3:0] y1, y2,
-													 y3, y4, y5);
-	assign y1 = a & b; // AND
-	assign y2 = a | b; // OR
-	assign y3 = a ^ b; // XOR
-	assign y4 = ~(a & b); // NAND
-	assign y5 = ~(a | b); // NOR
+              output [3:0] y1, y2,
+                           y3, y4, y5);
+  assign y1 = a & b; // AND
+  assign y2 = a | b; // OR
+  assign y3 = a ^ b; // XOR
+  assign y4 = ~(a & b); // NAND
+  assign y5 = ~(a | b); // NOR
 endmodule
 ```
 
@@ -106,11 +106,11 @@ As one would expect, `|`, `^`, `~&`, and `~|` reduction operators are available 
 
 ```verilog
 module and8 (input  [7:0] a,
-						 output       y);
-	assign y = &a;
-	// &a is much easier to write than
-	// assign y = a[7] & a[6] & a[5] & a[4] &
-	//            a[3] & a[2] & a[1] & a[0];
+             output       y);
+  assign y = &a;
+  // &a is much easier to write than
+  // assign y = a[7] & a[6] & a[5] & a[4] &
+  //            a[3] & a[2] & a[1] & a[0];
 endmodule
 ```
 
@@ -126,9 +126,9 @@ The *conditional operator* `?:` chooses, based on a first expression, between a 
 
 ```verilog
 module mux2 (input  [3:0] d0, d1,
-						 input        s,
-						 output [3:0] y);
-	assign y = s ? d1 : d0;
+             input        s,
+             output [3:0] y);
+  assign y = s ? d1 : d0;
 endmodule
 ```
 
@@ -142,10 +142,10 @@ if `s[1]` is 1, then the multiplexer chooses the first expression, `(s[0] ? d3 :
 
 ```verilog
 module mux4 (input  [3:0] d0, d1, d2, d3,
-						 input  [1:0] s,
-						 output [3:0] y);
-	assign y = s[1] ? (s[0] ? d3 : d2)
-									: (s[0] ? d1 : d0);
+             input  [1:0] s,
+             output [3:0] y);
+  assign y = s[1] ? (s[0] ? d3 : d2)
+                  : (s[0] ? d1 : d0);
 endmodule
 ```
 
@@ -190,12 +190,12 @@ In Verilog, *wires* are used to represent internal variables whose values are de
 
 ```verilog
 module fulladder (input  a, b, cin,
-									output s, cout);
-	wire p, g;
-	assign p  a  b;
-	assign g  a & b;
-	assign s  p  cin;
-	assign cout  g | (p & cin);
+                  output s, cout);
+  wire p, g;
+  assign p  a  b;
+  assign g  a & b;
+  assign s  p  cin;
+  assign cout  g | (p & cin);
 endmodule
 ```
 
@@ -221,9 +221,9 @@ HDLs use `z` to indicate a floating value. `z` is particularly useful for descri
 
 ```verilog
 module tristate (input  [3:0] a,
-								 input        en,
+                 input        en,
                  output [3:0] y),
-	assign y = en ? a : 4'bz;
+  assign y = en ? a : 4'bz;
 endmodule
 ```
 
@@ -269,13 +269,13 @@ Verilog files can include a timescale directive that indicates the value of each
 ‘timescale 1ns/1ps
 
 module example (input  a, b, c,
-								output y);
-	wire ab, bb, cb, n1, n2, n3;
-	assign #1 {ab, bb, cb} = ~{a, b, c};
-	assign #2 n1 = ab & bb & cb;
-	assign #2 n2 = a  & bb & cb;
-	assign #2 n3 = a  & bb & c;
-	assign #4 y = n1 | n2 | n3;
+                output y);
+  wire ab, bb, cb, n1, n2, n3;
+  assign #1 {ab, bb, cb} = ~{a, b, c};
+  assign #2 n1 = ab & bb & cb;
+  assign #2 n2 = a  & bb & cb;
+  assign #2 n3 = a  & bb & c;
+  assign #4 y = n1 | n2 | n3;
 endmodule
 ```
 
@@ -291,12 +291,12 @@ The `mux2` module must be defined elsewhere in the Verilog source.
 
 ```verilog
 module mux4 (input  [3:0] d0, d1, d2, d3,
-						 input  [1:0] s,
-						 output [3:0] y);
-	wire [3:0] low, high,
-	mux2 lowmux (d0, d1, s[0], low);
-	mux2 highmux (d2, d3, s[0], high);
-	mux2 finalmux (low, high, s[1], y);
+             input  [1:0] s,
+             output [3:0] y);
+  wire [3:0] low, high,
+  mux2 lowmux (d0, d1, s[0], low);
+  mux2 highmux (d2, d3, s[0], high);
+  mux2 finalmux (low, high, s[1], y);
 endmodule
 ```
 
@@ -308,10 +308,10 @@ In Verilog, expressions such as `~s` are permitted in the port list for an insta
 
 ```verilog
 module mux2 (input  [3.0] d0, d1,
-						 input        s,
+             input        s,
 						 output [3:0] y);
-	tristate t0 (d0, ~s, y);
-	tristate t1 (d1, s, y);
+  tristate t0 (d0, ~s, y);
+  tristate t1 (d1, s, y);
 endmodule
 ```
 
@@ -321,10 +321,10 @@ This example shows how modules can access part of a bus. An 8-bit wide 2:1 multi
 
 ```verilog
 module mux2_8 (input  [7:0] d0, d1,
-							 input        s,
-							 output [7:0] y);
-	mux2 lsbmux (d0[3:0], d1[3:0], s, y[3:0]);
-	mux2 msbmux (d0[7:4], d1[7:4], s, y[7:4]);
+               input        s,
+               output [7:0] y);
+  mux2 lsbmux (d0[3:0], d1[3:0], s, y[3:0]);
+  mux2 msbmux (d0[7:4], d1[7:4], s, y[7:4]);
 endmodule
 ```
 
@@ -357,10 +357,10 @@ All signals on the left hand side of `<=` or `=` in an `always` statement must b
 
 ```verilog
 module flop (input            clk,
-						 input      [3:0] d,
-						 output reg [3:0] q);
-	always @ (posedge clk)
-		q <= d;
+             input      [3:0] d,
+             output reg [3:0] q);
+  always @ (posedge clk)
+    q <= d;
 endmodule
 ```
 
@@ -374,23 +374,23 @@ Multiple signals in an `always` statement sensitivity list are separated with a 
 
 ```verilog
 module flopr (input            clk,
-						  input            reset,
-							input      [3:0] d,
-							output reg [3:0] q);
+              input            reset,
+              input      [3:0] d,
+              output reg [3:0] q);
 	// asynchronous reset
-	always @ (posedge clk, posedge reset)
-		if (reset) q <= 4'b0;
-		else       q <= d:
+  always @ (posedge clk, posedge reset)
+    if (reset) q <= 4'b0;
+    else       q <= d:
 endmodule
 
 module flopr (input            clk,
-						  input            reset,
-							input      [3:0] d,
-							output reg [3:0] q);
-	// synchronous reset
-	always @ (posedge clk)
-		if (reset) q <= 4'b0;
-		else       q <= d:
+              input            reset,
+              input      [3:0] d,
+              output reg [3:0] q);
+  // synchronous reset
+  always @ (posedge clk)
+    if (reset) q <= 4'b0;
+    else       q <= d:
 endmodule
 ```
 
@@ -402,14 +402,14 @@ Enabled registers respond to the clock only when the enable is asserted. The exa
 
 ```verilog
 module flopenr (input            clk,
-								input            reset,
-								input            en,
-								input      [3:0] d,
-								output reg [3:0] q);
-	// asynchronous reset
-	always @ (posedge clk, posedge reset)
-		if (reset) q <= 4’b0;
-		else if (en) q <= d;
+                input            reset,
+                input            en,
+                input      [3:0] d,
+                output reg [3:0] q);
+  // asynchronous reset
+  always @ (posedge clk, posedge reset)
+    if (reset) q <= 4’b0;
+    else if (en) q <= d;
 endmodule
 ```
 
@@ -427,14 +427,14 @@ The example describes the synchronizer. On the rising edge of `clk`, `d` is copi
 
 ```verilog
 module sync (input clk,
-						 input d,
-						 output reg q);
-	reg n1;
-	always @ (posedge clk)
-		begin
-			n1 <= d;
-			q <= n1;
-		end
+             input d,
+             output reg q);
+  reg n1;
+  always @ (posedge clk)
+    begin
+      n1 <= d;
+      q <= n1;
+    end
 endmodule
 ```
 
@@ -450,10 +450,10 @@ The sensitivity list contains both `clk` and `d`, so that the `always` statement
 
 ```verilog
 module latch (input            clk,
-							input      [3:0] d,
-							output reg [3:0] q);
-	always @ (clk, d)
-		if (clk) q <= d;
+              input      [3:0] d,
+              output reg [3:0] q);
+  always @ (clk, d)
+    if (clk) q <= d;
 endmodule
 ```
 
@@ -471,9 +471,9 @@ Note that `y` must be declared as `reg` because it appears on the left hand side
 
 ```verilog
 module inv (input      [3:0] a,
-						output reg [3:0] y);
-	always @ (*)
-		y = ~a;
+            output reg [3:0] y);
+  always @ (*)
+    y = ~a;
 endmodule
 ```
 
@@ -489,15 +489,15 @@ Because `p` and `g` appear on the left hand side of an assignment in an `always`
 
 ```verilog
 module fulladder (input      a, b, cin,
-									output reg s, cout);
-	reg p, g;
-	always @ (*)
-		begin
-			p = a ^ b; // blocking
-			g = a & b; // blocking
-			s = p ^ cin; // blocking
-			cout = g | (p & cin); // blocking
-		end
+                  output reg s, cout);
+  reg p, g;
+  always @ (*)
+    begin
+      p = a ^ b; // blocking
+      g = a & b; // blocking
+      s = p ^ cin; // blocking
+      cout = g | (p & cin); // blocking
+    end
 endmodule
 ```
 
@@ -523,22 +523,22 @@ In Verilog, `case` statements must appear inside `always` statements.
 
 ```verilog
 module sevenseg (input      [3:0] data,
-								 output reg [6:0] segments);
-	always @ (*)
-		case (data)
-			// abc_defg
-			0: segments = 7’b111_1110;
-			1: segments = 7’b011_0000;
-			2: segments = 7’b110_1101;
-			3: segments = 7’b111_1001;
-			4: segments = 7’b011_0011;
-			5: segments = 7’b101_1011;
-			6: segments = 7’b101_1111;
-			7: segments = 7’b111_0000;
-			8: segments = 7’b111_1111;
-			9: segments = 7’b111_1011;
-			default: segments = 7’b000_0000;
-		endcase
+                 output reg [6:0] segments);
+  always @ (*)
+    case (data)
+      // abc_defg
+      0: segments = 7’b111_1110;
+      1: segments = 7’b011_0000;
+      2: segments = 7’b110_1101;
+      3: segments = 7’b111_1001;
+      4: segments = 7’b011_0011;
+      5: segments = 7’b101_1011;
+      6: segments = 7’b101_1111;
+      7: segments = 7’b111_0000;
+      8: segments = 7’b111_1111;
+      9: segments = 7’b111_1011;
+      default: segments = 7’b000_0000;
+    endcase
 endmodule
 ```
 
@@ -550,18 +550,18 @@ No `default` statement is needed because all cases are covered.
 
 ```verilog
 module decoder3_8 (input      [2:0] a,
-									 output reg [7:0] y);
-	always @ (*)
-		case (a)
-			3’b000: y = 8’b00000001;
-			3’b001: y = 8’b00000010;
-			3’b010: y = 8’b00000100;
-			3’b011: y = 8’b00001000;
-			3’b100: y = 8’b00010000;
-			3’b101: y = 8’b00100000;
-			3’b110: y = 8’b01000000;
-			3’b111: y = 8’b10000000;
-		endcase
+                   output reg [7:0] y);
+  always @ (*)
+    case (a)
+      3’b000: y = 8’b00000001;
+      3’b001: y = 8’b00000010;
+      3’b010: y = 8’b00000100;
+      3’b011: y = 8’b00001000;
+      3’b100: y = 8’b00010000;
+      3’b101: y = 8’b00100000;
+      3’b110: y = 8’b01000000;
+      3’b111: y = 8’b10000000;
+    endcase
 endmodule
 ```
 
@@ -577,13 +577,13 @@ In Verilog, `if` statements must appear inside of `always` statements.
 
 ```verilog
 module priority (input      [3:0] a,
-								 output reg [3:0] y);
-	always @ (*)
-		if (a[3]) y = 4’b1000;
-		else if (a[2]) y = 4’b0100;
-		else if (a[1]) y = 4’b0010;
-		else if (a[0]) y = 4’b0001;
-		else y = 4’b0000;
+                 output reg [3:0] y);
+  always @ (*)
+    if (a[3]) y = 4’b1000;
+    else if (a[2]) y = 4’b0100;
+    else if (a[1]) y = 4’b0010;
+    else if (a[0]) y = 4’b0001;
+    else y = 4’b0000;
 endmodule
 ```
 
@@ -595,15 +595,15 @@ Verilog also provides the `casez` statement to describe truth tables with don’
 
 ```verilog
 module priority_casez(input      [3:0] a,
-											output reg [3:0] y);
-	always @ (*)
-		casez (a)
-			4’b1???: y = 4’b1000;
-			4’b01??: y = 4’b0100;
-			4’b001?: y = 4’b0010;
-			4’b0001: y = 4’b0001;
-			default: y = 4’b0000;
-		endcase
+                      output reg [3:0] y);
+  always @ (*)
+    casez (a)
+      4’b1???: y = 4’b1000;
+      4’b01??: y = 4’b0100;
+      4’b001?: y = 4’b0010;
+      4’b0001: y = 4’b0001;
+      default: y = 4’b0000;
+    endcase
 endmodule
 ```
 
@@ -617,10 +617,10 @@ The guidelines explaining when and how to use which type of assignment follow be
     
     ```verilog
     always @ (posedge clk)
-    	begin
-    		nl <= d; // nonblocking
-    		q <= nl; // nonblocking
-    	end
+      begin
+        nl <= d; // nonblocking
+        q <= nl; // nonblocking
+      end
     ```
     
 2. Use continuous assignments to model simple combinational logic. 
@@ -633,12 +633,12 @@ The guidelines explaining when and how to use which type of assignment follow be
     
     ```verilog
     always @ (*)
-    	begin
-    		p = a ^ b; // blocking
-    		g = a & b; // blocking
-    		s = p ^ cin;
-    		cout = g | (p & cin);
-    	end
+      begin
+        p = a ^ b; // blocking
+        g = a & b; // blocking
+        s = p ^ cin;
+        cout = g | (p & cin);
+      end
     ```
     
 4. Do not make assignments to the same signal in more than one `always` statement or continuous assignment statement.
@@ -677,15 +677,15 @@ Worse yet, some synthesis tools will synthesize the correct hardware even when a
 ```verilog
 // nonblocking assignments (not recommended)
 module fulladder (input      a, b, cin,
-									output reg s, cout);
-	reg p, g;
-	always @ (*)
-		begin
-			p <= a ^ b; // nonblocking
-			g <= a & b; // nonblocking
-			s <= p ^ cin;
-			cout <= g | (p & cin);
-		end
+                  output reg s, cout);
+  reg p, g;
+  always @ (*)
+    begin
+      p <= a ^ b; // nonblocking
+      g <= a & b; // nonblocking
+      s <= p ^ cin;
+      cout <= g | (p & cin);
+    end
 endmodule
 ```
 
@@ -707,14 +707,14 @@ The moral of this illustration is to exclusively use nonblocking assignment in `
 ```verilog
 // Bad implementation using blocking assignments
 module syncbad (input clk,
-								input d,
-	output reg q);
-	reg n1;
-	always @ (posedge clk)
-		begin
-			n1 = d; // blocking
-			q = n1; // blocking
-		end
+                input d,
+  output reg q);
+  reg n1;
+  always @ (posedge clk)
+    begin
+      n1 = d; // blocking
+      q = n1; // blocking
+    end
 endmodule
 ```
 
@@ -743,26 +743,26 @@ assign y = (state == S0 | state == S1);
 
 ```verilog
 module divideby3FSM (input  clk,
-										 input  reset,
-										 output y);
-	reg [1:0] state, nextstate;
-	parameter S0  2b00;
-	parameter S1  2b01;
-	parameter S2  2b10;
-	// state register
-	always @ (posedge clk, posedge reset)
-		if (reset) state <= S0;
-		else state <= nextstate;
-	// next state logic
-	always @ (*)
-		case (state)
-			S0: nextstate = S1;
-			S1: nextstate = S2;
-			S2: nextstate = S0;
-			default: nextstate = S0;
-		endcase
-	// output logic
-	assign y = (state == S0);
+                     input  reset,
+                     output y);
+  reg [1:0] state, nextstate;
+  parameter S0  2b00;
+  parameter S1  2b01;
+  parameter S2  2b10;
+  // state register
+  always @ (posedge clk, posedge reset)
+    if (reset) state <= S0;
+    else state <= nextstate;
+  // next state logic
+  always @ (*)
+    case (state)
+      S0: nextstate = S1;
+      S1: nextstate = S2;
+      S2: nextstate = S0;
+      default: nextstate = S0;
+    endcase
+  // output logic
+  assign y = (state == S0);
 endmodule
 ```
 
@@ -776,36 +776,36 @@ Note how nonblocking assignments (`<=`) are used in the register to describe seq
 
 ```verilog
 module patternMoore (input  clk,
-										 input  reset,
-										 input  a,
-										 output y);
-	reg [2:0] state, nextstate;
-	parameter S0 = 3b000;
-	parameter S1 = 3b001;
-	parameter S2 = 3b010;
-	parameter S3 = 3b011;
-	parameter S4 = 3b100;
-	// state register
-	always @ (posedge clk, posedge reset)
-		if (reset) state <= S0;
-		else state <= nextstate;
-	// next state logic
-	always @ (*)
-		case (state)
-			S0: if (a) nextstate = S1;
-					else nextstate = S0;
-			S1: if (a) nextstate = S2;
-					else nextstate = S0;
-			S2: if (a) nextstate = S2;
-					else nextstate = S3;
-			S3: if (a) nextstate = S4;
-					else nextstate = S0;
-			S4: if (a) nextstate = S2;
-					else nextstate = S0;
-			default: nextstate = S0;
-		endcase
-	// output logic
-	assign y = (state == S4);
+                     input  reset,
+                     input  a,
+                     output y);
+  reg [2:0] state, nextstate;
+  parameter S0 = 3b000;
+  parameter S1 = 3b001;
+  parameter S2 = 3b010;
+  parameter S3 = 3b011;
+  parameter S4 = 3b100;
+  // state register
+  always @ (posedge clk, posedge reset)
+    if (reset) state <= S0;
+    else state <= nextstate;
+  // next state logic
+  always @ (*)
+    case (state)
+      S0: if (a) nextstate = S1;
+          else nextstate = S0;
+      S1: if (a) nextstate = S2;
+          else nextstate = S0;
+      S2: if (a) nextstate = S2;
+          else nextstate = S3;
+      S3: if (a) nextstate = S4;
+          else nextstate = S0;
+      S4: if (a) nextstate = S2;
+          else nextstate = S0;
+      default: nextstate = S0;
+    endcase
+  // output logic
+  assign y = (state == S4);
 endmodule
 ```
 
@@ -817,33 +817,33 @@ endmodule
 
 ```verilog
 module patternMealy (input  clk,
-									   input  reset,
-										 input  a,
-										 output y);
-	reg [1:0] state, nextstate;
-	parameter S0 = 2b00;
-	parameter S1 = 2b01;
-	parameter S2 = 2b10;
-	parameter S3 = 2b11;
-	// state register
-	always @ (posedge clk, posedge reset)
-		if (reset) state <= S0;
-		else state <= nextstate;
-	// next state logic
-	always @ (*)
-		case (state)
-			S0: if (a) nextstate = S1;
-					else nextstate = S0;
-			S1: if (a) nextstate = S2;
-					else nextstate = S0;
-			S2: if (a) nextstate = S2;
-					else nextstate = S3;
-			S3: if (a) nextstate = S1;
-					else nextstate = S0;
-			default: nextstate = S0;
-		endcase
-	// output logic
-	assign y = (a & state == S3);
+                     input  reset,
+                     input  a,
+                     output y);
+  reg [1:0] state, nextstate;
+  parameter S0 = 2b00;
+  parameter S1 = 2b01;
+  parameter S2 = 2b10;
+  parameter S3 = 2b11;
+  // state register
+  always @ (posedge clk, posedge reset)
+    if (reset) state <= S0;
+    else state <= nextstate;
+  // next state logic
+  always @ (*)
+    case (state)
+      S0: if (a) nextstate = S1;
+          else nextstate = S0;
+      S1: if (a) nextstate = S2;
+          else nextstate = S0;
+      S2: if (a) nextstate = S2;
+          else nextstate = S3;
+      S3: if (a) nextstate = S1;
+          else nextstate = S0;
+      default: nextstate = S0;
+    endcase
+  // output logic
+  assign y = (a & state == S3);
 endmodule
 ```
 
@@ -858,10 +858,10 @@ Verilog allows a `# (parameter ... )` statement before the inputs and outputs to
 ```verilog
 module mux2
 	# (parameter width = 8)
-		(input  [width-1:0] d0, d1,
-		 input              s,
-		 output [width-1:0] y);
-		assign y  s ? d1 : d0;
+    (input  [width-1:0] d0, d1,
+     input              s,
+     output [width-1:0] y);
+  assign y  s ? d1 : d0;
 endmodule
 ```
 
@@ -869,12 +869,12 @@ The 8-bit 4:1 multiplexer instantiates three 2:1 multiplexers using their defaul
 
 ```verilog
 module mux4_8 (input  [7:0] d0, d1, d2, d3,
-							 input  [1:0] s,
-							 output [7:0] y);
-	wire [7:0] low, hi;
-	mux2 lowmux (d0, d1, s[0], low);
-	mux2 himux (d2, d3, s[1], hi);
-	mux2 outmux (low, hi, s[1], y);
+               input  [1:0] s,
+               output [7:0] y);
+  wire [7:0] low, hi;
+  mux2 lowmux (d0, d1, s[0], low);
+  mux2 himux (d2, d3, s[1], hi);
+  mux2 outmux (low, hi, s[1], y);
 endmodule
 ```
 
@@ -886,12 +886,12 @@ This example declares a parameterized 2:1 multiplexer with a default width of 8,
 
 ```verilog
 module mux4_12 (input  [11:0] d0, d1, d2, d3,
-								input  [1:0]  s,
-								output [11:0] y);
-	wire [11:0] low, hi;
-	mux2 #(12) lowmux(d0, d1, s[0], low);
-	mux2 #(12) himux(d2, d3, s[1], hi);
-	mux2 #(12) outmux(low, hi, s[1], y);
+                input  [1:0]  s,
+                output [11:0] y);
+  wire [11:0] low, hi;
+  mux2 #(12) lowmux(d0, d1, s[0], low);
+  mux2 #(12) himux(d2, d3, s[1], hi);
+  mux2 #(12) outmux(low, hi, s[1], y);
 endmodule
 ```
 
@@ -905,13 +905,13 @@ This example shows a decoder, which is an even better application of parameteriz
 
 ```verilog
 module decoder # (parameter N = 3)
-							   (input      [N-1:0]    a,
-									output reg [2**N-1:0] y);
-	always @ (*)
-		begin
-			y = 0;
-			y[a] = 1;
-		end
+                 (input      [N-1:0]    a,
+                  output reg [2**N-1:0] y);
+  always @ (*)
+    begin
+      y = 0;
+      y[a] = 1;
+    end
 endmodule
 ```
 
@@ -929,20 +929,20 @@ Of course, writing `assign y = &a` would be much easier.
 
 ```verilog
 module andN
-	# (parameter width = 8)
-		(input [width-1:0] a,
-		 output           y);
-	genvar i;
-	wire [width-1:1] x;
-	generate
-		for (i=1; i<width; i=i+1) begin:forloop
-			if (i == 1)
-				assign x[1] = a[0] & a[1];
-			else
-				assign x[i] = a[i] & x[i-1];
-		end
-	endgenerate
-	assign y = x[width-1];
+  # (parameter width = 8)
+    (input [width-1:0] a,
+     output           y);
+  genvar i;
+  wire [width-1:1] x;
+  generate
+    for (i=1; i<width; i=i+1) begin:forloop
+      if (i == 1)
+        assign x[1] = a[0] & a[1];
+      else
+        assign x[i] = a[i] & x[i-1];
+    end
+  endgenerate
+  assign y = x[width-1];
 endmodule
 ```
 
@@ -963,21 +963,21 @@ Like signals in `always` statements, signals in `initial` statements must be dec
 
 ```verilog
 module testbench1 ();
-	reg a, b, c;
-	wire y;
-	// instantiate device under test
-	sillyfunction dut (a, b, c, y);
-	// apply inputs one at a time
-		initial begin
-		a = 0; b = 0; c = 0; #10;
-		c = 1; #10;
-		b = 1; c = 0; #10;
-		c = 1; #10;
-		a = 1; b = 0; c = 0; #10;
-		c = 1; #10;
-		b = 1; c = 0; #10;
-		c = 1; #10;
-	end
+  reg a, b, c;
+  wire y;
+  // instantiate device under test
+  sillyfunction dut (a, b, c, y);
+  // apply inputs one at a time
+  initial begin
+    a = 0; b = 0; c = 0; #10;
+    c = 1; #10;
+    b = 1; c = 0; #10;
+    c = 1; #10;
+    a = 1; b = 0; c = 0; #10;
+    c = 1; #10;
+    b = 1; c = 0; #10;
+    c = 1; #10;
+  end
 endmodule
 ```
 
@@ -987,30 +987,30 @@ This module checks `y` against expectations after each input test vector is appl
 
 ```verilog
 module testbench2 ();
-	reg a, b, c;
-	wire y;
-	// instantiate device under test
-	sillyfunction dut (a, b, c, y);
-	// apply inputs one at a time
-	// checking results
-	initial begin
-		a = 0; b = 0; c = 0; #10;
-		if (y !== 1) $display(“000 failed.”);
-		c = 1; #10;
-		if (y !== 0) $display(“001 failed.”);
-		b = 1; c = 0; #10;
-		if (y !== 0) $display(“010 failed.”);
-		c = 1; #10;
-		if (y !== 0) $display(“011 failed.”);
-		a = 1; b = 0; c = 0; #10;
-		if (y !== 1) $display(“100 failed.”);
-		c = 1; #10;
-		if (y !== 1) $display(“101 failed.”);
-		b = 1; c = 0; #10;
-		if (y !== 0) $display(“110 failed.”);
-		c = 1; #10;
-		if (y !== 0) $display(“111 failed.”);
-	end
+  reg a, b, c;
+  wire y;
+  // instantiate device under test
+  sillyfunction dut (a, b, c, y);
+  // apply inputs one at a time
+  // checking results
+  initial begin
+    a = 0; b = 0; c = 0; #10;
+    if (y !== 1) $display(“000 failed.”);
+    c = 1; #10;
+    if (y !== 0) $display(“001 failed.”);
+    b = 1; c = 0; #10;
+    if (y !== 0) $display(“010 failed.”);
+    c = 1; #10;
+    if (y !== 0) $display(“011 failed.”);
+    a = 1; b = 0; c = 0; #10;
+    if (y !== 1) $display(“100 failed.”);
+    c = 1; #10;
+    if (y !== 1) $display(“101 failed.”);
+    b = 1; c = 0; #10;
+    if (y !== 0) $display(“110 failed.”);
+    c = 1; #10;
+    if (y !== 0) $display(“111 failed.”);
+  end
 endmodule
 ```
 
@@ -1041,47 +1041,47 @@ The testbench in this example is overkill for such a simple circuit. However, it
 
 ```verilog
 module testbench3 ();
-	reg clk, reset;
-	reg a, b, c, yexpected;
-	wire y;
-	reg [31:0] vectornum, errors;
-	reg [3:0] testvectors [10000:0];
-	// instantiate device under test
-	sillyfunction dut (a, b, c, y);
-	// generate clock
-	always
-		begin
-			clk = 1; #5; clk = 0; #5;
-		end
-	// at start of test, load vectors
-	// and pulse reset
-	initial
-		begin
-			$readmemb (“example.tv”, testvectors);
-			vectornum = 0; errors = 0;
-			reset = 1; #27; reset = 0;
-		end
-	// apply test vectors on rising edge of clk
-	always @ (posedge clk)
-		begin
-			#1; {a, b, c, yexpected} =
-					 testvectors[vectornum];
-		end
-	// check results on falling edge of clk
-	always @ (negedge clk)
-		if (~reset) begin // skip during reset
-			if (y !== yexpected) begin
-				$display (“Error: inputs = %b”, {a, b, c});
-				$display (“ outputs = %b (%b expected)”,
-									y, yexpected);
-				errors = errors + 1;
-			end
-			vectornum = vectornum + 1;
-			if (testvectors[vectornum] === 4’bx) begin
-				$display (“%d tests completed with %d errors”,
-									vectornum, errors);
-				$finish;
-			end
-		end
+  reg clk, reset;
+  reg a, b, c, yexpected;
+  wire y;
+  reg [31:0] vectornum, errors;
+  reg [3:0] testvectors [10000:0];
+  // instantiate device under test
+  sillyfunction dut (a, b, c, y);
+  // generate clock
+  always
+    begin
+      clk = 1; #5; clk = 0; #5;
+    end
+  // at start of test, load vectors
+  // and pulse reset
+  initial
+    begin
+      $readmemb (“example.tv”, testvectors);
+      vectornum = 0; errors = 0;
+      reset = 1; #27; reset = 0;
+    end
+  // apply test vectors on rising edge of clk
+  always @ (posedge clk)
+    begin
+      #1; {a, b, c, yexpected} =
+           testvectors[vectornum];
+    end
+  // check results on falling edge of clk
+  always @ (negedge clk)
+    if (~reset) begin // skip during reset
+      if (y !== yexpected) begin
+        $display (“Error: inputs = %b”, {a, b, c});
+        $display (“ outputs = %b (%b expected)”,
+                  y, yexpected);
+        errors = errors + 1;
+      end
+      vectornum = vectornum + 1;
+      if (testvectors[vectornum] === 4’bx) begin
+        $display (“%d tests completed with %d errors”,
+                   vectornum, errors);
+        $finish;
+      end
+    end
 endmodule
 ```

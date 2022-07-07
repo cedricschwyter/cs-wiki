@@ -2,7 +2,7 @@
 
 This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net). Insight into version history can be obtained from the downstream-only [GitHub repository](https://github.com/D3PSI/cs-wiki). Changes, comments and feedback may be emailed to [cschwyter@ethz.ch](mailto:cschwyter@ethz.ch). Not all content on here is original, some content belongs to the respective content owners/copyright holders as listed in the ‘Resources and Materials’-sections of the respective subject.
 
-## Discrete Mathematics - 252-0025-01L - HS21
+## Discrete Mathematics - **252-0025-01L** - HS21
 
 ---
 
@@ -30,7 +30,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Extended Euclidean Algorithm (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Algebra%202e542e6a0045446282bf640875624025/Extended%20Euclidean%20Algorithm%20(TODO)%20edc946a25db240aabd27314bf3d9481c.md) 
 
-## Algorithms and Datastructures - 252-0026-00L - HS21
+## Algorithms and Datastructures - **252-0026-00L** - HS21
 
 ---
 
@@ -60,7 +60,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Combinatorics (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Combinatorics%20(TODO)%20a6f920864f3f484c8eaabb0a8f81f97f.md)
 
-## Introduction to Programming - 252-0027-00L - HS21
+## Introduction to Programming - **252-0027-00L** - HS21
 
 ---
 
@@ -70,7 +70,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Hoare-Logic](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Hoare-Logic%2008c60b02ccd04c31acdffa543ae436e0.md)
 
-## Linear Algebra - 401-0131-00L - HS21
+## Linear Algebra - **401-0131-00L** - HS21
 
 ---
 
@@ -90,7 +90,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Linear Least Squares (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Linear%20Least%20Squares%20(TODO)%20ee88b98de66f420ea550152aa9b53840.md)
 
-## Digital Design and Computer Architecture - **252-0028-00L - FS22**
+## Digital Design and Computer Architecture - **252-0028-00L -** FS22
 
 ---
 
@@ -112,7 +112,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Memory Systems](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Memory%20Systems%20f4d8ed2c175644e8919b090d6392f985.md)
 
-## Parallel Programming - **252-0029-00L - FS22**
+## Parallel Programming - **252-0029-00L -** FS22
 
 ---
 
@@ -180,7 +180,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Coupon-Collector Problem](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Probability%20Theory%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.md) 
 
-## Analysis I - **401-0212-16L - FS22**
+## Analysis I - **401-0212-16L -** FS22
 
 ---
 

@@ -130,10 +130,10 @@ Hardware description languages provide the $+$ operation to specify a CPA. Moder
 ```verilog
 module adder #(parameter N = 8)
 							(input  [N-1:0] a, b,
-							 input          cin,
-							 output [N-1:0] s,
-							 output         cout);
-	assign {cout, s} = a + b + cin;
+               input          cin,
+               output [N-1:0] s,
+               output         cout);
+  assign {cout, s} = a + b + cin;
 endmodule
 ```
 
@@ -151,9 +151,9 @@ This example describes a subtractor.
 
 ```verilog
 module subtractor #(parameter N = 8)
-									 (input  [N-1:0] a, b,
-										output [N-1:0] y);
-	assign y = a - b;
+                   (input  [N-1:0] a, b,
+                    output [N-1:0] y);
+  assign y = a - b;
 endmodule
 ```
 
@@ -177,16 +177,16 @@ The example shows how to use various comparison operations.
 
 ```verilog
 module comparators # (parameter N = 8)
-										 (input  [N-1:0] a, b,
-											output         eq, neq,
-											output         lt, lte,
-											output         gt, gte);
-	assign eq = (a == b);
-	assign neq = (a != b);
-	assign lt = (a < b);
-	assign lte = (a <= b);
-	assign gt = (a > b);
-	assign gte = (a >= b);
+                     (input  [N-1:0] a, b,
+                      output         eq, neq,
+                      output         lt, lte,
+                      output         gt, gte);
+  assign eq = (a == b);
+  assign neq = (a != b);
+  assign lt = (a < b);
+  assign lte = (a <= b);
+  assign gt = (a > b);
+  assign gte = (a >= b);
 endmodule
 ```
 
@@ -247,9 +247,9 @@ As with adders, many different multiplier designs with different speed/cost trad
 
 ```verilog
 module multiplier # (parameter N = 8)
-										(input  [N-1:0]   a, b,
-										 output [2*N-1:0] y);
-	assign y = a * b;
+                    (input  [N-1:0]   a, b,
+                     output [2*N-1:0] y);
+  assign y = a * b;
 endmodule
 ```
 
@@ -363,12 +363,12 @@ The example describes a binary counter with asynchronous reset.
 
 ```verilog
 module counter # (parameter N = 8)
-								 (input              clk,
-									input              reset,
-									output reg [N-1:0] q);
-	always @ (posedge clk or posedge reset)
-		if (reset) q <= 0;
-		else q <= q + 1;
+                 (input              clk,
+                  input              reset,
+                  output reg [N-1:0] q);
+  always @ (posedge clk or posedge reset)
+    if (reset) q <= 0;
+    else q <= q + 1;
 endmodule
 ```
 
@@ -392,18 +392,18 @@ The example describes such a circuit.
 
 ```verilog
 module shiftreg # (parameter N = 8)
-									(input              clk,
-									 input              reset, load,
-									 input              sin,
-									 input      [N-1:0] d,
-									 output reg [N-1:0] q,
-									 output             sout);
-	always @ (posedge clk or posedge reset)
-		if (reset) q <= 0;
-		else if (load) q <= d;
-		else q <= {q[N-2:0], sin};
+                  (input              clk,
+                   input              reset, load,
+                   input              sin,
+                   input      [N-1:0] d,
+                   output reg [N-1:0] q,
+                   output             sout);
+  always @ (posedge clk or posedge reset)
+    if (reset) q <= 0;
+    else if (load) q <= d;
+    else q <= {q[N-2:0], sin};
 
-	assign sout = q[N-1]
+  assign sout = q[N-1]
 endmodule
 ```
 
@@ -454,5 +454,27 @@ The figure shows the internal organization of a 4 $\times$ 3 memory array. Of co
 During a memory read, a wordline is asserted and the corresponding row of bit cells drives the bitlines HIGH or LOW. During a memory write, the bitlines are driven HIGH or LOW first and then a wordline is asserted, allowing the bitline values to be stored in that row of bit cells.
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2040.png)
+
+### Memory Ports
+
+All memories have one or more *ports*. Each port gives read and/or write access to one memory address. The previous examples were all single-ported memories.
+
+*Multiported* memories can access several addresses simultaneously. The figure shows a three-ported memory with two read ports and one write port. Port 1 reads the data from address A1 onto the read data output RD1. Port 2 reads the data from address A2 onto RD2. Port 3 writes the data from the write data input, WD3, into address A3 on the rising edge of the clock if the write enable, WE3, is asserted.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2041.png)
+
+### Memory Types
+
+Memory arrays are specified by their size (depth $\times$ width) and the number and type of ports. All memory arrays store data as an array of bit cells, but they differ in how they store bits.
+
+Memories are classified based on how they store bits in the bit cell. The broadest classification is *random access memory (RAM)* versus *read only memory (ROM)*. RAM is *volatile*, meaning that it retains its data indefinitely, even without a power source.
+
+RAM and ROM received their names for historical reasons that are no longer very meaningful. RAM is called *random* access memory because any data word is accessed with the same delay as any other. A sequential access memory, such as a tape recorder, accesses nearby data more quickly than faraway data.
+
+ROM is called *read only* memory because, historically, it could only be read but not written. These names are confusing, because ROMs are randomly accessed too. Worse yet, most modern ROMs can be written as well as read! The important distinction to remember is that RAMs are volatile and ROMs are nonvolatile.
+
+The two major types of RAMs are *dynamic RAM (DRAM)* and *static RAM (SRAM)*. Dynamic RAM stores data as a charge on a capacitor, whereas static RAM stores data using a pair of cross-coupled inverters. There are many flavors of ROMs that vary by how they are written and erased.
+
+## Dynamic Random Access Memory
 
 # Logic Arrays
