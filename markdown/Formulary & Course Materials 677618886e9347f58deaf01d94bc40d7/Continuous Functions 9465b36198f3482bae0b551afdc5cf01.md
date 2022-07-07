@@ -1,8 +1,8 @@
 # Continuous Functions
 
-# *Real-Valued Functions*
+# Real-Valued Functions
 
-## *Boundedness*
+## Boundedness
 
 <aside>
 💡 *Let $f \in \mathbb{R}^D$.*
@@ -12,10 +12,10 @@
 3. $*f$ is **bounded** if $f(D) \sube \mathbb{R}$ is bounded.*
 </aside>
 
-## *Monotony*
+## Monotony
 
 <aside>
-💡 *A function $f : D \longrightarrow \mathbb{R}$, where $D \sube \mathbb{R}$ is called*
+💡 A function $f : D \longrightarrow \mathbb{R}$, where $D \sube \mathbb{R}$ is called
 
 1. ***monotonically increasing** if $\forall x,y \in D$*
 
@@ -23,43 +23,43 @@ $$
 x \leq y \implies f(x) \leq f(y)
 $$
 
-1. ***strictly monotonically increasing** if $\forall x,y \in D$*
+1. **strictly monotonically increasing** if $\forall x,y \in D$
 
 $$
 x \lt y \implies f(x) \lt f(y)
 $$
 
-1. ***monotonically decreasing** if $\forall x,y \in D$*
+1. **monotonically decreasing** if $\forall x,y \in D$
 
 $$
 x \leq y \implies f(x) \geq f(y)
 $$
 
-1. ***strictly monotonically decreasing** if $\forall x,y \in D$*
+1. **strictly monotonically decreasing** if $\forall x,y \in D$
 
 $$
 x \lt y \implies f(x) \gt f(y)
 $$
 
-1. ***monotonous** if $f$ is monotonically increasing or monotonically decreasing*
-2. ***strictly monotonous** if $f$ is strictly monotonically increasing or strictly monotonically decreasing.*
+1. **monotonous** if $f$ is monotonically increasing or monotonically decreasing
+2. **strictly monotonous** if $f$ is strictly monotonically increasing or strictly monotonically decreasing.
 </aside>
 
-## *Continuity*
+## Continuity
 
 <aside>
-💡 *Let $D \sube \mathbb{R}$, $x_0 \in D$. The function $f: D \longrightarrow \mathbb{R}$ is **continuous in $x_0$** if for every $\epsilon \gt 0$ there exists a $\delta \gt 0$ such that for every $x \in D$ the implication*
+💡 Let $D \sube \mathbb{R}$, $x_0 \in D$. The function $f: D \longrightarrow \mathbb{R}$ is **continuous in $x_0$** if for every $\epsilon \gt 0$ there exists a $\delta \gt 0$ such that for every $x \in D$ the implication
 
 $$
 \lvert x - x_0 \rvert \lt \delta \implies\lvert f(x) - f(x_0) \rvert \lt \epsilon
 $$
 
-*holds.*
+holds.
 
 </aside>
 
 <aside>
-💡 *The function $f : D \longrightarrow \mathbb{R}$ is **continuous** if it is continuous in every point of $D$.*
+💡 The function $f : D \longrightarrow \mathbb{R}$ is **continuous** if it is continuous in every point of $D$.
 
 </aside>
 
@@ -90,13 +90,13 @@ $$
 </aside>
 
 <aside>
-💡 *A **polynomial function** $P:\mathbb{R} \longrightarrow \mathbb{R}$ is a function of the form*
+💡 A **polynomial function** $P:\mathbb{R} \longrightarrow \mathbb{R}$ is a function of the form
 
 $$
 P(x) = a_nx^n+...+a_0
 $$
 
-*where $a_n,...,a_0 \in \mathbb{R}$. If $a_n \neq 0$ then $n$ is the **degree** of $P$,*
+where $a_n,...,a_0 \in \mathbb{R}$. If $a_n \neq 0$ then $n$ is the **degree** of $P$,
 
 </aside>
 
@@ -119,10 +119,10 @@ $$
 
 </aside>
 
-## *Intermediate Value Theorem*
+## Intermediate Value Theorem
 
 <aside>
-💡 *Let $x_1, x_2 \in \mathbb{R}$. Then $c$ lies between $x_1$ and $x_2$ if:*
+💡 Let $x_1, x_2 \in \mathbb{R}$. Then $c$ lies between $x_1$ and $x_2$ if:
 
 1. $*x_1 \leq x_2 \quad c\in[x_1, x_2]$* 
 2. $*x_2 \leq x_1 \quad c \in [x_2, x_1]$.*
@@ -140,10 +140,10 @@ $$
 
 </aside>
 
-## *Min-Max Theorem*
+## Min-Max Theorem
 
 <aside>
-💡 *An interval $I \sube R$ is called **compact** if it is of the form*
+💡 An interval $I \sube R$ is called **compact** if it is of the form
 
 $$
 I = [a,b] \quad a \leq b.
@@ -152,7 +152,7 @@ $$
 </aside>
 
 <aside>
-💡 *Let $D$ be a set and $f,g: D \longrightarrow \mathbb{R}$ be functions. We define*
+💡 Let $D$ be a set and $f,g: D \longrightarrow \mathbb{R}$ be functions. We define
 
 - $*\lvert f \rvert(x) = \lvert f(x)\rvert, \quad \forall x \in D*$
 - $*\max(f,g)(x) = \max(f(x),g(x)), \quad \forall x \in D*$
@@ -196,7 +196,7 @@ $$
 
 </aside>
 
-## *The Theorem About the Inverse Transformation*
+## The Theorem About the Inverse Transformation
 
 <aside>
 📖 *Let $D_1, D_2 \sube \mathbb{R}$ be two subsets, $f:D_1 \longrightarrow D_2, g: D_2 \longrightarrow \mathbb{R}$ be two functions and $x_0 \in D_1$. If $f$ is continuous in $x_0$ and $g$ is continuous in $f(x_0)$ then*
@@ -219,7 +219,7 @@ $$
 
 </aside>
 
-## *The Real Exponential Function*
+## The Real Exponential Function
 
 <aside>
 📖 $*\exp:\mathbb{R} \longrightarrow (0, +\infty)$ is strictly monotonically increasing, continuous and surjective.*
@@ -295,13 +295,13 @@ $$
 </aside>
 
 <aside>
-💡 *We can now use the logarithm and exponential function to define general powers. For $x \gt 0$ and $a \in \mathbb{R}$ arbitrary we define:*
+💡 We can now use the logarithm and exponential function to define general powers. For $x \gt 0$ and $a \in \mathbb{R}$ arbitrary we define:
 
 $$
 x^a=\exp(a \ln x).
 $$
 
-*In particular: $x^0=1 \quad \forall x \gt 0.$*
+In particular: $x^0=1 \quad \forall x \gt 0.$
 
 </aside>
 
@@ -335,10 +335,10 @@ $$
 5. $*(x^a)^b = x^{a \cdot b} \quad \forall a,b \in \mathbb{R}, \forall x \gt 0.*$
 </aside>
 
-## *Convergence of Sequences of Functions*
+## Convergence of Sequences of Functions
 
 <aside>
-💡 *Let $D$ be a set. Analogously to the definition of a sequence of real numbers a (real-valued) sequence of functions is a transformation*
+💡 Let $D$ be a set. Analogously to the definition of a sequence of real numbers a (real-valued) sequence of functions is a transformation
 
 $$
 \begin{align*}
@@ -347,12 +347,12 @@ n & \longmapsto f(n).
 \end{align*}
 $$
 
-*Just like we did in the case of sequences we will denote $f(n)$ by $f_n$ and the sequence of functions as $(f_n)_{n \geq 0}$. For every $x \in D$ we get a sequence $(f_n(x))_{n \geq 0}$ in $\mathbb{R}$.*
+Just like we did in the case of sequences we will denote $f(n)$ by $f_n$ and the sequence of functions as $(f_n)_{n \geq 0}$. For every $x \in D$ we get a sequence $(f_n(x))_{n \geq 0}$ in $\mathbb{R}$.
 
 </aside>
 
 <aside>
-💡 *The sequence of functions $(f_n)_{n \geq 0}$ **converges pointwise** towards a function $f :D \longrightarrow \mathbb{R}$ if for all $x \in D$:*
+💡 The sequence of functions $(f_n)_{n \geq 0}$ **converges pointwise** towards a function $f :D \longrightarrow \mathbb{R}$ if for all $x \in D$:
 
 $$
 f(x) = \lim_{n \to \infty} f_n(x)
@@ -361,21 +361,21 @@ $$
 </aside>
 
 <aside>
-💡 *(Weierstrass 1841)*
+💡 (Weierstrass 1841)
 
-*The sequence* 
+The sequence 
 
 $$
 f_n:D \longrightarrow \mathbb{R}
 $$
 
-***converges uniformly** in $D$ towards*
+**converges uniformly** in $D$ towards
 
 $$
 f: D \longrightarrow \mathbb{R}
 $$
 
-*if it holds that: $\forall \epsilon \gt 0 \quad \exists N \geq 1$ such that:*
+if it holds that: $\forall \epsilon \gt 0 \quad \exists N \geq 1$ such that:
 
 $$
 \forall n \geq N, \forall x \in D \quad \lvert f_n(x) - f(x) \rvert \lt \epsilon.
@@ -389,19 +389,19 @@ $$
 </aside>
 
 <aside>
-💡 *A sequence of functions*
+💡 A sequence of functions
 
 $$
 f_n : D \longrightarrow \mathbb{R}
 $$
 
-*is **uniformly convergent** if for every $x \in D$ the limit*
+is **uniformly convergent** if for every $x \in D$ the limit
 
 $$
 f(x) = \lim_{n \to \infty} f_n(x)
 $$
 
-*exists and the sequence $(f_n)_{n \geq 0}$ converges uniformly towards $f$.*
+exists and the sequence $(f_n)_{n \geq 0}$ converges uniformly towards $f$.
 
 </aside>
 
@@ -434,15 +434,15 @@ $$
 </aside>
 
 <aside>
-💡 *Let $f_n : D \longrightarrow \mathbb{R}$ be a sequence of functions.*
+💡 Let $f_n : D \longrightarrow \mathbb{R}$ be a sequence of functions.
 
-*The series $\sum_{k=0}^\infty f_k(x)$ converges uniformly (in $D$), if the sequence of functions given by* 
+The series $\sum_{k=0}^\infty f_k(x)$ converges uniformly (in $D$), if the sequence of functions given by 
 
 $$
 S_n(x) = \sum_{k=0}^n f_k(x)
 $$
 
-*converges uniformly.*
+converges uniformly.
 
 </aside>
 
@@ -476,15 +476,15 @@ $$
 </aside>
 
 <aside>
-💡 *The power series*
+💡 The power series
 
 $$
 \sum _{k=0}^\infty c_kx^k
 $$
 
-*has a **positive radius of convergence** if $\limsup_{k \to \infty} \sqrt[k]{\lvert c_k \rvert}$ exists.*
+has a **positive radius of convergence** if $\limsup_{k \to \infty} \sqrt[k]{\lvert c_k \rvert}$ exists.
 
-*The radius of convergence is then defines as:*
+The radius of convergence is then defines as:
 
 $$
 \rho = \begin{cases}
