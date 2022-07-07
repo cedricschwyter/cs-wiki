@@ -31,7 +31,7 @@ $$
 
 *Let $f:D \longrightarrow \mathbb{R}$ and let $x_0 \in D$ be an accumulation point of $D$. The following statements are equivalent:*
 
-1. $*f$ is differentiable in $x_0$,*
+1. $f$ *is differentiable in* $x_0$,
 2. *There exist $c \in \mathbb{R}$ and $r: D \longrightarrow \mathbb{R}$ with:*
     1. $f(x) = f(x_0)+c(x-x_0)+r(x)(x-x_0)$
     2. $r(x_0)=0$ *and r is continuous in $x_0$.*
@@ -433,13 +433,13 @@ $$
 <aside>
 📖 Let $D \sube \mathbb{R}$ such that every $x_0 \in D$ is an accumulation point of $D$. Let $n \geq 1$ and $f ,g : D \longrightarrow \mathbb{R}$ be differentiable $n$-times in $D$.
 
-1. $*f+g$ can be differentiated $n$-times and* 
+1. $f+g$ *can be differentiated* $n$*-times and* 
     
     $$
     (f+g)^{(n)} = f^{(n)} + g^{(n)}.
     $$
     
-2. $*f \cdot g$ can be differentiated $n$-times and* 
+2. $f \cdot g$ *can be differentiated* $n$*-times and* 
 
 $$
 (f\cdot g)^{(n)} = \sum_{k=0}^n \binom{n}{k} f^{(k)}g^{(n-k)}.
