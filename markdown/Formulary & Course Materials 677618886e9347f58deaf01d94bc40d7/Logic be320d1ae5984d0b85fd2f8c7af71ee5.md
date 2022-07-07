@@ -330,7 +330,7 @@ $$
 in CNF, denoted as $\mathcal{K}(F)$, is the set
 
 $$
-\mathcal{K}(F) \stackrel{\mathrm{def}}{=} \{\{L_{11},...,L_{1m_1}\},...,\{L_{n1},...,L_{nm_n}\}\}.
+\mathcal{K}(F) \stackrel{\mathrm{def}}{=} \{ \{L_{11},...,L_{1m_1}\},...,\{L_{n1},...,L_{nm_n}\} \}.
 $$
 
 The set of clauses associated with a set $M = \{F_1,...F_k\}$ of formulas is the union of their clause sets:

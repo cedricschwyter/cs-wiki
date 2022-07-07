@@ -106,11 +106,11 @@ Hardware description languages provide the <span class="katex"><span class="kate
 
 ```verilog
 module adder #(parameter N = 8)
-							(input  [N-1:0] a, b,
+              (input  [N-1:0] a, b,
                input          cin,
                output [N-1:0] s,
                output         cout);
-  assign \{cout, s\} = a + b + cin;
+  assign {cout, s} = a + b + cin;
 endmodule
 ```
 
@@ -387,7 +387,7 @@ module shiftreg # (parameter N = 8)
   always @ (posedge clk or posedge reset)
     if (reset) q <= 0;
     else if (load) q <= d;
-    else q <= \{q[N-2:0], sin\};
+    else q <= {q[N-2:0], sin};
 
   assign sout = q[N-1]
 endmodule
