@@ -45,11 +45,11 @@ Since Java is a strongly-typed language the compiled can detect type errors at c
 # Two-way `if` Statement
 
 ```java
-if (boolean-expression) {
+if (boolean-expression) \{
     statementsTrue();
-} else {
+\} else \{
     statementsFalse();
-}
+\}
 ```
 
 # Nested `if/else`
@@ -57,13 +57,13 @@ if (boolean-expression) {
 Chooses between outcomes using many tests.
 
 ```java
-if (test) {
+if (test) \{
     statements();
-} else if (test) {
+\} else if (test) \{
     statements();
-} else {
+\} else \{
     statements();
-}
+\}
 ```
 
 Tip: In parallelism/concurrency try to have the `if/else`'s read from a local variable.

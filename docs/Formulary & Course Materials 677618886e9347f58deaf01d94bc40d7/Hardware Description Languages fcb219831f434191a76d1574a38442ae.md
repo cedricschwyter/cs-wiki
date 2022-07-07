@@ -6,17 +6,17 @@ Thus far we have focused on designing combinational and sequential digital circu
 
 ## Modules
 
-A block of hardware with inputs and outputs is called a *module*. An $\text{AND}$ gate, a multiplexer, and a priority circuit are all examples of hardware modules. The two general styles for describing module functionality are *behavioral* and *structural*. Behavioral models describe what a module does. Structural models describe how a module is built from simpler pieces; it is an application of hierarchy. The Verilog code in the example illustrates behavioral descriptions of a module that computes the Boolean function $Y = \bar{A}\bar{B}\bar{C}+A\bar{B}\bar{C}+A\bar{B}C$. The module is named `sillyfunction` and has three inputs `a`, `b` and `c`, and one output, `y`.
+A block of hardware with inputs and outputs is called a *module*. An $\text\{AND\}$ gate, a multiplexer, and a priority circuit are all examples of hardware modules. The two general styles for describing module functionality are *behavioral* and *structural*. Behavioral models describe what a module does. Structural models describe how a module is built from simpler pieces; it is an application of hierarchy. The Verilog code in the example illustrates behavioral descriptions of a module that computes the Boolean function $Y = \bar\{A\}\bar\{B\}\bar\{C\}+A\bar\{B\}\bar\{C\}+A\bar\{B\}C$. The module is named `sillyfunction` and has three inputs `a`, `b` and `c`, and one output, `y`.
 
-A Verilog module begins with the module name and a listing of the inputs and outputs. The `assign` statement describes combinational logic. `~` indicates $\text{NOT}$, `&` indicates $\text{AND}$ and `|` indicates $\text{OR}$.
+A Verilog module begins with the module name and a listing of the inputs and outputs. The `assign` statement describes combinational logic. `~` indicates $\text\{NOT\}$, `&` indicates $\text\{AND\}$ and `\|` indicates $\text\{OR\}$.
 
 Verilog signals such as the inputs and outputs are Boolean variables. They may also have floating and undefined values.  
 
 ```verilog
 module sillyfunction (input a, b, c, 
                       output y);
-  assign y = ~a & ~b & ~c |
-              a & ~b & ~c |
+  assign y = ~a & ~b & ~c \|
+              a & ~b & ~c \|
               a & ~b &  c;
 endmodule
 ```
@@ -41,7 +41,7 @@ The figure shows waveforms from a simulation of the previous `sillyfunction` mod
 
 ### Synthesis
 
-Logic synthesis transforms HDL code into a *netlist* describing the hardware (e.g., the logic gates and the wires connecting them). The logic synthesizer might perform optimizations to reduce the amount of hardware required. The netlist may be a text file, or it may be drawn as a schematic to help visualize the circuit. The figure shows the results of synthesizing the `sillyfunction` module. Notice how the three three-input $\text{AND}$ gates are simplified into two two-input $\text{AND}$ gates using Boolean algebra.
+Logic synthesis transforms HDL code into a *netlist* describing the hardware (e.g., the logic gates and the wires connecting them). The logic synthesizer might perform optimizations to reduce the amount of hardware required. The netlist may be a text file, or it may be drawn as a schematic to help visualize the circuit. The figure shows the results of synthesizing the `sillyfunction` module. Notice how the three three-input $\text\{AND\}$ gates are simplified into two two-input $\text\{AND\}$ gates using Boolean algebra.
 
 CIrcuit descriptions in HDL resemble code in a programming language. However, one must remember that the code is intended to represent hardware. Verilog is a rich language with many commands. Not all of these commands can be synthesized into hardware. For example, a command to print results on the screen during simulation does not translate into hardware. Because our primary interest is to build hardware, we will emphasize a *synthesizable subset* of the language. Specifically, we will divide HDL code into *synthesizable* modules and a *testbench*. The synthesizable modules describe the hardware. The testbench contains code to apply inputs to a module, check whether the output results are correct, and print discrepancies between expected and actual outputs. Testbench code is intended only for simulation and cannot be synthesized.
 
@@ -72,7 +72,7 @@ endmodule
 
 The `gates` module in this example demonstrates bitwise operations acting on 4-bit busses for other basic logic functions. 
 
-`~`, `^`, and `|` are examples of Verilog *operators*, whereas `a`, `b`, and `y1` are *operands*. A combination of operators and operands, such as `a & b`, or `~(a | b)`, is called an *expression*. A complete command such as `assign y4 = ~(a & b);` is called a *statement*. 
+`~`, `^`, and `\|` are examples of Verilog *operators*, whereas `a`, `b`, and `y1` are *operands*. A combination of operators and operands, such as `a & b`, or `~(a \| b)`, is called an *expression*. A complete command such as `assign y4 = ~(a & b);` is called a *statement*. 
 
 `assign out = in1 op in2;` is called a *continuous assignment statement*. Continuous assignment statements end with a semicolon. Anytime the inputs on the right side of the `=` in a continuous assignment statement change, the output on the left side is recomputed. Thus, continuous assignment statements describe combinational logic.
 
@@ -81,10 +81,10 @@ module gates (input  [3:0] a, b,
               output [3:0] y1, y2,
                            y3, y4, y5);
   assign y1 = a & b; // AND
-  assign y2 = a | b; // OR
+  assign y2 = a \| b; // OR
   assign y3 = a ^ b; // XOR
   assign y4 = ~(a & b); // NAND
-  assign y5 = ~(a | b); // NOR
+  assign y5 = ~(a \| b); // NOR
 endmodule
 ```
 
@@ -100,9 +100,9 @@ Verilog is case-sensitive. `y1` and `Y1` are different signals in Verilog.
 
 ## Reduction Operators
 
-Reduction operators imply a multiple-input gate acting on a single bus. The example describes an eight-input $\text{AND}$ gate with inputs `a_7, a_6,...,a_0`. 
+Reduction operators imply a multiple-input gate acting on a single bus. The example describes an eight-input $\text\{AND\}$ gate with inputs `a_7, a_6,...,a_0`. 
 
-As one would expect, `|`, `^`, `~&`, and `~|` reduction operators are available for $\text{OR}$, $\text{XOR}$, $\text{NAND}$, and $\text{NOR}$ as well. Recall that a multi-input $\text{XOR}$ performs parity, returning TRUE if an odd number of inputs are TRUE.
+As one would expect, `\|`, `^`, `~&`, and `~\|` reduction operators are available for $\text\{OR\}$, $\text\{XOR\}$, $\text\{NAND\}$, and $\text\{NOR\}$ as well. Recall that a multi-input $\text\{XOR\}$ performs parity, returning TRUE if an odd number of inputs are TRUE.
 
 ```verilog
 module and8 (input  [7:0] a,
@@ -158,28 +158,28 @@ Often it is convenient to break a complex function into intermediate steps.
 A full adder for example is a circuit with three inputs and two outputs defined by the following equations: 
 
 $$
-\begin{align*}
-S & = A \oplus B \oplus C_{\text{ín}} \\
-C_{\text{out}} & = AB + AC_{\text{in}} + BC_{\text{in}}
-\end{align*}
+\begin\{align*\}
+S & = A \oplus B \oplus C_\{\text\{ín\}\} \\
+C_\{\text\{out\}\} & = AB + AC_\{\text\{in\}\} + BC_\{\text\{in\}\}
+\end\{align*\}
 $$
 
 If we define intermediate signals, $P$ and $G$,
 
 $$
-\begin{align*}
+\begin\{align*\}
 P &= A \oplus B \\
 G &= AB
-\end{align*}
+\end\{align*\}
 $$
 
 we can rewrite the full adder as follows: 
 
 $$
-\begin{align*}
-S &= P \oplus C_{\text{in}} \\
-C_{\text{out}} &= G + PC_{\text{in}}
-\end{align*}
+\begin\{align*\}
+S &= P \oplus C_\{\text\{in\}\} \\
+C_\{\text\{out\}\} &= G + PC_\{\text\{in\}\}
+\end\{align*\}
 $$
 
 $P$ and $G$ are called *internal variables*, because they are neither inputs nor outputs but are used only internal to the module. The example shows how they are used in HDLs.
@@ -195,7 +195,7 @@ module fulladder (input  a, b, cin,
   assign p = a ^ b;
   assign g = a & b;
   assign s = p ^ cin;
-  assign cout = g | (p & cin);
+  assign cout = g \| (p & cin);
 endmodule
 ```
 
@@ -209,7 +209,7 @@ endmodule
 
 Numbers can be specified in a variety of bases. Underscores in numbers are ignored and can be helpful in breaking long numbers into more readable chunks.
 
-Verilog numbers can specify their base and size (the number of bits used to represent them). The format for declaring constants is `N'Bvalue`, where `N` is the size in bits, `B` is the base, and `value` gives the value. For example `9'h25` indicates a 9-bit number with a value of $25_{16} = 37_{10} = 000100101_2$. Verilog supports `'b` for binary, `'o` for octal, `'d` for decimal and `'h` for hexadecimal. If the base is omitted, the base defaults to decimal.
+Verilog numbers can specify their base and size (the number of bits used to represent them). The format for declaring constants is `N'Bvalue`, where `N` is the size in bits, `B` is the base, and `value` gives the value. For example `9'h25` indicates a 9-bit number with a value of $25_\{16\} = 37_\{10\} = 000100101_2$. Verilog supports `'b` for binary, `'o` for octal, `'d` for decimal and `'h` for hexadecimal. If the base is omitted, the base defaults to decimal.
 
 If the size is not given, the number is assumed to have as many bits as the expression in which it is being used. Zeros are automatically padded on the front of the number to bring it up to full size. For example, if `w` is a 6-bit bus, `assign w = 'b11` gives `w` the value 000011. It is better practice to explicitly give the size.
 
@@ -237,7 +237,7 @@ If a gate receives a floating input, it may produce an `x` output when it can’
 
 Verilog signal values are `0`, `1`, `z` and `x`. Verilog constants starting with `z` or `x` are padded with leading `z`'s or `x`'s (instead of 0’s) to reach their full length when necessary.
 
-The table shows a truth table for an $\text{AND}$ gate using all four possible signal values. Note that the gate can sometimes determine the output despite some inputs being unknown. For example `0 & z` returns `0` because the output of an $\text{AND}$ gate is always 0 if either input is 0. Otherwise, floating or invalid inputs cause invalid outputs.
+The table shows a truth table for an $\text\{AND\}$ gate using all four possible signal values. Note that the gate can sometimes determine the output despite some inputs being unknown. For example `0 & z` returns `0` because the output of an $\text\{AND\}$ gate is always 0 if either input is 0. Otherwise, floating or invalid inputs cause invalid outputs.
 
 Seeing `x` values in a simulation is almost always an indication of a bug or bad coding practice. In the synthesized circuit, this corresponds to a floating gate input, uninitialized state, or contention. The `x` may be interpreted randomly by the circuit as 0 or 1, leading to unpredictable behavior.
 
@@ -247,21 +247,21 @@ Seeing `x` values in a simulation is almost always an indication of a bug or bad
 
 Often it is necessary to operate on a subset of a bus or to concatenate (join together) signals to form busses. These operations are collectively known as *bit swizzling*. In the example, `y` is given the 9-bit value $c_2c_1d_0d_0d_0c_0101$ using bit swizzling operations.
 
-The `{}` operator is used to concatenate busses. `{3{d[0]}}` indicates three copies of `d[0]`.
+The `\{\}` operator is used to concatenate busses. `\{3\{d[0]\}\}` indicates three copies of `d[0]`.
 
 don’t confuse the 3-bit binary constant `3'b101` with a bus named `b`. Note that it was critical to specify the length of 3 bits in the constant; otherwise, it would have had an unknown number of leading zeros that might appear in the middle of `y`.
 
 if `y` were wider than 9 bits, zeros would be placed in the most significant bits.
 
 ```verilog
-assign y = {c[2:1], {3{d[0]}}, c[0], 3'b101};
+assign y = \{c[2:1], \{3\{d[0]\}\}, c[0], 3'b101\};
 ```
 
 ## Delays
 
-HDL statements may be associated with delays specified in arbitrary units. They are helpful during simulation to predict how fast a circuit will work (if one specify meaningful delays) and also for debugging purposes to understand cause and effect (deducing the source of a bad output is tricky if all signals change simultaneously in the simulation results). These delays are ignored during synthesis; the delay of a gate produced by the synthesizer depends on its $t_{pd}$ and $t_{cd}$ specifications, not on numbers in HDL code.
+HDL statements may be associated with delays specified in arbitrary units. They are helpful during simulation to predict how fast a circuit will work (if one specify meaningful delays) and also for debugging purposes to understand cause and effect (deducing the source of a bad output is tricky if all signals change simultaneously in the simulation results). These delays are ignored during synthesis; the delay of a gate produced by the synthesizer depends on its $t_\{pd\}$ and $t_\{cd\}$ specifications, not on numbers in HDL code.
 
-The example adds delays to the original function from the first example, $Y = \bar{A}\bar{B}\bar{C}+A\bar{B}\bar{C}+A\bar{B}C$. It assumes that inverters have a delay of 1 ns, three-input $\text{AND}$ gates have a delay of 2 ns, and three-input $\text{OR}$ gates have a delay of 4 ns. The figure shows the simulation waveforms, with `y` lagging 7 ns after the inputs. Note that `y` is initially unknown at the beginning of a simulation.
+The example adds delays to the original function from the first example, $Y = \bar\{A\}\bar\{B\}\bar\{C\}+A\bar\{B\}\bar\{C\}+A\bar\{B\}C$. It assumes that inverters have a delay of 1 ns, three-input $\text\{AND\}$ gates have a delay of 2 ns, and three-input $\text\{OR\}$ gates have a delay of 4 ns. The figure shows the simulation waveforms, with `y` lagging 7 ns after the inputs. Note that `y` is initially unknown at the beginning of a simulation.
 
 Verilog files can include a timescale directive that indicates the value of each time unit. The statement is of the form `'timescale unit/precision`. In this file, each unit is 1 ns, and the simulation has 1 ps precision. If no timescale directive is given in the file, a default unit and precision (usually 1 ns for both) is used. In Verilog, a `#` symbol is used to indicate the number of units of delay. It can be placed in `assign` statements, as well as non-blocking (`<=`) and blocking (`=`) assignments, which will be discussed.
 
@@ -271,11 +271,11 @@ Verilog files can include a timescale directive that indicates the value of each
 module example (input  a, b, c,
                 output y);
   wire ab, bb, cb, n1, n2, n3;
-  assign #1 {ab, bb, cb} = ~{a, b, c};
+  assign #1 \{ab, bb, cb\} = ~\{a, b, c\};
   assign #2 n1 = ab & bb & cb;
   assign #2 n2 = a  & bb & cb;
   assign #2 n3 = a  & bb & c;
-  assign #4 y = n1 | n2 | n3;
+  assign #4 y = n1 \| n2 \| n3;
 endmodule
 ```
 
@@ -423,7 +423,7 @@ A single `always` statement can be used to describe multiple pieces of hardware.
 
 The example describes the synchronizer. On the rising edge of `clk`, `d` is copied to `n1`. At the same time, `n1` is copied to `q`. 
 
-`n1`must be declared as `reg` because it is an internal signal used on the left hand side of `<=` in an `always` statement. Also notice that the `begin/end` construct is necessary because multiple statements appear in the `always` statement. This is analogous to `{ }` in C or Java. The `begin/end` was not needed in the `flopr` example because `if/else` counts as a single statement.
+`n1`must be declared as `reg` because it is an internal signal used on the left hand side of `<=` in an `always` statement. Also notice that the `begin/end` construct is necessary because multiple statements appear in the `always` statement. This is analogous to `\{ \}` in C or Java. The `begin/end` was not needed in the `flopr` example because `if/else` counts as a single statement.
 
 ```verilog
 module sync (input clk,
@@ -496,7 +496,7 @@ module fulladder (input      a, b, cin,
       p = a ^ b; // blocking
       g = a & b; // blocking
       s = p ^ cin; // blocking
-      cout = g | (p & cin); // blocking
+      cout = g \| (p & cin); // blocking
     end
 endmodule
 ```
@@ -637,7 +637,7 @@ The guidelines explaining when and how to use which type of assignment follow be
         p = a ^ b; // blocking
         g = a & b; // blocking
         s = p ^ cin;
-        cout = g | (p & cin);
+        cout = g \| (p & cin);
       end
     ```
     
@@ -684,7 +684,7 @@ module fulladder (input      a, b, cin,
       p <= a ^ b; // nonblocking
       g <= a & b; // nonblocking
       s <= p ^ cin;
-      cout <= g | (p & cin);
+      cout <= g \| (p & cin);
     end
 endmodule
 ```
@@ -738,7 +738,7 @@ If for some reason, we had wanted the output to be HIGH in states S= and S1, the
 
 ```verilog
 // output logic
-assign y = (state == S0 | state == S1);
+assign y = (state == S0 \| state == S1);
 ```
 
 ```verilog
@@ -915,15 +915,15 @@ module decoder # (parameter N = 3)
 endmodule
 ```
 
-### Parameterized $N$-Input $\text{AND}$ Gate
+### Parameterized $N$-Input $\text\{AND\}$ Gate
 
 HDLs also provide `generate` statements to produce a variable amount of hardware depending on the value of a parameter. `generate` supports `for` loops and `if` statements to determine how many of what types of hardware to produce.
 
-The example uses `generate` statements to produce an $N$-input $\text{AND}$ function from a cascade of two-input $\text{AND}$ gates.
+The example uses `generate` statements to produce an $N$-input $\text\{AND\}$ function from a cascade of two-input $\text\{AND\}$ gates.
 
 Use `generate` statements with caution; it is easy to produce a large amount of hardware unintentionally.
 
-The `for` statement loops through `i = 1, 2, ..., width - 1` to produce many consecutive $\text{AND}$ gates. The `begin` in a `generate for` loop mmust be followed by a : and an arbitrary label (`forloop`, in this case).
+The `for` statement loops through `i = 1, 2, ..., width - 1` to produce many consecutive $\text\{AND\}$ gates. The `begin` in a `generate for` loop mmust be followed by a : and an arbitrary label (`forloop`, in this case).
 
 Of course, writing `assign y = &a` would be much easier.
 
@@ -952,7 +952,7 @@ endmodule
 
 A *testbench* is an HDL module that is used to test another module, called the *device under test (DUT)*. The testbench contains statements to apply inputs to the DUT and, ideally, to check that the correct outputs are produced. The input and desired output patterns are called *test vectors*.
 
-Consider testing the `sillyfunction` module from the first example of this page that computes $Y = \bar{A}\bar{B}\bar{C}+A\bar{B}\bar{C}+A\bar{B}C$
+Consider testing the `sillyfunction` module from the first example of this page that computes $Y = \bar\{A\}\bar\{B\}\bar\{C\}+A\bar\{B\}\bar\{C\}+A\bar\{B\}C$
 . This is a simple module, so we can perform exhaustive testing by applying all eight possible test vectors.
 
 The example demonstrates a simple testbench. It instantiates the DUT, then applies the inputs. Blocking assignments and delays are used to apply the inputs in the appropriate order. The user must view the results of the simulation and verify by inspection that the correct outputs are produced. Testbenches are simulates as every other HDL module. However, they are not synthesizable.
@@ -1064,14 +1064,14 @@ module testbench3 ();
   // apply test vectors on rising edge of clk
   always @ (posedge clk)
     begin
-      #1; {a, b, c, yexpected} =
+      #1; \{a, b, c, yexpected\} =
            testvectors[vectornum];
     end
   // check results on falling edge of clk
   always @ (negedge clk)
     if (~reset) begin // skip during reset
       if (y !== yexpected) begin
-        $display (“Error: inputs = %b”, {a, b, c});
+        $display (“Error: inputs = %b”, \{a, b, c\});
         $display (“ outputs = %b (%b expected)”,
                   y, yexpected);
         errors = errors + 1;

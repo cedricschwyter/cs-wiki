@@ -134,9 +134,9 @@ Some methods of `java.lang.Thread`:
 - **Status**: denotes the status the thread is in: one of new, runnable, blocked, waiting, time waiting or terminated
     
     ```java
-    if (t.getState() == State.TERMINATED) {
+    if (t.getState() == State.TERMINATED) \{
         System.out.println("Thread is terminated");
-    }
+    \}
     ```
     
 
