@@ -250,9 +250,66 @@ MIPS logical operations include `and`, `or`, `xor`, and `nor`. These R-type inst
 
 The `and` instruction is useful for *masking* bits (i.e., forcing unwanted bits to 0). For example, in the figure, 0xFFFF0000 $\text{AND}$ 0x46A1F0B7 = 0x46A10000. The `and` instruction masks off the bottom two bytes and places the unmasked top two bytes of `$s2`, 0x46A1, in `$s3`. Any subset of register bits can be masked.
 
-The `or` instruction is useful for combining bits from two registers. For example, 0x347A00
+The `or` instruction is useful for combining bits from two registers. For example, 0x347A0000 $\text{OR}$ 0x000072FC = 0x347A72FC, a combination of the two values.
+
+MIPS does not provide a $\text{NOT}$ instruction, but A $\text{NOR}$ `$0` = $\text{NOT}$ A, so the $\text{NOR}$ instruction can substitute.
+
+Logical operations can also operate on immediates. These I-type instructions are `andi`, `ori`, and `xori`. `nori` is not provided, because the same functionality can be easily implemented using the other instructions.
 
 ![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2010.png)
+
+The figure shows examples of the `andi`, `ori` and `xori` instructions. The figure gives the values of the source register and immediate, and the value of the destination register, `rt`, after the instruction executes. Because these instructions operate on a 32-bit value from a register and a 16-bit immediate, they first zero-extend the immediate to 32 bits.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2011.png)
+
+### Shift Instructions
+
+Shift instructions shift the value in a register left or right by up to 31 bits. Shift operations multiply or divide by powers of two. MIPS shift operations are `sll` (shift left logical), `srl` (shift right logical), and `sra` (shift right arithmetic). As discussed previously, left shifts always fill the least significant bits with 0’s. However, right shifts can be either logical (0’s shift into the most significant bits) or arithmetic (the sign bit shifts into the most significant bits). The figure shows the machine code for the R-type instructions `sll`, `srl`, and `sra`. `rt` (i.e., `$s1`) holds the 32-bit value to be shifted, and `shamt` gives the amount by which to shift (4). The shifted result is placed in `rd`.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2012.png)
+
+The figure shows the register values for the shift instructions `sll`, `srl`, and `sra`. Shifting a value left by $N$ is equivalent to multiplying it by $2^N$. Likewise, arithmetically shifting a value right by $N$ is equivalent to dividing it by $2^N$.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2013.png)
+
+MIPS also has variable-shift instructions: `sllv` (shift left logical variable), `srlv` (shift right logical variable), and `srav` (shift right arithmetic variable). The figure shows the machine code for these instructions.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2014.png)
+
+`rt` (i.e., `$s1`) holds the value to be shifted, and the five least significant bits of `rs` (i.e., `$s2`) give the amount to shift. The shifted result is placed in `rd` as before. The `shamt` field is ignored and should be all 0’s. The figure shows register values for each type of variable-shift instruction.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2015.png)
+
+### Generating Constants
+
+The `addi` instruction is helpful for assigning 16-bit constants, as shown in the example. 
+
+```c
+int a = 0x4f3c;
+```
+
+```
+addi $s0, $0, 0x4f3c
+```
+
+To assign 32-bit constants, use a load upper immediate instruction (`lui`) followed by an or immediate (`ori`) instruction, as shown in the example.
+
+```c
+int a = 0x6d5e4f3c;
+```
+
+```
+lui $s0, 0x6d5e
+ori $s0, $s0, 0x4f3c
+```
+
+`lui` loads a 16-bit immediate into the upper half of a register and sets the lower half to 0. As mentioned earlier, `ori` merges a 16-bit immediate into the lower half.
+
+### Multiplication and Division Instructions
+
+Multiplication and division are somewhat different from other arithmetic operations. Multiplying two 32-bit numbers produces a 64-bit product. Dividing two 32-bit numbers produces a 32-bit quotient and a 32-bit remainder.
+
+The MIPS architecture has two special-purpose registers, `hi` and `lo`, which are used to hold the results of multiplication and division. `mult $s0, $s1` multiplies the values in `$s0` and `$s1`. The 32 most significant bits are placed in `hi` and the 32 least significant bits are placed in `lo`. Similarly, `div $s0, $s1` computes `$s0/$s1`. The quotient is placed in `lo` and the remained is placed in `hi`.
 
 # Addressing Modes
 
