@@ -1,0 +1,3 @@
+[submodule "katex-renderer"]
+	path = katex-renderer
+	url = https://github.com/D3PSI/katex-renderer.git
