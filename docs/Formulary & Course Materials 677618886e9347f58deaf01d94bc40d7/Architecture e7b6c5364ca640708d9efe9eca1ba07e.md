@@ -23,11 +23,11 @@ Throughout the page we motivate the design of the MIPS architecture using four p
 
 # Assembly Language
 
-Assembly language is the human-readable representation of the computer’s native language. Each assembly language instruction specifies both the operation to perform and the operands on which to operate. We introduce simple arithmetic instructions and show how these operations are written in assembly langauge. We then define the MIPS instruction operands: registers, memory, and constants.
+Assembly language is the human-readable representation of the computer’s native language. Each assembly language instruction specifies both the operation to perform and the operands on which to operate. We introduce simple arithmetic instructions and show how these operations are written in assembly language. We then define the MIPS instruction operands: registers, memory, and constants.
 
 ## Instructions
 
-The most common operation computers perform is addition. The example shows code for adding variables `b` and `c` and writing the result to `a`. The program is shown on the left in a high-level language, and then rewritten on the right in MIPS assembly language.
+The most common operation computers perform is addition. The example shows code for adding variables `b` and `c` and writing the result to `a`. The program is shown first in a high-level language, and then rewritten on in MIPS assembly language.
 
 ```c
 a = b + c;
@@ -42,7 +42,7 @@ The first part of the assembly instruction, `add`, is called the *mnemonic* and 
 This example shows that subtraction is similar to addition. The instruction format is the same as the `add` instruction except for the operation specification, `sub`. This consistent instruction format is an example of the first design principle.
 
 ```c
-	a = b - c;
+a = b - c;
 ```
 
 ```
