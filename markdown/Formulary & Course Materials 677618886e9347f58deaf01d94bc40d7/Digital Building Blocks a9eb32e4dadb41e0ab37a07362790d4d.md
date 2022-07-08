@@ -577,3 +577,63 @@ endmodule
 ```
 
 # Logic Arrays
+
+Like memory, gates can be organized into regular arrays. If the connections are made programmable, these *logic arrays* can be configured to perform any function without the user having to connect wires in specific ways. The regular structure simplifies design. Logic arrays are mass produced in large quantities, so they are inexpensive. Software tools allow users to map logic designs onto these arrays. Most logic arrays are also reconfigurable, allowing designs to be modified without replacing the hardware. Reconfigurability is valuable during development and is also useful in the field, because a system can be upgraded by simply downloading the new configuration.
+
+This section introduces two types of logic arrays: *programmable logic arrays (PLAs)*, and *field programmable gate arrays (FPGAs)*. PLAs, the older technology, perform only combinational logic functions. FPGAs can perform both combinational and sequential logic.
+
+## Programmable Logic Array
+
+*Programmable logic arrays (PLAs)* implement two-level combinational logic in sum-of-products (SOP) form. PLAs are built from an $\text{AND}$ array followed by an $\text{OR}$ array, as shown. The inputs (in true and complementary form) drive an $\text{AND}$ array, which produces implicants, which in turn are $\text{OR}$-ed together to form the outputs. An $M \times N \times P$-bit PLA has $M$ inputs, $N$ implicants and $P$ outputs.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2053.png)
+
+The figure shows the dot notation for a $3\times 3 \times2$-bit PLA performing the functions $X=\bar{A}\bar{B}C+AB\bar{C}$ and $Y=A\bar{B}$. Each row in the $\text{AND}$ array forms an implicant. Dots in each row of the $\text{AND}$ array indicate which literals comprise the implicant. The $\text{AND}$ array in the figure forms three implicants: $\bar{A}\bar{B}C$, $AB\bar{C}$, and $A\bar{B}$. Dots in the $\text{OR}$ array indicate which implicants are part of the output function.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2054.png)
+
+This figure shows how PLAs can be built using two-level logic.
+
+ROMs can be viewed as a special case of PLAs. A $2^M$-word $\times$ $N$-bit ROM is simply an $M \times 2^M \times N$-bit PLA. The decoder behaves as an $\text{AND}$ plane that produces the outputs. If the function does not depend on all $2^M$ minterms, a PLA is likely to be smaller than a ROM. For example, an 8-word $\times$ 2-bit ROM is required to perform the same functions performed by the $3\times 3 \times 2$-bit PLA shown.
+
+*Programmable logic devices (PLDs)* are souped-up PLAs that add registers and various other features to the basic $\text{AND/OR}$ planes. However, PLDs and PLAs have largely been displaced by FPGAs, which are more flexible and efficient for building large systems.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2055.png)
+
+## Field Programmable Gate Array
+
+A *field programmable gate array (FPGA)* is an array of reconfigurable gates. Using software programming tools, a user can implement designs on the FPGA using either an HDL or a schematic. FPGAs are more powerful and more flexible than PLAs for several reasons. They can implement both combinational and sequential logic. They can also implement multilevel logic functions, whereas PLAs can only implement two-level logic. Modern FPGAs integrate other useful functions such as built-in multipliers and large RAM arrays.
+
+FPGAs are built as an array of *configurable logic blocks (CLBs)*. The figure shows the block diagram of the Spartan FPGA introduced by Xilinx in 1998. Each CLB can be configured to perform combinational or sequential functions. The CLBs are surrounded by *input/output blocks (IOBs)* for interfacing with external devices. The IOBs connect CLB inputs and outputs to pins on the chip package. CLBs can connect to other CLBs and IOBs through programmable routing channels. The remaining blocks shown in the figure aid in programming the device.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2056.png)
+
+The figure shows a single CLB for the Spartan FPGA. Other brands of FPGAs are organized somewhat differently, but the same general principles apply. The CLB contains lookup tables (LUTs), configurable multiplexers, and registers. The FPGA is configured by specifying the contents of the lookup tables and the select signals for the multiplexers.
+
+Each Spartan CLB has three LUTs: the four-input F- and G-LUTs, and the three-input H-LUT. By loading the appropriate values into the lookup tables, the F- and G-LUTs can each be configured to perform any function of up to four variables, and the H-LUT can perform any function of up to three variables.
+
+Configuring the FPGA also involves choosing the select signals that determine how the multiplexers route data through the CLB. For example, depending on the multiplexer configuration, the H-LUT may receive on eof its inputs from either DIN or the F-LUT. Similarly, it receives another input from either SR or the G-LUT. The third input always comes from H1.
+
+The FPGA produces two combinational outputs, $X$ and $Y$. Depending on the multiplexer configuration, $X$ comes from either the F- or H-LUT. $Y$ comes from either the G- or H-LUT. These outputs can be connected to other CLBs via the routing channels.
+
+The CLB also contains two flip-flops. Depending on the configuration, the flip-flop inputs may come from DIN or from the F-, G- or H-LUT. The flip-flop outputs, $XQ$ and $YQ$, can also be connected to other CLBs via the routing channels.
+
+In summary, the CLB can perform up to two combinational and/or two registered functions. All of the functions can involve at least four variables, and some can involve up to nine.
+
+The designer configures an FPGA by first creating a schematic or HDL description of the design. The design is the synthesized onto the FPGA. The synthesis tool determines how the LUTs, multiplexers, and routing channels should be configured to perform the specified functions. This configuration information is the downloaded to the FPGA.
+
+Because Xilinx FPGAs store their configuration information in SRAM, they can easily be reprogrammed. They may download the SRAM contents from a computer in the laboratory or from an EEPROM chip when the system is turned on. Some manufacturers include EEPROM directly on the FPGA or use one-time programmable fuses to configure the FPGA.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2057.png)
+
+## Array Implementations
+
+To minimize their size and cost, ROMs and PLAs commonly use pseudo-nMOS or dynamic circuits instead of conventional logic gates. Figure a) shows the dot notation for a 4 $\times$ 3-bit ROM that performs the following functions: $X=A \oplus B$, $Y=\bar{A}+B$, and $Z=\overline{AB}$. The pseudo-nMOS implementation is given in b). Each decoder output is connected to the gates of the nMOS transistors in its row. Remember that in pseudo-nMOS circuits, the weak pMOS transistor pulls the output HIGH *only if* there is no path to GND through the pull-down (nMOS) network.
+
+Pull-down transistors are placed at every junction without a dot. The dots from the dot notation diagram of a) are left faintly visible in b) for easy comparison. The weak pull-up transistors pull the output HIGH for each wordline without a pull-down transistor.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2058.png)
+
+PLAs can also be built using pseudo-nMOS circuits, as shown in the figure. Pull-down (nMOS) transistors are placed on the *complement* of dotted literals in the $\text{AND}$ array and on dotted rows in the $\text{OR}$ array. The columns in the $\text{OR}$ array are sent through an inverter before they are fed to the output bits. Again, the blue dots from the dot notation diagram are left faintly visible for easy comparison.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2059.png)
