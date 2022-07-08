@@ -449,7 +449,7 @@ $$
 z^{-1}=\frac{\bar{z}}{\lvert \lvert z\rvert \rvert^2}.
 $$
 
-## Polarform
+## Polar Form
 
 ![2022-02-28_23-29.png](Real%20Numbers,%20Euclidean%20Domains,%20Complex%20Numbers%20d4e5eeda077245d39c649f8cf57a2936/2022-02-28_23-29.png)
 
