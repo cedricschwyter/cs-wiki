@@ -76,9 +76,111 @@ An instruction operates on *operands*. But computers operate on 1’s and 0’s,
 
 Instructions need to access operands quickly so that they can run fast. But operands stored in memory take a long time to retrieve. Therefore, most architectures specify a small number of registers that hold commonly used operands. The MIPS architecture uses 32 registers, called the *register set* or *register file*. The fewer the registers. the faster they can be accessed. This is an application of the third design principle.
 
-Looking up information from a small number of relevant books on your desk is a lot faster than searching for the information in the stacks at a library. Likewise, reading data from a mall set of registers is faster than reading it from 10000 registers or a large memory. A small register file is typically built from a small SRAM array. The SRAM array uses a small decoder and bitlines connected
+Looking up information from a small number of relevant books on your desk is a lot faster than searching for the information in the stacks at a library. Likewise, reading data from a mall set of registers is faster than reading it from 10000 registers or a large memory. A small register file is typically built from a small SRAM array. The SRAM array uses a small decoder and bitlines connected to relatively few memory cells, so it has a shorter critical path than a large memory does.
+
+The example shows the `add` instruction with register operands. MIPS register names are preceded by the `$` sign. The variables `a`, `b`, and `c` are arbitrarily placed in `$s0`, `$s1`, and `$s2`. The instruction adds the 32-bit values contained in `$s1` and `$s2` and writes the 32-bit result to `$s0`.
+
+```c
+a = b + c;
+```
+
+```
+add $s0, $s1, $s2
+```
+
+MIPS generally stores variables in 18 of the 32 registers: `$s0 - $s7`, and `$t0 - $t9`. Register names beginning with `$s` are called *saved* registers. Following MIPS convention, these registers store variables such as `a`, `b`, and `c` above. Saved registers have special connotations when they are used with procedure calls. Register names beginning with `$t` are called *temporary* registers They are used for storing temporary variables. 
+
+The example shows MIPS assembly code using a temporary register, `$t0`, to store the intermediate calculation of `c - d`. 
+
+```c
+a = b + c - d;
+```
+
+```
+sub $t0, $s2, $s3
+add $s0, $s1, $t0
+```
+
+### The Register Set
+
+The MIPS architecture defines 32 registers. Each register has a name and a number ranging from 0 to 31. The table lists the name, number, and use for each register. `$0` always contains the value 0 because this constant is so frequently used in computer programs. 
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled.png)
+
+### Memory
+
+If registers were the only storage space for operands we would be confined to simple programs with no more than 32 variables. However, data can also be stored in memory. When compared to the register file, memory has many data locations, but accessing it takes a longer amount of time. Whereas the register file is small and fast, memory is large and slow. For this reason, commonly used variables are kept in registers. By using a combination of memory and registers, a program can access a large amount of data fairly quickly. As previously described, memories are organized as an array of data words. The MIPS architecture uses 32-bit memory addresses and 32-bit data words.
+
+MIPS uses a byte-addressable memory. That is, each byte in memory has a unique address. However, for explanation purposes only, we first introduce a word-addressable memory and afterwards describe the MIPS byte-addressable memory.
+
+The figure shows a memory array that is *word-addressable*. That is, each 32-bit data word has a unique 32-bit address. Both the 32-bit word address and the 32-bit data value are written in hexadecimal in the figure. By convention, memory is drawn with low memory addresses toward the bottom and high memory addresses toward the top.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%201.png)
+
+MIPS uses the *load word* instruction, `lw`, to read a data word from memory into a register. The example loads memory word 1 into `$s3`. The `lw` instruction specifies the *effective address* in memory as the sum of a *base address* and an *offset*. The base address (written in parentheses in the instruction) is a register. The offset is a constant (written before the parentheses). In the example, the base address is `$0`, which holds the value 0, and the offset is 1, so the `lw` instruction reads from memory address `($0 + 1) = 1`. After the load word instruction is executed, `$s3` holds the value 0xF2F1AC07, which is the data value stored at memory address 1 in the above figure.
+
+```
+lw $s3, 1($0)
+```
+
+Similarly, MIPS uses the *store word* instruction, `sw`, to write a data word from a register into memory. The example writes the contents of register `$s7` into memory word 5. These examples have used `$0` as the base address, but remember that any register can be used to supply the base address.
+
+```
+sw $s7, 5($0)
+```
+
+The previous two code examples have shown a computer architecture with a word-addressable memory. The MIPS memory model, however, is byte-addressable, *not* word-addressable. Each data byte has a unique address. A 32-bit word consists of four 8-bit bytes. So each word address is a multiple of 4, as shown in the figure. Again, both the 32-bit word address and the data value are given in hexadecimal.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%202.png)
+
+The example shows how to read and write words in the MIPS byte-addressable memory. The word address is four times the word number. The MIPS assembly code reads words 0, 2, and 3 and writes words 1, 8, and 100. 
+
+```
+1w $s0, 0($0) # read data word 0 (0xABCDEF78) into $s0
+1w $s1, 8($0) # read data word 2 (0x01EE2842) into $s1
+1w $s2, 0xC($0) # read data word 3 (0x40F30788) into $s2
+sw $s3, 4($0) # write $s3 to data word 1
+sw $s4, 0x20($0) # write $s4 to data word 8
+sw $s5, 400($0) # write $s5 to data word 100
+```
+
+Byte-addressable memories are organized in a *big-endian* or *little-endian* fashion, as shown in the figure. In both formats, the *most significant byte (MSB)* is on the left and the *least significant byte (LSB)* is on the right. In big-endian machines, bytes are numbered starting with 0 at the big (most significant) end. In little-endian machines, bytes are numbered starting with 0 at the little (least significant) end. Word addresses are the same in both formats and refer to the same four bytes. Only the addresses of bytes within a word differ.
+
+IBMs PowerPC (formerly found in Macintosh computers) uses big-endian addressing. Intel’s IA-32 architecture (found in PCs) uses little-endian addressing. Some MIPS processors are little-endian, and some are big-endian. The choice of endianness is completely arbitrary, but it leads to hassles when sharing data between big-endian and little-endian computers. In examples in this wiki we will use little-endian format whenever byte ordering matters.
+
+In the MIPS architecture, word addresses for `lw` and `sw` must be *word aligned*. That is, the address must be divisible by 4. Thus, the instruction `lw $s0, 7($0)` is an illegal instruction. Some architectures, like IA-32 for example, allow non-word-aligned data reads and writes, but MIPS requires strict alignment for simplicity. Of course, byte addresses for load byte and store byte, `lb` and `sb` need not be word aligned.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%203.png)
+
+### Constants/Immediates
+
+Load word and store word, `lw` and `sw`, also illustrate the use of *constants* in MIPS instructions. These constants are called *immediates*, because their values are immediately available from the instruction and do not require a register or memory access. Add immediate, `addi`, is another common MIPS instruction that uses an immediate operand. `addi` adds the immediate specified in the instruction to a value in a register, as shown in the example.
+
+```c
+a = a + 4;
+b = a - 12;
+```
+
+```
+addi $s0, $s0, 4
+addi $s1, $s0, -12
+```
+
+The immediate specified in an instruction is a 16-bit two’s complement number in the range <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">32768</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">32767</span><span class="mclose">]</span></span></span></span>. Subtraction is equivalent to adding a negative number, so, in the interest of simplicity, there is no `subi` instruction in the MIPS architecture.
+
+Recall that the `add` and `sub` instructions use three register operands. But the `lw`, `sw`, and `addi` instructions use two register operands and a constant. Because the instruction formats differ, `lw` and `sw` instructions violate design principle 1. However, this issue allows us to introduce the last design principle.
+
+A single instruction format would be simple but not flexible. The MIPS instruction set makes the compromise of supporting three instruction formats. One format, used for instructions such as `add` and `sub`, has three register operands. Another, used for instructions such as `lw` and `addi`, has two register operands and a 16-bit immediate. A third, to be discussed later, has a 26-bit immediate and no registers.
 
 # Machine Language
+
+Assembly language is convenient for humans to read. However, digital circuits understand only 1’s and 0’s. Therefore, a program written in assembly language is translated from mnemonics to a representation using only 1’s and 0’s, called *machine language*.
+
+MIPS uses 32-bit instructions. Again, simplicity favors regularity, and the most regular choice is to encode all instructions as words that can be stored in memory. Even though some instructions may not require all 32 bits of encoding, variable-length instructions would add too much complexity. Simplicity would also encourage a single instruction format, but, as already mentioned, that is too restrictive. MIPS makes the compromise of defining three instruction formats: R-type, I-type, and J-type. This small number of formats allows for some regularity among all the types, and thus simpler hardware while also accommodating different instruction needs, such as the need to encode large constants in the instruction. *R-type* instructions operate on three registers. *I-type* instructions operate on two registers and a 16-bit immediate. *J-type* instructions (jump) operate on one 26-bit immediate.
+
+## R-type Instructions
+
+The name R-type is short for *register-type*. R-type instructions use three registers as operands: two as sources, and one 
 
 # Programming
 
