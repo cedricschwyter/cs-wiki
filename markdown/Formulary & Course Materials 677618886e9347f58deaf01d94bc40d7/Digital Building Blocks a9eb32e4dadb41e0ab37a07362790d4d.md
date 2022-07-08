@@ -515,8 +515,65 @@ The figure shows a 32-register $\times$ 32-bit three-ported register file built 
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2047.png)
 
-The contents of a ROM can be indicated using *dot notation*. The figure shows tthe dot notation for a 4-word $\times$ 3-bit ROM.
+The contents of a ROM can be indicated using *dot notation*. The figure shows the dot notation for a 4-word $\times$ 3-bit ROM. A dot at the intersection of a row (wordline) and a column (bitline) indicates that the data bit is 1. For example, the top wordline has a single dot on $\text{Data}_1$, so the data word at *Address* 11 is 010.
 
 ![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2048.png)
+
+Conceptually, ROMs can be built using two-level logic with a group of $\text{AND}$ gates followed by a group of $\text{OR}$ gates. The $\text{AND}$ gates produce all possible minterms and hence form a decoder. The figure shows the ROM from above built using a decoder and $\text{OR}$ gate. Each dotted row in the above figure is an input to an $\text{OR}$ gate in this figure. For data bits with a single dot, in this case $\text{Data}_0$, no $\text{OR}$ gate is needed. This representation of a ROM is interesting because it shows how the ROM can perform any two-level logic function. In practice, ROMs are built from transistors instead of logic gates, to reduce their size and cost.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2049.png)
+
+The contents of the ROM bit cell above are specified during manufacturing by the presence or absence of a transistor in each bit cell. A *programmable ROM (PROM)* places a transistor in every bit cell but provides a way to connect or disconnect the transistor to ground.
+
+The figure shows the bit cell for a *fuse-programmable ROM*. The user programs the ROM by applying a high voltage to selectively blow fuses. If the fuse is present, the transistor is connected to GND and the cell holds a 0. If the fuse is destroyed, the transistor is disconnected from ground and the cell holds a 1. This is also called a one-time programmable ROM, because the fuse cannot be repaired once it is blown.
+
+Reprogrammable ROMs provide a reversible mechanism for connecting or disconnecting the transistor to GND. *Erasable PROMs (EPROMs)* replace the nMOS transistor and fuse with a *floating-gate* transistor. The floating gate is not physically attached to any other wires. When suitable high voltages are applied, electrons tunnel through an insulator onto the floating gate, turning on the transistor and connecting the bitline to the wordline (decoder output). When the EPROM is exposed to intense ultraviolet light for about half an hour, the electrons are knocked off the floating gate, turning the transistor off. These actions are called *programming* and *erasing*, respectively. *Electrically erasable PROMs (EEPROMs)* and *Flash* memory use similar principles but include circuitry on the chip for erasing as well as programming, so no UV light is necessary. EEPROM bit cells are individually erasable; Flash memory erases larger blocks of bits and is cheaper because fewer erasing circuits are needed. In 2006, Flash memory cost less than 25 dollars per GB, and the price continued to drop by 40% a year. Flash had become an extremely popular way to store large amounts of data in portable battery-powered systems such as cameras and USB sticks.
+
+In summary, modern ROMs are not really read only; they can be programmed as well. The difference between RAM and ROM is that ROMs take a longer time to write but are nonvolatile.
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2050.png)
+
+## Logic Using Memory Arrays
+
+Although they are used primarily for data storage, memory array can also perform combinational logic, For example, the $\text{Data}_2$ output of the ROM above is the $\text{XOR}$ of the two *Address* inputs. Likewise, $\text{Data}_0$ is the $\text{NAND}$ of the two inputs. A $2^N$-word $\times$ $M$-bit memory can perform any combinational function of $N$ inputs and $M$ outputs.
+
+Memory arrays used to perform logic are called *lookup tables (LUTs)*. The figure shows a 4-word $\times$ 1-bit memory array used a a lookup table to perform the function $Y=AB$. Using memory to perform logic, the user can look up the output value for a given input combination (address). Each address corresponds to a row in the truth table, and each data bit corresponds to an output value. 
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2051.png)
+
+## Memory HDL
+
+The example describes a $2^N$-word $\times$ $M$-bit RAM. the RAM has a synchronous enabled write. In other words, writes occur on the rising edge of the clock if the write enable, $we$, is asserted. Reads occur immediately. When power is first applied, the contents of the RAM are unpredictable. 
+
+```verilog
+module ram # (parameter N = 6, M = 32)
+             (input          clk,
+              input          we,
+              input  [N-1:0] adr,
+              input  [M-1:0] din,
+              output [M-1:0] dout);
+  reg [M-1:0] mem [2**N-1:0];
+  always @ (posedge clk)
+    if (we) mem [adr] <= din;
+  assign dout = mem[adr];
+endmodule
+```
+
+![Untitled](Digital%20Building%20Blocks%20a9eb32e4dadb41e0ab37a07362790d4d/Untitled%2052.png)
+
+This example describes a 4-word $\times$ 3-bit ROM. The contents of the ROM are specified in the HDL `case` statement. A ROM as small as this one may be synthesized into logic gates rather than an array. Note that the seven-segment decoder from earlier synthesizes into a ROM.   
+
+```verilog
+module rom (input      [1:0] adr,
+            output reg [2:0] dout);
+  always @ (adr)
+    case (adr)
+      2b00: dout  3b011;
+      2b01: dout  3b110;
+      2b10: dout  3b100;
+      2b11: dout  3b010;
+    endcase
+endmodule
+```
 
 # Logic Arrays
