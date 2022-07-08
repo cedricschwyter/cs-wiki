@@ -1,8 +1,8 @@
-# Sorting and Selecting
+# Sorting and Selecting (TODO)
 
 # QuickSort
 
-![Untitled](Sorting%20and%20Selecting%202b7f52e90ad64c56b49053b5666629ef/Untitled.png)
+![Untitled](Sorting%20and%20Selecting%20(TODO)%202b7f52e90ad64c56b49053b5666629ef/Untitled.png)
 
 ## Claim
 
@@ -74,7 +74,7 @@ This proves the claim.
 
 # QuickSelect
 
-![Untitled](Sorting%20and%20Selecting%202b7f52e90ad64c56b49053b5666629ef/Untitled%201.png)
+![Untitled](Sorting%20and%20Selecting%20(TODO)%202b7f52e90ad64c56b49053b5666629ef/Untitled%201.png)
 
 ## Claim
 
