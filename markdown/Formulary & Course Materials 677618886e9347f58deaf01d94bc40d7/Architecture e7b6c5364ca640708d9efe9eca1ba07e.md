@@ -252,7 +252,7 @@ The `and` instruction is useful for *masking* bits (i.e., forcing unwanted bits 
 
 The `or` instruction is useful for combining bits from two registers. For example, 0x347A0000 $\text{OR}$ 0x000072FC = 0x347A72FC, a combination of the two values.
 
-MIPS does not provide a $\text{NOT}$ instruction, but $A \ \text{NOR} \ \$0 = \text{NOT} \ A$, so the $\text{NOR}$ instruction can substitute.
+MIPS does not provide a $\text{NOT}$ instruction, but $A \ \text{NOR} \ 0 = \text{NOT} \ A$, so the $\text{NOR}$ instruction can substitute.
 
 Logical operations can also operate on immediates. These I-type instructions are `andi`, `ori`, and `xori`. `nori` is not provided, because the same functionality can be easily implemented using the other instructions.
 
@@ -310,6 +310,30 @@ ori $s0, $s0, 0x4f3c
 Multiplication and division are somewhat different from other arithmetic operations. Multiplying two 32-bit numbers produces a 64-bit product. Dividing two 32-bit numbers produces a 32-bit quotient and a 32-bit remainder.
 
 The MIPS architecture has two special-purpose registers, `hi` and `lo`, which are used to hold the results of multiplication and division. `mult $s0, $s1` multiplies the values in `$s0` and `$s1`. The 32 most significant bits are placed in `hi` and the 32 least significant bits are placed in `lo`. Similarly, `div $s0, $s1` computes `$s0/$s1`. The quotient is placed in `lo` and the remained is placed in `hi`.
+
+## Branching
+
+An advantage of a computer over a calculator is its ability to make decisions. A computer performs different tasks depending on the input. For example, `if/else` statements, `case` statements, `while` loops and `for` loops all conditionally execute code depending on some test. To sequentially execute instructions, the program counter increments by 4 after each instruction. *Branch* instructions modify the program counter to skip over sections of code or to go back to repeat previous code. *Conditional branch* instructions perform a test and branch only if the test is TRUE. *Unconditional branch* instructions, called *jumps*, always branch.
+
+### Conditional Branches
+
+The MIPS instruction set has two conditional branch instructions: branch if equal (`beq`) and branch if not equal (`bne`). `beq` branches when the values in two registers are equal, and `bne` branches when they are not equal. The example illustrates the use of `beq`. Note that branches are written as `beq $rs, $rt, imm`, where `$rs` is the first source register. This order is reversed from most I-type instructions.
+
+```
+  addi $s0, $0, 4
+  addi $s1, $0, 1
+  sll $s1, $s1, 2
+  beq $s0, $s1, target
+  addi $s1, $s1, 1
+  sub $s1, $s1, $s0
+
+target:
+  add $s1, $s1, $s0
+```
+
+When the above program reaches the branch if equal instruction, the value in `$s0` is equal to the value in `$s1`, so the branch is *taken*. That is, the next instruction executed is the `add` instruction just after the *label* called `target`. The two instructions directly after the branch and before the label are not executed.
+
+Assembly code uses labels to indicate instruction locations in the program. When the assembly code is translated into machine code, these labels are translated into instruction addresses. MIPS assembly labels are followed by a (:) and cannot use reserved words such as instruction mnemonics. Most programmers indent their instructions but not the labels, to help make labels stand out.
 
 # Addressing Modes
 
