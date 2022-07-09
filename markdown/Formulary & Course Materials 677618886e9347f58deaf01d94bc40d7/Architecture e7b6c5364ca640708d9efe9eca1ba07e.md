@@ -252,7 +252,7 @@ The `and` instruction is useful for *masking* bits (i.e., forcing unwanted bits 
 
 The `or` instruction is useful for combining bits from two registers. For example, 0x347A0000 $\text{OR}$ 0x000072FC = 0x347A72FC, a combination of the two values.
 
-MIPS does not provide a $\text{NOT}$ instruction, but A $\text{NOR}$ `$0` = $\text{NOT}$ A, so the $\text{NOR}$ instruction can substitute.
+MIPS does not provide a $\text{NOT}$ instruction, but $A \ \text{NOR} \ \$0 = \text{NOT} \ A$, so the $\text{NOR}$ instruction can substitute.
 
 Logical operations can also operate on immediates. These I-type instructions are `andi`, `ori`, and `xori`. `nori` is not provided, because the same functionality can be easily implemented using the other instructions.
 
