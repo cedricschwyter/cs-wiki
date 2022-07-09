@@ -335,6 +335,68 @@ When the above program reaches the branch if equal instruction, the value in `$s
 
 Assembly code uses labels to indicate instruction locations in the program. When the assembly code is translated into machine code, these labels are translated into instruction addresses. MIPS assembly labels are followed by a (:) and cannot use reserved words such as instruction mnemonics. Most programmers indent their instructions but not the labels, to help make labels stand out.
 
+The example shows an example using the branch if not equal instruction (`bne`). In this case, the branch is *not taken* because `$s0` is equal to `$s1`, and the code continues to execute directly after the `bne` instruction. All instructions in this code snippet are executed.
+
+```
+  addi $s0, $0, 4
+  addi $s1, $0, 1
+  s11 $s1, $s1, 2
+  bne $s0, $s1, target
+  addi $s1, $s1, 1
+  sub $s1, $s1, $s0
+target:
+  add $s1, $s1, $s0
+```
+
+### Jump
+
+A program can unconditionally branch, or *jump*, using the three types of jump instructions: jump (`j`), jump and link (`jal`), and jump register (`jr`). Jump jumps directly to the instruction at the specified label. Jump and link is similar to jummp but is used by procedures to save a return address. Jump register jumps to the address held in a register. The example shows the use of the jump instruction.
+
+```
+  addi $s0, $0, 4
+  addi $s1, $0, 1
+  j target
+  addi $s1, $s1, 1 
+  sub $s1, $s1, $s0
+target:
+  add $s1, $s1, $s0
+```
+
+This example shows the use of the jump register instruction. Instruction addresses are given to the left of each instruction. 
+
+```
+0x00002000 addi $s0, $0, 0x2010  # $s0 = 0x2010
+0x00002004 jr $s0                # jump to 0x00002010
+0x00002008 addi $s1, $0, 1       # not executed
+0x0000200c sra $s1, $s1, 2       # not executed
+0x00002010 lw $s3, 44 ($s1)      # executed after jr instruction
+```
+
+## Conditional Statements
+
+`if` statements, `if/else` statements, and `case` statements are conditional statements commonly used by high-level languages. They each conditionally execute a *block* of code consisting of one or more instructions. This section shows how to translate these high-level constructs into MIPS assembly language.
+
+### If Statements
+
+An `if` statement executes a block of code, the *if block*, only when a condition is met. The example shows how to translate an `if` statement into MIPS assembly code. 
+
+```c
+if (i == j) {
+    f = g + h;
+}
+
+f = f - 1;
+```
+
+```
+  bne $s3, $s4, L1
+  add $s0, $s1, $s2
+L1:
+  sub $s0, $s0, $s3
+```
+
+The assembly code for the `if` statement tests the opposite condition of the one in the high-level code. The high-level code tests for `i == j`, and the assembly code tests for `i != j`. The `bne` instruction branches when `i != j`. Otherwise, `i == j`, the branch is not taken and the `if` block i executed as desired.
+
 # Addressing Modes
 
 # Compiling, Assembling, and Loading
