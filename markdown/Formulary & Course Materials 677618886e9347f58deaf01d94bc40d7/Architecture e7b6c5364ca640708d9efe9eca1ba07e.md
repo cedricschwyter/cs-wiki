@@ -462,6 +462,112 @@ done:
 
 ## Loops
 
+Loops repeatedly execute a block of code depending on a condition. `for` loops and `while` loops are common loop constructs used by high-level languages. This section shows how to translate them into MIPS assembly language.
+
+### While Loops
+
+`while` loops repeatedly execute a block of code until a condition is *not* met. The `while` loop in the example determines the value of `x` such that $2^x=128$. It executes seven times, until `pow = 128`.
+
+```c
+int pow = 1;
+int x = 0;
+
+while (pow != 128) {
+    pow = pow * 2;
+    x = x + 1;
+}
+```
+
+```
+  addi $s0, $0, 1
+  addi $s1, $0, 0
+  addi $t0, $0, 128
+while:
+  beq $s0, $t0, done
+  sll $s0, $s0, 1
+  addi $s1, $s1, 1
+  j while
+done:
+```
+
+Like `if/else` statements, the assembly code for the `while` loop tests the opposite condition of the one given in the high-level code. If that opposite condition is TRUE, the `while` loop is finished.
+
+The above `while` loop compares `pow` to 128 and exits the loop if it is equal. Otherwise, it doubles `pow` (using a left shift), increments `x` and jumps back to the start of the `while` loop.
+
+### For Loops
+
+`for` loops, like `while` loops, repeatedly execute a block of code until a condition is *not* met. However, `for` loops add support for a *loop variable*, which typically keeps track of the number of loop executions. A general format of the `for` loop is 
+
+```c
+for (initialization; condition; loop operation)
+```
+
+The *initialization* code executes before the `for` loop begins, The *condition* is tested at the beginning of each loop. If the condition is not met, the loop exits. The *loop operation* executes at the end of each loop.
+
+The example adds the numbers from 0 to 9. The loop variable, `i`, is initialized to 0 and is incremented at the end of each loop iteration. At the beginning of each iteration, the `for` loop executes only when `i` is not equal to 10. Otherwise, the loop is finished. In this case, the `for` loop executes 10 times. `for` loops can be implemented using a `while` loop, but the `for` loop is often convenient.
+
+```c
+int sum = 0;
+
+for (int i = 0; i != 10; i = i + 1) {
+    sum = sum + 1;
+}
+
+// equivalent to the following while loop
+int sum = 0;
+int i = 0;
+while (i != 10) {
+    sum = sum + i;
+    i = i + 1;
+}
+```
+
+```
+  add $s1, $0, $0
+  addi $s0, $0, 0
+  addi $t0, $0, 10
+for:
+  beq $s0, $t0, done
+  add $s1, $s1, $s0
+  addi $s0, $s0, 1
+  j for
+done:
+```
+
+### Magnitude Comparison
+
+So far, the examples have used `beq` and `bne` to perform equality or inequality comparisons and branches. MIPS provides the *set less than* instruction, `slt`, for magnitude comparison. `slt` sets `rd` to 1 when `rs < rt`. Otherwise, `rd` is 0.
+
+The following high-level code adds the powers of 2 from 1 to 100.
+
+```c
+int sum = 0;
+for (int i = 1; i < 101; i = i * 2) {
+    sum = sum + i;
+}
+```
+
+```
+  addi $s1, $0, 0
+  addi $s0, $0, 1
+  addi $t0, $0, 101
+loop:
+  slt $t1, $s0, $t0
+  beq $t1, $0, done
+  add $s1, $s1, $s0
+  sll $s0, $s0, 1
+  j loop
+done:
+```
+
+## Arrays
+
+Arrays are useful for accessing large amounts of similar data. An array is organized as sequential data addresses in memory. Each array element is identified by a number called its *index*. The number of elements in the array is called the *size* of the array. This section shows how to access array elements in memory.
+
+### Array Indexing
+
+The figure shows an array of five integers stored in memory. The *index* ranges from 0 to 4. In this case, the array is stored in a processor’s main memory starting at *base address* 0x10007000. The base address gives the address of the first arra
+
 # Addressing Modes
 
 # Compiling, Assembling, and Loading
