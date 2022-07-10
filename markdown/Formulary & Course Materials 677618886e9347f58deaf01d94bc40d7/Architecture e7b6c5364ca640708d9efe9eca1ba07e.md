@@ -420,6 +420,48 @@ L2:
 
 Like `if` statements, `if/else` assembly code tests the opposite condition of the one in the high-level code. The above code tests for `i == j`. The assembly code tests for the opposite condition (`i != j`). If that opposite condition is TRUE, `bne` skips the `if` block and executes the `else` block. Otherwise, the `if` block executes and finishes with a jump instruction to jump past the `else` block.
 
+### Switch/Case Statements
+
+`switch/case` statements execute one of several blocks of code depending on the conditions. If no conditions are met, the `default` block is executed. A `case` statement is equivalent to a series of *nested* `if/else` statements. The example shows two high-level code snippets with the same functionality: they calculate the fee for an ATM, as defined by `amount`. The MIPS assembly implementation is the same for both high-level code snippets.
+
+```c
+switch (amount) {
+    case 20: fee = 2; break;
+    case 50: fee = 3; break;
+    case 100: fee = 5; break;
+    default: fee = 0;
+}
+
+// equivalent function using if/else statements
+if (amount == 20) fee = 2;
+else if (amount == 50) fee = 3;
+else if (amount == 100) fee = 5;
+else fee = 0;
+```
+
+```
+case20:
+  addi $t0, $0, 20
+  bne $s0, $t0, case50
+  addi $s1, $0, 2
+  j done
+case50:
+  addi $t0, $0, 50
+  bne $s0, $t0, case100
+  addi $s1, $0, 3
+  j done
+case100:
+  addi $t0, $0, 100
+  bne $s0, $t0, default
+  addi $s1, $0, 5
+  j done
+default:
+  add $s1, $0, $0
+done:
+```
+
+## Loops
+
 # Addressing Modes
 
 # Compiling, Assembling, and Loading
