@@ -397,6 +397,29 @@ L1:
 
 The assembly code for the `if` statement tests the opposite condition of the one in the high-level code. The high-level code tests for `i == j`, and the assembly code tests for `i != j`. The `bne` instruction branches when `i != j`. Otherwise, `i == j`, the branch is not taken and the `if` block i executed as desired.
 
+### If/Else Statements
+
+`if/else` statements execute one of two blocks of code depending on a condition. When the condition in the `if` statement is met, the *if block* is executed. Otherwise, the *else block* is executed. The examples shows an example `if/else` statement. 
+
+```c
+if (i == j) {
+    f = g + h;
+} else {
+    f = f - i;
+}
+```
+
+```
+  bne $s3, $s4, else 
+  add $s0, $s1, $s2
+  j L2
+else:
+  sub $s0, $s0, $s3
+L2:
+```
+
+Like `if` statements, `if/else` assembly code tests the opposite condition of the one in the high-level code. The above code tests for `i == j`. The assembly code tests for the opposite condition (`i != j`). If that opposite condition is TRUE, `bne` skips the `if` block and executes the `else` block. Otherwise, the `if` block executes and finishes with a jump instruction to jump past the `else` block.
+
 # Addressing Modes
 
 # Compiling, Assembling, and Loading
