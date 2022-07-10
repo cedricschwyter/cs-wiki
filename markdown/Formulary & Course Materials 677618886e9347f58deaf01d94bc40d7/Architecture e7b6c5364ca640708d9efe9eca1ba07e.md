@@ -825,7 +825,61 @@ else:
   jr $ra
 ```
 
+The `factorial` procedure might modify `$a0` and `$ra`, so it saves them on the stack. It then checks whether `n < 2`. If so, it puts the return value of 1 in `$v0`, restores the stack pointer, and returns to the caller. It does not have to reload `$ra` and `$a0` in this case, because they were never modified. If `n > 1`, the procedure recursively calls `factorial(n - 1)`. If then restores the value of `n` and the return address `$ra` from the stack, performs the multiplication, and returns this result. The multiply instruction multiplies `$a0` and `$v0` and places the result in `$v0`.
+
+The figure shows the stack when executing `factorial(3)`.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2024.png)
+
+### Additional Arguments and Local Variables
+
+Procedures may have more than four input arguments and local variables. The stack is used to store these temporary values. By MIPS convention, if a procedure has more than four arguments, the first four are passed in the argument registers as usual. Additional arguments are passed on the stack, just above `$sp`. The *caller* must expand its stack to make room for the additional arguments. Figure a) shows the caller’s stack for calling a procedure with more than four arguments.
+
+A procedure can also declare local variables or arrays. *Local* variables are declared within a procedure and can be accessed only within that procedure. Local variable are stored in `$s0 - $s7`; if there are too many local variables, they can also be stored in the procedure’s stack frame. In particular, local arrays are stored on the stack.
+
+Figure b) shows the organization of the callee’s stack frame. The frame holds the procedure’s own arguments, the return address, and any of the saved registers that the procedure will modify. It also holds local arrays and any excess local variables. If the callee has more than four arguments, it finds them in the caller’s stack frame. Accessing additional input arguments is the one exception in which a procedure can access stack data not in its own stack frame.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2025.png)
+
 # Addressing Modes
+
+MIPS uses five *addressing modes*: register-only, immediate, base, PC-relative, and pseudo-direct. The first three modes define modes of reading and writing operands. The last two define modes of writing the program counter.
+
+### Register-Only Addressing
+
+*Register-only addressing* uses registers for all source and destination operands. All R-type instructions use register-only addressing.
+
+### Immediate Addressing
+
+*Immediate addressing* uses the 16-bit immediate along with registers as operands. Some I-type instructions, such as add immediate and load upper immediate, use immediate addressing.
+
+### Base Addressing
+
+Memory access instructions, such as load word and store word, use *base addressing*. The effective address of the memory operand is found by adding the base address in register `rs` to the sign-extended 16-bit offset found in the immediate field.
+
+### PC-relative Addressing
+
+Conditional branch instructions use *PC-relative addressing* to specify the new value of the `PC` if the branch is taken. The signed offset in the immediate field is added to the `PC` to obtain the new `PC`; hence, the branch destination address is said to be *relative* to the current `PC`. The example shows part of the `factorial` procedure from earlier.
+
+```
+  beq $t0, $0, else
+  addi $v0, $0, 1
+  addi $sp, $sp, 8
+  jr $ra
+else:
+  addi $a0, $a0, -1
+  jal factorial
+```
+
+The figure shows the machine code for the `beq` instruction. The *branch target address (BTA)* is the address of the next instruction to execute if the branch is taken. The `beq` instruction in the figure has a BTA of 0xB4, the instruction address of the `else` label.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2026.png)
+
+### Pseudo-Direct Addressing
+
+In *direct addressing*, an address is specified in the instruction. The jump instructions, `j` and `jal`, ideally would use direct addressing to specify a 32-bit *jump target address (JTA)* to indicate the instruction address to execute next.
+
+Unfortunately, the J-type instruction encoding does not have enough bits to specify a full 32-bit JTA. Six bits of the instruction are used for the `opcode`, so only 32 bits are left to encode the JTA. Fortunately, the two last significant bits, $\text{JTA}_{1:0}$, should always be 0, because instructions are word aligned. The next 26 bits, $\text{JTA}_{27:2}$, are taken from the `addr` field of the instruction. The four most significant bits, 
 
 # Compiling, Assembling, and Loading
 
