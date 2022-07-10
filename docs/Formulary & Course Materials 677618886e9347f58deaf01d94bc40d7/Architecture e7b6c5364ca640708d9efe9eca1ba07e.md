@@ -722,7 +722,108 @@ The *stack* is memory that is used to save local variables within a procedure. T
 
 The figure shows a picture of the stack. The *stack pointer*, `$sp`, is a special MIPS register that points to the top of the stack. A *pointer* is a fancy name for a memory address. It points to (gives the address of) data.
 
+The stack pointer (`$sp`) starts at a high memory address and decrements to expand as needed. b) shows the stack expanding to allow two more data words of temporary storage. To do so, `$sp` decrements by 8. 
+
+One of the important uses of the stack is to save and restore registers that are used by a procedure. Recall that a procedure should calculate a return value but have no other unintended side effects. In particular, it should not modify any registers besides the one containing the return value, `$v0`. The `diffofsums` procedure in the above example violate this rule because it modifies `$t0`, `$t1` and `$s0`. If `main` had been using these registers before the call to `diffofsums`, the contents of these registers would have been corrupted by the procedure call.
+
+To solve this problem, a procedure saves registers on the stack before it modifies them, then restores them from the stack before it returns. Specifically, it performs the following steps.
+
+1. Makes space on the stack to store the values of one or more registers
+2. Stores the values of the registers on the stack
+3. Executes the procedure using the registers
+4. Restores the original values of the registers from the stack
+5. Deallocates space on the stack
+
 ![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2021.png)
+
+The example shows an improved version of `diffofsums` that saves and restores `$t0`, `$t1`, and `$s0`.
+
+```
+diffofsums:
+  addi $sp, $sp, 12
+  sw $s0, 8($sp)
+  sw $t0, 4($sp)
+  sw $t1, 0($sp)
+  add $t0, $a0, $a1
+  add $t1, $a2, $a3
+  sub $s0, $t0, $t1
+  add $v0, $s0, $0
+  lw $t1, 0($sp)
+  lw $t0, 4($sp)
+  lw $s0, 8($sp)
+  addi $sp, $sp, 12
+  jr $ra
+```
+
+The figure shows the stack before, during, and after a call to the `diffofsums` procedure. `diffofsums` makes room for three words on the stack by decrementing the stack pointer by 12. It then stores the current values of `$s0`, `$t0` and `$s1` in the newly allocated space. It executes the rest of the procedure, changing the values in these three registers. At the end of the procedure, `diffofsums` restores the values of `$s0`, `$t0`, and `$t1` from the stack, deallocates its stack space, and returns. When the procedure returns, `$v0` holds the result, but there are no other side effects: `$s0`, `$t0`, `$t1` and `$sp` have the same values as they did before the procedure call.
+
+The stack space that a procedure allocates for itself is called its *stack frame*. `diffofsums` stack frame is three words deep. The principle of modularity tells us that each procedure should access only its own stack frame, not the frames belonging to other procedures.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2022.png)
+
+### Preserved Registers
+
+The above example assumes that temporary registers `$t0` and `$t1` must be saved and restored. If the calling procedure does not use those registers, the effort to save and restore them is wasted. To avoid this waste, MIPS divides registers into *preserved* and *nonpreserved* categories. The preserved registers include `$s0 - $s7` (hence their name, *saved*). The nonpreserved registers include `$t0 - $t9` (hence their name, *temporary*). A procedure must save and restore any of the preserved registers that it wishes to use, but it can change the nonpreserved registers freely.
+
+The example shows a further improved version of `diffofsums` that saves only `$s0` on the stack. `$t0` and `$t1` are nonpreserved registers, so they need not be saved.
+
+```
+diffofsums:
+  addi $sp, $sp, 4
+  sw $s0, 0($sp)
+  add $t0, $a0, $a1
+  add $t1, $a2, $a3
+  sub $s0, $t0, $t1
+  add $v0, $s0, $0
+  lw $s0, 0($sp)
+  addi $sp, $sp, 4
+  jr $ra
+```
+
+Remember that when one procedure calls another, the former is the *caller* and the latter is the *callee*. The callee must save and restore any preserved register that it wishes to use. The callee may change any of the nonpreserved registers. Hence, if the caller is holding active data in a nonpreserved register, the caller needs to save that nonpreserved register before making the procedure call and then needs to restore it afterward. For these reasons, preserved registers are also called *callee-save*, and nonpreserved registers are also called *caller-save*.
+
+The table summarizes which registers are preserved. `$s0 - $s7` are generally used to hold local variables within a procedure, so they must be saved. `$ra` must also be saved, so that the procedure knows where to return. `$t0 - $t9` are used to hold temporary results before they are assigned to local variables. These calculations typically complete before a procedure call is made, so they are not preserved, and it is rare that the caller needs to save them. `$a0 - $a3` are often overwritten in the process of calling a procedure. hence, they must be saved by the caller if the caller depends on any of its own arguments after a called procedure returns. `$v0 - $v1` certainly should not be preserved, because the callee returns its result in these registers.
+
+The stack above the stack pointer is automatically preserved as long as the callee does not write to memory addresses above `$sp`. In this way, it does not modify the stack frame of any other procedures. The stack pointer itself is preserved, because the callee deallocates its stack frame before returning by adding back the same amount that it subtracted from`$sp` at the beginning of the procedure.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2023.png)
+
+### Recursive Procedure Calls
+
+A procedure that does not call others is called a *leaf* procedure; an example is `diffofsums`. A procedure that does call others is called a *nonleaf* procedure. As mentioned earlier, nonleaf procedures are somewhat more complicated because they may need to save nonpreserved registers on the stack before they call another procedure, and then restore those registers afterward. Specifically, the caller saves and nonpreserved registers that are needed after the call. The callee saves any of the preserved registers that it intends to modify.
+
+A *recursive* procedure is a nonleaf procedure that calls itself. The factorial function can be written as a recursive procedure call. Recall that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">n</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">...</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, The factorial function can be rewritten recursively as <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">n</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)!</span></span></span></span>. The factorial of 1 is simply 1. The example shows the factorial function written as a recursive procedure.
+
+```c
+int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+```
+
+```
+factorial:
+  addi $sp, $sp, -8
+  sw $a0, 4($sp)
+  sw $ra, 0($sp)
+  addi $t0, $0, 2
+  slt $t0, $a0, $t0
+  beq $t0, $0, else
+  addi $v0, $0, 1
+  addi $sp, $sp, 8
+  jr $ra
+else:
+  addi $a0, $a0, -1
+  jal factorial
+  lw $ra, 0($sp)
+  lw $a0, 4($sp)
+  addi $sp, $sp, 8
+  mul $v0, $a0, $v0
+  jr $ra
+```
 
 # Addressing Modes
 
