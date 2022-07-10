@@ -718,6 +718,12 @@ A procedure that returns a 64-bit value, such as a double-precision floating poi
 
 ### The Stack
 
+The *stack* is memory that is used to save local variables within a procedure. The stack expands (uses more memory) as the processor needs more scratch space and contracts (uses less memory) when the processor no longer needs the variables stored there. The stack is a *last-in-first-out (LIFO) queue*. Like a stack of dishes, the last item *pushed* onto the stack is the first one that can be *popped* off. Each procedure may allocate stack space but must deallocate it before returning. The *top of the stack*, is the most recently allocated space. Whereas a stack of dishes grows up in space, the MIPS stack grows *down* in memory. The stack expands to lower memory addresses when a program needs more scratch space.
+
+The figure shows a picture of the stack. The *stack pointer*, `$sp`, is a special MIPS register that points to the top of the stack. A *pointer* is a fancy name for a memory address. It points to (gives the address of) data.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2021.png)
+
 # Addressing Modes
 
 # Compiling, Assembling, and Loading
