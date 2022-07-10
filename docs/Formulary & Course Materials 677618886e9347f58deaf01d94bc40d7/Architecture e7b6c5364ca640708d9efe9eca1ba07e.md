@@ -566,7 +566,157 @@ Arrays are useful for accessing large amounts of similar data. An array is organ
 
 ### Array Indexing
 
-The figure shows an array of five integers stored in memory. The *index* ranges from 0 to 4. In this case, the array is stored in a processor’s main memory starting at *base address* 0x10007000. The base address gives the address of the first arra
+The figure shows an array of five integers stored in memory. The *index* ranges from 0 to 4. In this case, the array is stored in a processor’s main memory starting at *base address* 0x10007000. The base address gives the address of the first array element, `array[0]`.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2016.png)
+
+The example multiplies the first two elements in `array` by 8 and stores them back in the array. 
+
+```c
+int array [5];
+
+array[0] = array[0] * 8;
+array[1] = array[1] * 8;
+```
+
+```
+lui $s0, 0x1000
+ori $s0, $s0, 0x7000
+lw $t1, 0($s0)
+sll $t1, $t1, 3
+sw $t1, 0($s0)
+lw $t1, 4($s0)
+sll $t1, $t1, 3
+sw $t1, 4($s0)
+```
+
+The first step in accessing an array element is to load the base address of the array into a register. The example loads the base address into `$s0`. Recall that the load upper immediate (`lui`) and or immediate (`ori`) instructions can be used to load a 32-bit constant into a register.
+
+The example also illustrates why `lw` takes a base address and an offset. The base address points to the start of the array. The offset can be used to access subsequent elements of the array.
+
+One might have notices that the code for manipulating each of the array elements in the example is essentially the same except for the index. When accessing all of the elements in a large array, this would become terribly inefficient.
+
+This example uses a `for` loop to multiply all of the elements of a 1000-element array by 8, which is stored at a base address of 0x23B8F000.
+
+```c
+int array[1000];
+
+for (int i = 0; i < 1000; i = i + 1) {
+    array[i] = array[i] * 8;
+}
+```
+
+```
+  lui $s0, 0x23B8
+  ori $s0, $s0, 0xF000
+  addi $s1, $0
+  addi $t2, $0, 1000
+loop:
+  slt $t0, $s1, $t2
+  beq $t0, $0, done
+  sll $t0, $s1, 2
+  add $t0, $t0, $s0
+  lw $t1, 0($t0)
+  sll $t1, $t1, 3
+  sw $t1, 0($t0)
+  addi $s1, $s1, 1
+  j loop
+done:
+```
+
+The figure shows the 1000-element array in memory. The index into the array is now a variable rather than a constant, so we cannot take advantage of the immediate offset in `lw`. Instead, we compute the address of the `i`-th element and store it in `$t0`. Remember that each array element is a word but that memory is byte addressed, so the offset from the base address is `4 * i`. Shifting left by 2 is a convenient way to multiply by 4 in MIPS assembly language. 
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2017.png)
+
+### Bytes and Characters
+
+Numbers in the range <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">128</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">127</span><span class="mclose">]</span></span></span></span> can be stored in a single byte rather than an entire word. Because there are much fewer than 256 characters on an English language keyboard, English characters are often represented by bytes. The C language uses the type `char` to represent a byte or character. Early computers lacked a standard mapping between bytes and English characters, so exchanging text between computers was difficult. In 1963, the American Standards Association published the *American Standard Code for Information Interchange (ASCII)*, which assigns each text character a unique byte value. The table shows these character encodings for printable characters. The ASCII values are given in hexadecimal. Lower-case and upper-case letters differ by 0x20 (32).
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2018.png)
+
+MIPS provides load byte and store byte instructions to manipulate bytes or characters of data: load byte unsigned (`lbu`), load byte (`lb`) and store byte (`sb`). All three are illustrated in the figure.
+
+Load byte unsigned zero-extends the byte, and load byte sign-extends the byte to fill the entire 32-bit register. Store byte stores the least significant byte of the 32-bit register into the specified byte address in memory. In the figure, `lbu` loads the byte at memory address 2 into the least significant byte of `$s1` and fills the remaining register bits with 0. `lb` loads the sign-extended byte at memory address 2 into `$s2`. `sb` stores the least significant byte of `$s3` into memory byte 3; it replaces 0xF7 with 0x9B. The more significant bytes of `$s3` are ignored.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2019.png)
+
+A series of characters is called a *string*. Strings have a variable length, so programming languages must provide a way to determine the length or end of the string. In C, the null character 0x00 signifies the end of a string. The figure shows the string “Hello!” stored in memory. The string is seven bytes long. The first character of the string is stored at the lowest byte address.
+
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2020.png)
+
+## Procedure Calls
+
+High-level languages often use *procedures* (also called *functions*) to reuse frequently accessed code and to make a program more readable. Procedures have inputs, called *arguments*, and an output, called the *return value*. Procedures should calculate the return value and cause no other unintended side effects.
+
+When one procedure calls another, the calling procedure, the *caller*, and the called procedure, the *callee*, must agree on where to put the arguments and the return value. In MIPS, the caller conventionally places up to four arguments in registers`$a0 - $a3` before making the procedure call, and the callee places the return value in registers `$v0 - ävv1` before finishing. By following this convention, both procedures know where to find the arguments and return value, even if the caller and callee were written by different people.
+
+The callee must not interfere with the function of the caller. Briefly, this means that the callee must know where to return to after it completes and it must not trample on any registers or memory needed by the caller. The caller stores the *return address* in `$ra` at the same time it jumps to the callee using the jump and link instruction (`jal`). The callee must not overwrite any architectural state or memory that the caller is depending on. Specifically, the callee must leave the saved registers, `$s0 - $s7`, `$ra`, and the *stack*, a portion of memory used for temporary variables, unmodified.
+
+### Procedure Calls and Returns
+
+MIPS uses the *jump and link* instruction (`jal`) to call a procedure and the *jump register* instruction (`jr`) to return from a procedure. The example shows the `main` procedure calling the `simple` procedure. `main` is the caller, and `simple` is the callee. The `simple` procedure is called with no input arguments and generates no return value; it simply returns to the caller.
+
+```c
+int main() {
+    simple();
+    ...
+}
+
+void simple() {
+    return;
+}
+```
+
+```
+main: jal simple
+      ...
+
+simple: jr $ra
+```
+
+Jump and link and jump register are the two essential instructions needed for a procedure call. `jal` performs two functions: it stores the address of the *next* instruction (the instruction after `jal`) in the return address register (`$ra`) and it jumps to the target instruction.
+
+### Input Arguments and Return Values
+
+The procedure above is not very useful, because it receives no input from the calling procedure and returns no output. By MIPS convention, procedures use `$a0 - $a3` for input arguments and `$v0 - $v1` for the return value. In the example, the procedure `diffofsums` is called with four arguments and returns one result.
+
+```c
+int main() {
+    int y;
+    ...
+    y = diffofsums(2, 3, 4, 5);
+    ...
+}
+
+int diffofsums(int f, int g, int h, int i) {
+    int result = (f + g) - (h + i);
+    return result;
+}
+```
+
+```
+main:
+  ...
+  addi $a0, $0, 2
+  addi $a1, $0, 3
+  addi $a2, $0, 4
+  addi $a3, $0, 5
+  jal diffofsums
+  add $s0, $v0, $0
+
+diffofsums:
+  add $t0, $a0, $a1
+  add $t1, $a2, $a3
+  sub $s0, $t0, $t1
+  add $v0, $s0, $0
+  jr $ra
+```
+
+According to MIPS convention, the calling procedure, `main`, places the procedure arguments, from left to right, into the input registers, `$a0 - $a3`. The called procedure, `diffofsums`, stores the return value in the return register, `$v0`.
+
+A procedure that returns a 64-bit value, such as a double-precision floating point number, uses both return registers, `$v0` and `$v1`. When a procedure with more than four arguments is called, the additional input arguments are placed on the stack.
+
+### The Stack
 
 # Addressing Modes
 
