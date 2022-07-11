@@ -118,9 +118,55 @@ Before, the register file always got its write data from the data memory. Howeve
 
 Similarly, before, the register to write was specified by the `rt` field of the instruction, $\text{Instr}_{20:16}$. However, for R-type instructions, the register is specified by the `rd` field, $\text{Instr}_{15:11}$. Thus, we add a third multiplexer to choose *WriteReg* from the appropriate field of the instruction. The multiplexer is controlled by *RegDst*. *RegDst* is 1 for R-type instructions to choose *WriteReg* from the `rd` field, $\text{Instr}_{15:11}$; it is 0 for `lw` to choose *ReadData*. We don’t care about the value of *MemtoReg* for `sw`, because `sw` does not write to the register file.
 
-Finally, let us extend the datapath to handle `beq`. `beq` compares two registers. If they are equal, it takes the branch by adding the branch offset to the program counter. Recall that the offset is a positive or negative number, stored in the `imm` field of the instruction, $\text{Instr}_{31:26}$. The offset indicates the number of instructions to branch past. Hence, the 
+Finally, let us extend the datapath to handle `beq`. `beq` compares two registers. If they are equal, it takes the branch by adding the branch offset to the program counter. Recall that the offset is a positive or negative number, stored in the `imm` field of the instruction, $\text{Instr}_{31:26}$. The offset indicates the number of instructions to branch past. Hence, the immediate must be sign-extended and multiplied by 4 to get the new program counter value: PC’ = PC + 4 + *SignImm* $\times$ 4.
 
 ![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%208.png)
+
+The figure shows the datapath modifications. The next PC value for a taken branch, *PCBranch*, is computed by shifting *SignImm* left by 2 bits, then adding it to *PCPlus4*. The left shift by 2 is an easy way to multiply by 4, because a shift by a constant amount involves just wires. The two registers are compared by computing *SrcA - SrcB* using the ALU. If *ALUResult* is 0, as indicated by the *Zero* flag from the ALU, the registers are equal. We add a multiplexer to choose PC’ from either *PCPlus4*, or *PCBranch*. *PCBranch* is selected if the instruction is a branch and the *Zero* flag is asserted. Hence, *Branch* is 1 for `beq` and 0 for other instructions. For `beq`, *ALUControl* = 110, so the ALU performs a subtraction. *ALUSrc* = 0 to choose *SrcB* from the register file. *RegWrite* and *MemWrite* are 0, because a branch does not write to the register file or memory. We don’t care about the values of *RegDst* and *MemtoReg*, because the register file is not written.
+
+This completes the design of the single-cycle MIPS processor datapath. We have illustrated not only the design, but the design process in which the state elements are identified and the combinational logic connecting the state elements is systematically added.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%209.png)
+
+## Single-Cycle Control
+
+The control unit computes the control signals based on the `opcode` and `funct` fields of the instruction, $\text{Instr}_{31:26}$ and $\text{Instr}_{5:0}$. The figure shows the entire single-cycle MIPS processor with the control unit attached to the datapath.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2010.png)
+
+Most of the control information comes from the `opcode`, but R-type instructions also use the `funct` field to determine the ALU operation. Thus, we will simplify our design by factoring the control unit into two blocks of combinational logic, as shown in the figure. The *main decoder* computes most of the outputs from the `opcode`. It also determines a 2-bit *ALUOp* signal. The ALU decoder uses this *ALUOp* signal in conjunction with the `funct` field to compute *ALUControl*.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2011.png)
+
+The meaning of the *ALUOp* signal is given in the table.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2012.png)
+
+The table is a truth table for the ALU decoder. Recall that the meaning of the three *ALUControl* signals were given earlier, when we designed the ALU. Because *ALUOp* is never 11, the truth table can use don’t care’s X1 and 1X instead of 01 and 10 to simplify the logic. When *ALUOp* is 00 or 01, the ALU should add or subtract, respectively. When *ALUOp* is 10, the decoder examines the `funct` field to determine the *ALUControl*. Note that, for the R-type instructions we implement, the first two bits of the `funct` field are always 10, so we may ignore them to simplify the decoder.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2013.png)
+
+The control signals for each instruction were described as we built the datapath. The table is a truth table for the main decoder that summarizes the control signals as a function of the opcode. All R-type instructions use the same main decoder values; they differ only in the ALU decoder output. Recall that, for instructions that do not write to the register file, the *RegDst* and *MemtoReg* control signals are don’t cares; the address and data to the register write port do not matter because *RegWrite* is not asserted.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2014.png)
+
+## Performance Analysis
+
+Each instruction in the single-cycle processor takes one clock cycle, so the CPI is 1. The critical path for the `lw` instruction is shown in the figure with a heavy dashed blue line. It starts with the PC loading a new address on the rising edge of the clock. The instruction memory reads the next instruction. The register file reads *SrcA*. While the register file is reading, the immediate field is sign-extended and selected at the *ALUSrc* multiplexer to determine *SrcB*. The ALU adds *SrcA* and *SrcB* to find the effective address*.* The data memory reads from this address. The *MemtoReg* multiplexer selects *ReadData*. Finally, *Result* must setup at the register file before the next rising clock edge, so that it can be properly written. Hence, the cycle time is
+
+$$
+T_c = T_{pcq\_\text{PC}}+t_{\text{mem}}+ \max (t_{RF_{\text{read}}}, t_{\text{sign-ext}}) + t_{\text{mux}} + t_{\text{ALU}} + t_{\text{mem}} + t_{\text{mux}} + t_{RF\text{setup}}
+$$
+
+In most implementation technologies, the ALU, memory, and register file accesses are substantially slower than other operations. Therefore, the cycle time simplifies to 
+
+$$
+T_c = t_{pcq\_\text{PC}} + 2t_{\text{mem}} + t_{RF\text{read}} + 2 t_{\text{mux}} + t_{\text{ALU}} + t_{RF\text{setup}}
+$$
+
+The numerical values of these times will depend on the specific implementation technology. Other instructions have shorter critical paths. For example, R-type instructions do not need to access data memory. However, we are disciplining ourselves to synchronous sequential design, so the clock period is constant and must be long enough to accommodate  the slowest instruction.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2015.png)
 
 # Multicycle Processor
 
