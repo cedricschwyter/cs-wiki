@@ -184,9 +184,31 @@ Again, we begin our design with the memory and architectural state of the MIPS p
 
 The PC contains the address of the instruction to execute. The first step is to read this instruction from instruction memory. The figure shows that the PC is simply connected to the address input of the instruction memory. The instruction is read and stored in a new nonarchitectural Instruction Register so that it is available for future cycles. The Instruction Regiter receives an enable signal, called *IRWrite*, that is asserted when it should be updated with a new instruction.
 
-As we did with the single-cycle processor, we will work out the datapath connections for the `lw` instruction. Then we will enhance the datapath to handle the other instructions. For a `lw` instruction, the next step is to read the source register containing the base address. This register is specified in the `rs` field of the instruction, $\text{Instr}_{25:21}$
-
 ![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2017.png)
+
+As we did with the single-cycle processor, we will work out the datapath connections for the `lw` instruction. Then we will enhance the datapath to handle the other instructions. For a `lw` instruction, the next step is to read the source register containing the base address. This register is specified in the `rs` field of the instruction, $\text{Instr}_{25:21}$. These bits of the instruction are connected to one of the address inputs, $A1$, of the register file, as shown in the figure.  The register file reads the register onto $\text{RD}1$. This value is stored in another nonarchitectural register, $A$.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2018.png)
+
+The `lw` instruction also requires an offset. The offset is stored in the immediate field of the instruction, $\text{Instr}_{15:0}$ and must be sign-extended to 32-bits, as shown. The 32-bit sign-extended value is called *SignImm*. To be consistent, we might store *SignImm* in another nonarchitecural register. However, *SignImm* is a combinational function of *Instr* and will not change while the current instruction is being processed, so there is no need to dedicate a register to hold the constant value.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2019.png)
+
+The address of the load is the sum of the base address and offset. We use an ALU to compute this sum, as shown in the figure. *ALUControl* should be set to 010 to perform an addition. *ALUResult* is stored in a nonarchitectural register called *ALUOut*.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2020.png)
+
+The next step is to load the data from the calculated address in the memory. We add a multiplexer in front of the memory to choose the memory address, *Adr*, from either the PC or *ALUOut*, as shown in the figure. The multiplexer select signal is called *IorD*, to indicate either an instruction or data address. The data read from the memory is stored in another nonarchitectural register called *Data*. Notice that the address multiplexer permits the reuse of the memory during the `lw` instruction. On the first step, the address is taken from *ALUOut* to load the data. Hence, *IorD* must have different values on different steps. We develop the FSM controller that generates these sequences of control signals later.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2021.png)
+
+Finally, the data is written back to the register file, as shown in the figure. The destination register is specified by the `rt` field of the instruction, $\text{Instr}_{20:16}$.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2022.png)
+
+While all this is happening, the processor must update the program counter by adding 4 to the old PC. In the single-cycle processor, a separate adder was needed. In the multicycle processor, we can use the existing ALU on one of the steps when it is not busy. To do so, we must insert source multiplexers to choose the PC and the constant 4 as ALU inputs, as shown in the figure.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2023.png)
 
 # Pipelined Processor
 
