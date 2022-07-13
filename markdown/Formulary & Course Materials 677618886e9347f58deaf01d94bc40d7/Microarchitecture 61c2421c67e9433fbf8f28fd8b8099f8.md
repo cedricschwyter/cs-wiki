@@ -298,9 +298,55 @@ Pipelining is a powerful way to improve the throughput of a digital system. We d
 
 Reading and writing the memory and register file and using the ALU typically constitute the biggest delays in the processor. We choose five pipeline stages so that each stage involves exactly one of these slow steps. Specifically, we call the five stages *Fetch*, *Decode*, *Execute*, *Memory*, and *Writeback*. They are similar to the five steps that the multicycle processor used to perform `lw`. In the *Fetch* stage, the processor reads the instruction to produce the control signals. In the *Execute* stage, the processor performs a computation with the ALU. In the *Memory* stage, the processor reads or writes data memory. Finally, in the *Writeback* stage, the processor writes the result to the register file, when applicable.
 
-The figure shows a timing diagram comparing the single-cycle and pipelined processors. Time is on the horizontal axis, and instructions are on the vertical axis. 
+The figure shows a timing diagram comparing the single-cycle and pipelined processors. Time is on the horizontal axis, and instructions are on the vertical axis. In the single-cycle processor, a), the first instruction is read from memory at time 0; next the operands are read from the register file; and then the ALU executes the necessary computation. Finally, the data memory may be accessed, and the result is written back to the register file by 950 ps. The second instruction begins when the first completes. Hence, in this diagram, the single-cycle processor has an instruction latency of 250 + 150 + 200 + 250 + 100 = 950 ps and a throughput of 1 instruction per 950 ps.
+
+In the pipelined processor, b), the length of a pipeline stage is set at 250 ps by the slowest stage, the memory access (in the Fetch or Memory stage). At time 0, the first instruction is fetched from memory. At 250 ps, the first instruction enters the Decode stage, and a second instruction is fetched. At 500 ps, the first instruction executes, the second instruction enters the Decode stage, and a third instruction is fetched. And so forth, until all the instructions complete. The instruction latency is 5 $\times$ 250 ps = 1250 ps. The throughput is 1 instruction per 250 ps. Because the stages are not perfectly balanced with equal amounts of logic, the latency is slightly longer for the pipelined than for the single-cycle processor. Simmilarly, the throughput is not quite five times as great for a five-stage pipeline as for the single-cycle processor. Nevertheless, the throughput advantage is substantial.
 
 ![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2040.png)
+
+The figure shows an abstracted view of the pipeline in operation in which each stage is represented pictorially. Each pipeline stage is represented with its major component - instruction memory (IM), register file (RF) read, ALU execution, data memory (DM), and register file writeback - to illustrate the flow of instructions through the pipeline. Reading across a row shows the clock cycles in which a particular instruction is in each stage. For example, the `sub` instruction is fetched in cycle 3 and executed in cycle 5. Reading down a column shows what the various pipeline stages are doing on a particular cycle. For example, in cycle 6, the `or` instruction is being fetched from instruction memory, while `$s1` is being read from the register file, the ALU is computing `$t5` $\text{AND}$ `$t6`, the data memory is idle, and the register file is writing a sum to `$s3`. Stages are shaded to indicate when they are used. For example, the data memory is used by `lw` in cycle 4 and by `sw` in cycle 8. The instruction memory and ALU are used in every cycle. The register file is written by every instruction except `sw`. We assume that in the pipelined processor the register file is written in the first part of a cycle and read in the second part, as suggested by the shading. This way, data can be written and read back in a single cycle.
+
+A central challenge in pipelined systems is handling *hazards* that occur when the results of one instruction are needed by a subsequent instruction before the former instruction has completed. For example, if the `add` in the figure used `$s2` instead of `$t2`, a hazard would occur because the `$s2` register has not been written by the `lw` by the time it is read by the `add`. This section explores *forwarding*, *stalls*, and *flushes* as methods to resolve hazards.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2041.png)
+
+## Pipelined Datapath
+
+The pipelined datapath is formed by chopping the single-cycle datapath into five stages separated by pipeline registers. The figure a) shows the single-cycle datapath stretched out to leave room for the pipeline registers. b) shows the pipelined datapath formed by inserting four pipeline registers to separate the datapath into five stages. The stages and their boundaries are indicated in blue. Signals are given a suffix (F, D, E, M, or W) to indicate the stage in which they reside.
+
+The register file is peculiar because it is read in the Decode stage and written in the Writeback stage. This feedback will lead to pipeline hazards, which will be discussed later.
+
+One of the subtle but critical issues in pipelining is that all signals associated with a particular instruction must advance through the pipeline in unison. Figure b) has an error related to this issue.
+
+The error is in the register file write logic, which should operate in the Writeback stage. The data value comes from *ResultW*, a Writeback stage signal. But the address comes from *WriteRegE*, an execute stage signal. In the pipeline diagram above, during cycle 5, the result of the `lw` instruction would be incorrectly written to register `$s4` rather than register `$s2`.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2042.png)
+
+The figure shows a corrected datapath. The *WriteReg* signal is now pipelined along through the Memory and Writeback stages, so it remains in sync with the rest of the instruction. *WriteRegW* and *ResultW* are fed back together to the register file in the Writeback stage.
+
+The PC’ logic is also problematic, because it might be updated with a Fetch or a Memory stage signal (*PCPlus4F* or *PCBranchM*). This control hazard will be fixed later.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2043.png)
+
+## Pipelined Control
+
+The pipelined processor takes the same control signals as the single-cycle processor and therefore uses the same control unit. The control unit examines the `opcode` and `funct` fields of the instruction in the Decode stage to produce the control signals, as was described earlier. These control signals must be pipelined along with the data so that they remain synchronized with the instruction.
+
+The entire pipelined processor with control is shown in the figure. *RegWrite* must be pipelined into the Writeback stage before it feeds back to the register file, just as *WriteReg* was pipelined above.
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2044.png)
+
+## Hazards
+
+In a pipelined system, multiple instructions are handled concurrently. When one instruction is *dependent* on the results of another that has not yet completed, a *hazard* occurs.
+
+The register file can be read and written in the same cycle. Let us assume that the write takes place during the first half of the cycle and the read take place during the second half of the cycle, so that a register can be written and read back in the same cycle without introducing a hazard.
+
+The figure illustrates hazards that occur when one instruction writes a register (`$s0`) and subsequent instructions read this register. This is called a *read after write (RAW)* hazard. The `add` instruction writes a result into `$s0` in the first half of cycle 5. However, the `and` instruction reads `$s0` on cycle 3, obtaining the wrong value. The `or` instruction reads `$s0` on cycle 4, again obtaining the wrong value. The `sub` instruction reads `$s0` in the second half of cycle 5, obtaining the correct value, which was written in the first half of cycle 5. Subsequent instructions also read the correct value of `$s0`. The diagram shows that hazards may occur in this pipeline when an instruction writes a register and either of the two subsequent instructions read that register. Without special treadment, the pipeline will compute the wrong result.
+
+On closer inspection, however, observe that the sum from the `add` instruction is computed by t
+
+![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2045.png)
 
 # HDL Representation
 
