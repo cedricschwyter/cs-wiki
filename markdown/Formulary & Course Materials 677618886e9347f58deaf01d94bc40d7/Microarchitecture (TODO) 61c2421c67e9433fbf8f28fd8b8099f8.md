@@ -1,4 +1,4 @@
-# Microarchitecture
+# Microarchitecture (TODO)
 
 # Introduction
 
@@ -34,7 +34,7 @@ The *data memory* has a single read/write port. If the write enable, $\text{WE}$
 
 The instruction memory, register file, and data memory are all read *combinationally*. In other words, if the address changes, the new data appears at $\text{RD}$ after some propagation delay; no clock is involved. They are written only on the rising edge of the clock. In this fashion, the state of the system is changed only at the clock edge. The address, data, and write enable must be setup sometime before the clock edge and must remain stable until a hold time after the clock edge.Because the state elements change their state only on the rising edge of the clock, they are synchronous sequential circuits. The microprocessor is built of clocked state elements and combinational logic, so it too is a synchronous sequential circuit. Indeed, the processor can be viewed as a giant finite state machine, or as a collection of simpler interacting state machines.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled.png)
 
 ## MIPS Microarchitectures
 
@@ -80,27 +80,27 @@ The program counter register contains the address of the instruction to execute.
 
 The processor’s actions depend on the specific instruction that was fetched, First we will work out the datapath connections for the `lw` instruction. The we will consider how to generalize the datapath to handle the other instructions.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%201.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%201.png)
 
 For a `lw` instruction, the next step is to read the source register containing the base address. This register is specified in the `rs` field of the instruction, $\text{Instr}_{25:21}$. These bits of the instruction are connected to the address input of one of the register file read ports, $A1$, as shown in the figure. The register file reads the register value onto $\text{RD}1$.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%202.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%202.png)
 
 The `lw` instruction also requires an offset. The offset is stored in the immediate field of the instruction, $\text{Instr}_{15:0}$. Because the 16-bit immediate might be either positive or negative, it must be sign-extended to 32 bits, as shown in the figure. The 32-bit sign-extended value is called *SignImm*. Recall that sign extension simply copies the sign bit of a short input into all of the upper bits of the longer output.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%203.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%203.png)
 
 The processor must add the base address to the offset to find the address to read from memory. The figure introduces an ALU to perform this addition. The ALU receives two operands, *SrcA* and *SrcB*. *SrcA* comes from the register file, and *SrcB* comes from the sign-extended immediate. The ALU can perform many operations. The 3-bit *ALUControl* signal specifies the operation. The ALU generates a 32-bit *ALUResult* and a *Zero* flag, that indicates whether *ALUResult == 0*. For a `lw` instruction, the *ALUControl* signal should be set to 010 to add the base address and offset. *ALUResult* is sent to the data mmemory as the address for the load instruction, as shown.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%204.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%204.png)
 
 The data is read from the data memory onto the *ReadData* bus, then written back to the destination register in the register file at the end of the cycle, as shown. Port 3 of the register file is the write port. The destination register for the `lw` instruction is specified in the `rt` field, $\text{Instr}_{20:16}$, which is connected to the port 3 address input, $A3$, of the register file. The *ReadData* bus is connected to the port 3 write data input, $\text{WD}3$, of the register file. A control signal called *RegWrite* is connected to the port 3 write enable, $\text{WE}3$, and is asserted during a `lw` instruction so that the data value is written into the register file. The write takes place on the rising edge of the clock at the end of the cycle.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%205.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%205.png)
 
 While the instruction is being executed, the processor must compute the address of the next instruction, PC’. Because instructions are 32 bits = 4 bytes, the next instruction is at PC + 4. The figure uses another adder to increment the PC by 4. The new address is written into the program counter on the next rising edge of the clock. This completes the datapath for the `lw` instruction.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%206.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%206.png)
 
 Next, let us extend the datapath to also handle the `sw` instruction. Like the `lw` instruction, the `sw` instruction reads a base address from port 1 of the register and sign-extends an immediate. The ALU adds the base address to the immediate to find the memory address. All of these functions are already supported by the datapath.
 
@@ -108,7 +108,7 @@ The `sw` instruction also reads a second register from the register file and wri
 
 Next, consider extending the datapath to handle the R-type instructions `add`, `sub`, `and`, `or`, and `slt`. All of these instructions read two registers from the register file, perform some ALU operation on them, and write the result back to a third register file. They differ only in the specific ALU operation. Hence, they can all be handled with the same hardware, using different *ALUControl* signals.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%207.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%207.png)
 
 The figure shows the enhanced datapath handling R-type instructions. The register file reads two registers. The ALU performs an operation on these two registers. Before, the ALU always received its *SrcB* operand from the sign-extended immediate. Now, we add a multiplexer to choose *SrcB* from either the register file $\text{RD}2$ port or *SignImm*.
 
@@ -120,35 +120,35 @@ Similarly, before, the register to write was specified by the `rt` field of the 
 
 Finally, let us extend the datapath to handle `beq`. `beq` compares two registers. If they are equal, it takes the branch by adding the branch offset to the program counter. Recall that the offset is a positive or negative number, stored in the `imm` field of the instruction, $\text{Instr}_{31:26}$. The offset indicates the number of instructions to branch past. Hence, the immediate must be sign-extended and multiplied by 4 to get the new program counter value: PC’ = PC + 4 + *SignImm* $\times$ 4.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%208.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%208.png)
 
 The figure shows the datapath modifications. The next PC value for a taken branch, *PCBranch*, is computed by shifting *SignImm* left by 2 bits, then adding it to *PCPlus4*. The left shift by 2 is an easy way to multiply by 4, because a shift by a constant amount involves just wires. The two registers are compared by computing *SrcA - SrcB* using the ALU. If *ALUResult* is 0, as indicated by the *Zero* flag from the ALU, the registers are equal. We add a multiplexer to choose PC’ from either *PCPlus4*, or *PCBranch*. *PCBranch* is selected if the instruction is a branch and the *Zero* flag is asserted. Hence, *Branch* is 1 for `beq` and 0 for other instructions. For `beq`, *ALUControl* = 110, so the ALU performs a subtraction. *ALUSrc* = 0 to choose *SrcB* from the register file. *RegWrite* and *MemWrite* are 0, because a branch does not write to the register file or memory. We don’t care about the values of *RegDst* and *MemtoReg*, because the register file is not written.
 
 This completes the design of the single-cycle MIPS processor datapath. We have illustrated not only the design, but the design process in which the state elements are identified and the combinational logic connecting the state elements is systematically added.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%209.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%209.png)
 
 ## Single-Cycle Control
 
 The control unit computes the control signals based on the `opcode` and `funct` fields of the instruction, $\text{Instr}_{31:26}$ and $\text{Instr}_{5:0}$. The figure shows the entire single-cycle MIPS processor with the control unit attached to the datapath.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2010.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2010.png)
 
 Most of the control information comes from the `opcode`, but R-type instructions also use the `funct` field to determine the ALU operation. Thus, we will simplify our design by factoring the control unit into two blocks of combinational logic, as shown in the figure. The *main decoder* computes most of the outputs from the `opcode`. It also determines a 2-bit *ALUOp* signal. The ALU decoder uses this *ALUOp* signal in conjunction with the `funct` field to compute *ALUControl*.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2011.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2011.png)
 
 The meaning of the *ALUOp* signal is given in the table.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2012.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2012.png)
 
 The table is a truth table for the ALU decoder. Recall that the meaning of the three *ALUControl* signals were given earlier, when we designed the ALU. Because *ALUOp* is never 11, the truth table can use don’t care’s X1 and 1X instead of 01 and 10 to simplify the logic. When *ALUOp* is 00 or 01, the ALU should add or subtract, respectively. When *ALUOp* is 10, the decoder examines the `funct` field to determine the *ALUControl*. Note that, for the R-type instructions we implement, the first two bits of the `funct` field are always 10, so we may ignore them to simplify the decoder.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2013.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2013.png)
 
 The control signals for each instruction were described as we built the datapath. The table is a truth table for the main decoder that summarizes the control signals as a function of the opcode. All R-type instructions use the same main decoder values; they differ only in the ALU decoder output. Recall that, for instructions that do not write to the register file, the *RegDst* and *MemtoReg* control signals are don’t cares; the address and data to the register write port do not matter because *RegWrite* is not asserted.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2014.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2014.png)
 
 ## Performance Analysis
 
@@ -166,7 +166,7 @@ $$
 
 The numerical values of these times will depend on the specific implementation technology. Other instructions have shorter critical paths. For example, R-type instructions do not need to access data memory. However, we are disciplining ourselves to synchronous sequential design, so the clock period is constant and must be long enough to accommodate  the slowest instruction.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2015.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2015.png)
 
 # Multicycle Processor
 
@@ -180,57 +180,57 @@ We design a multicycle processor following the same procedure we used for the si
 
 Again, we begin our design with the memory and architectural state of the MIPS processor, as shown in the figure. In the single-cycle design, we used separate instruction and data memories because we needed to read the instruction memory and read or write the data memory all in one cycle. Now, we choose to use a combined memory for both instructions and data. This is more realistic, and it is feasible because we can read the instruction in one cycle, then read or write the data in a separate cycle. The PC and register file remain unchanged. We gradually build the datapath by adding components to handle each step of each instruction. The new connections are emphasized in black (or blue for new control signals), whereas the hardware that has already been studied is shown in gray.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2016.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2016.png)
 
 The PC contains the address of the instruction to execute. The first step is to read this instruction from instruction memory. The figure shows that the PC is simply connected to the address input of the instruction memory. The instruction is read and stored in a new nonarchitectural Instruction Register so that it is available for future cycles. The Instruction Regiter receives an enable signal, called *IRWrite*, that is asserted when it should be updated with a new instruction.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2017.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2017.png)
 
 As we did with the single-cycle processor, we will work out the datapath connections for the `lw` instruction. Then we will enhance the datapath to handle the other instructions. For a `lw` instruction, the next step is to read the source register containing the base address. This register is specified in the `rs` field of the instruction, $\text{Instr}_{25:21}$. These bits of the instruction are connected to one of the address inputs, $A1$, of the register file, as shown in the figure.  The register file reads the register onto $\text{RD}1$. This value is stored in another nonarchitectural register, $A$.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2018.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2018.png)
 
 The `lw` instruction also requires an offset. The offset is stored in the immediate field of the instruction, $\text{Instr}_{15:0}$ and must be sign-extended to 32-bits, as shown. The 32-bit sign-extended value is called *SignImm*. To be consistent, we might store *SignImm* in another nonarchitecural register. However, *SignImm* is a combinational function of *Instr* and will not change while the current instruction is being processed, so there is no need to dedicate a register to hold the constant value.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2019.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2019.png)
 
 The address of the load is the sum of the base address and offset. We use an ALU to compute this sum, as shown in the figure. *ALUControl* should be set to 010 to perform an addition. *ALUResult* is stored in a nonarchitectural register called *ALUOut*.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2020.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2020.png)
 
 The next step is to load the data from the calculated address in the memory. We add a multiplexer in front of the memory to choose the memory address, *Adr*, from either the PC or *ALUOut*, as shown in the figure. The multiplexer select signal is called *IorD*, to indicate either an instruction or data address. The data read from the memory is stored in another nonarchitectural register called *Data*. Notice that the address multiplexer permits the reuse of the memory during the `lw` instruction. On the first step, the address is taken from *ALUOut* to load the data. Hence, *IorD* must have different values on different steps. We develop the FSM controller that generates these sequences of control signals later.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2021.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2021.png)
 
 Finally, the data is written back to the register file, as shown in the figure. The destination register is specified by the `rt` field of the instruction, $\text{Instr}_{20:16}$.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2022.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2022.png)
 
 While all this is happening, the processor must update the program counter by adding 4 to the old PC. In the single-cycle processor, a separate adder was needed. In the multicycle processor, we can use the existing ALU on one of the steps when it is not busy. To do so, we must insert source multiplexers to choose the PC and the constant 4 as ALU inputs, as shown in the figure. A two-input multiplexer controlled by *ALUSrcA* chooses either the PC or register $A$ as *SrcA*. A four-input multiplexer controlled by *ALUSrcB* chooses either 4 or *SignImm* as *SrcB*. We use the other two multiplexer inputs later when we extend the datapath to handle other instructions. To update the PC, the ALU adds *SrcA* (PC) to *SrcB* (4), and the result is written back into the program counter register. The *PCWrite* control signal enables the PC register to be written only on certain cycles.
 
 This completes the datapath for the `lw` instruction. Next, let’s extend the datapath to also handle the `sw` instruction. Like the `lw` instruction, the `sw` instruction reads a base address from port 1 of the register file and sign-extends the immediate. The ALU adds the base address to the immediate to find the memory address.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2023.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2023.png)
 
 The only new feature of `sw` is that we must read a second register from the register file and write it into the memory, as shown in the figure. The register is specified in the `rt` field of the instruction, $\text{Instr}_{20:16}$, which is connected to the second port of the register file. When the register is read, it is stored in a nonarchitectural register, $B$. On the next step, it is sent to the write data port ($\text{WD}$) of the data memory to be written. The memory receives an additional *MemWrite* control signal to indicate that the write should occur.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2024.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2024.png)
 
 For R-type instructions, the instruction is again fetched, and the two source registers are read from the register file. Another input of the *SrcB* multiplexer is used to choose register $\text{B}$ as the second source register for the ALU, as shown. The ALU performs the appropriate operation and stores the result in *ALUOut*. On the next step, *ALUOut* is written back to the register specified by the `rd` field of the instruction, $\text{Instr}_{15:11}$. This requires two new multiplexers. The *MemtoReg* multiplexer selects whether $\text{WD}3$ comes from *ALUOut* (for R-type instructions) or from *Data* (for `lw`). The *RegDst* instruction selects whether the destination register is specified in the `rt` or `rd` field of the instruction.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2025.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2025.png)
 
 For the `beq` instruction, the instruction is again fetched, and the two source registers are read from the register file. To determine whether the registers are equal, the ALU subtracts the registers and examines the *Zero* flag. Meanwhile, the datapath must compute the next value of the PC if the branch is taken: PC’ = PC + 4 + *SignImm* $\times$ 4. In the single-cycle processor, yet another adder was needed to compute the branch address. In the multicycle processor, the ALU can be reused again to save hardware. On one step, the ALU computers PC + 4 and writes it back to the program counter, as was done for other instructions. On another step, the ALU uses this updated PC value to compute PC + *SignImm* $\times$ 4. *SignImm* is left-shifted by 2 to multiply it by 4, as shown. The *SrcB* multiplexer chooses this value and add it to the PC. This sum represents the destination of the branch and is stored in *ALUOut*. A new multiplexer, controlled by *PCSrc*, chooses what signal should be sent to PC’. The program counter should be written either when *PCWrite* is asserted or when a branch is taken. A new control signal, *Branch*, indicates that the `beq` instruction is being executed. The branch is taken if *Zero* is also asserted. Hence, the datapath computes a new PC write enable, called *PCEn*, which is TRUE either when *PCWrite* is asserted or when both *Branch* and *Zero* are asserted.
 
 This completes the design of the multicycle MIPS processor datapath. The design process is much like that of the single-cycle processor in that hardware is systematically connected between the state elements to handle each instruction. The main difference is that the instruction is executed in several steps. Nonarchitectural registers are inserted to hold the results of each step. In this way, the ALU can be reused several times, saving the cost of extra adders. Similarly, the instructions and data can be stored in one shared memory.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2026.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2026.png)
 
 ## Multicycle Control
 
 As in the single-cycle processor, the control unit computes the control signals based on the `opcode` and `funct` fields of the instruction, $\text{Instr}_{31:26}$ and $\text{Instr}_{5:0}$. The figure shows the entire multicycle MIPS processor with the control unit attached to the datapath. The datapath is shown in black, and the control unit is shown in blue.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2027.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2027.png)
 
 As in the single-cycle processor, the control unit is partitioned into a main controller and an ALU decoder, as shown. The ALU decoder is unchanged and follows the truth table from the single-cycle control unit. Now however, the main controller is an FSM that applies the proper control signals on the proper cycles or steps. The sequence of control signals depends on the instruction being executed.
 
@@ -238,45 +238,45 @@ The main controller produces multiplexer select and register enable signals for 
 
 To keep the following state transition diagrams readable, only the relevant control signals are listed. Select signals are listed only when their value matters; otherwise, they are don’t cares. Enable signals are listed only when they are asserted; otherwise, they are 0.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2028.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2028.png)
 
 The first step for any instruction is to fetch the instruction from memory at the address held in the PC. The FSM enters this state on reset. To read memory, *IorD* = 0, so the address is taken from the PC. *IRWrite* is asserted to write the instruction into the instruction register, *IR*. Meanwhile, the PC should be incremented by 4 to point to the next instruction. Because the ALU is not being used for anything else, the processor can use it to compute PC + 4 at the same time that it fetches the instruction. *ALUSrcA* = 0, so *SrcA* comes from the PC. *ALUSrcB* = 01, so *SrcB* is the constant 4. *ALUOp* = 00, so the ALU decoder produces *ALUControl* = 010 to make the ALU add. To update the PC with this new value, *PCSrc* = 0, and *PCWrite* is asserted. These control signals are shown in the figure. The data flow on this step is shown below, with the instruction fetch shown using the dashed blue line and the PC increment shown using the dashed gray line.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2029.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2029.png)
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2030.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2030.png)
 
 The next step is to read the register file and decode the instruction. The register file always reads the two sources specified by the `rs` and `rt` fields of the instruction. Meanwhile, the immediate is sign-extended. Decoding involves examining the `opcode` of the instruction to determine what to do next. No control signals are necessary to decode the instruction, but the FSM must wait 1 cycle for the reading and decoding to complete, as shown.  The new state is highlighted in blue. The data flow is shown below.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2031.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2031.png)
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2032.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2032.png)
 
 Now the FSM proceeds to one of several possible states, depending on the `opcode`. If the instruction is a memory load or store, the multicycle processor computes the address by adding the base address to the sign-extended immediate. This requires *ALUSrcA* = 1 to select register $A$ and *ALUSrcB* = 10 to select *SignImm*. *ALUOp* = 00, so the ALU adds. The effective address is stored in the *ALUOut* register for use on the next step. This FSM step is shown in the figure, and the data flow is shown below.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2033.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2033.png)
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2034.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2034.png)
 
 If the instruction is `lw`, the multicycle processor must next read data from memory and write it to the register file. Thee two steps are shown in the figure. To read from memory, *IorD* = 1 to select the memory address that was just computed and saved in *ALUOut*. This address in memory is read and saved in the Data register during step S3. On the next step, S4, *Data* is written to the register file. *MemtoReg* = 1 to select *Data* and *RegDst* = 0 to pull the destination register from the `rt` field of the instruction. *RegWrite* is asserted to perform the write, completing the `lw` instruction. Finally, the FSM returns to the initial state, S0, to fetch the next instruction.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2035.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2035.png)
 
 From state S2, if the instruction is `sw`, the data read from the second port of the register file is simply written to memory. *IorD* = 1 to select the address computed in S2 and saved in *ALUOut*. *MemWrite* is asserted to write the memory. Again, the FSM returns to S0 to fetch the next instruction. The added step is shown in the figure.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2036.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2036.png)
 
 If the `opcode` indicates an R-type instruction, the multicycle processor must calculate the result using the ALU and write that result to the register file. The figure shows these two steps. In S6, the instruction is executed by selecting the $A$ and $B$ registers and performing the ALU operation indicated by the `funct` field of the instruction. *ALUOp* = 10 for all R-type instructions. The *ALUResult* is stored in *ALUOut*. In S7, *ALUOut* is written to the register file, *RegDst* = 1, because the destination register is specified in the `rd` field of the instruction. *MemtoReg* = 0 because the write data, $\text{WD}3$, comes from *ALUOut*. *RegWrite* is asserted to write the register file.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2037.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2037.png)
 
 For a `beq` instruction, the processor must calculate the destination address and compare the two source registers to determine whether the branch should be taken. This requires two uses of the ALU and hence might see to demand two new states. Notice however, that the ALU was not used during S1 when the registers were being read. The processor might as well use the ALU at that time to compute the destination address by adding the incremented PC, PC + 4, to *SignImm* $\times$ 4, as shown. *ALUSrcA* = 0 to select the incremented PC, *ALUSrcB* = 11 to select *SignImm* $\times$ 4, and *ALUOp* = 00 to add. The destination address is stored in *ALUOut*. If the instruction is not `beq`, the computed address will not be used in subsequent cycles, but its computation was harmless. In S8, the processor compares the two registers by subtracting them and checking to determine whether the result is 0. If it is, the processor branches to the address that was just computed. *ALUSrcA* = 1 to select register $A$; *ALUSrcB* = 00 to select register $B$; *ALUOp* = 01 to subtract; *PCSrc* = 1 to take the destination address from *ALUOut*, and *Branch* = 1 to update the PC with this address if the ALU result is 0.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2038.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2038.png)
 
 Putting these steps together, the figure shows the complete main controller state transition diagram for the multicycle processor. Converting it to hardware is a straightforward but tedious task using the techniques in [Sequential Logic](Sequential%20Logic%2042c224c8465c4576ac93922cb2672120.md). An easier way however is to code the FSM in Verilog and synthesize it using the techniques in [Hardware Description Languages](Hardware%20Description%20Languages%20fcb219831f434191a76d1574a38442ae.md).
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2039.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2039.png)
 
 ## Performance Analysis
 
@@ -302,13 +302,13 @@ The figure shows a timing diagram comparing the single-cycle and pipelined proce
 
 In the pipelined processor, b), the length of a pipeline stage is set at 250 ps by the slowest stage, the memory access (in the Fetch or Memory stage). At time 0, the first instruction is fetched from memory. At 250 ps, the first instruction enters the Decode stage, and a second instruction is fetched. At 500 ps, the first instruction executes, the second instruction enters the Decode stage, and a third instruction is fetched. And so forth, until all the instructions complete. The instruction latency is 5 $\times$ 250 ps = 1250 ps. The throughput is 1 instruction per 250 ps. Because the stages are not perfectly balanced with equal amounts of logic, the latency is slightly longer for the pipelined than for the single-cycle processor. Simmilarly, the throughput is not quite five times as great for a five-stage pipeline as for the single-cycle processor. Nevertheless, the throughput advantage is substantial.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2040.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2040.png)
 
 The figure shows an abstracted view of the pipeline in operation in which each stage is represented pictorially. Each pipeline stage is represented with its major component - instruction memory (IM), register file (RF) read, ALU execution, data memory (DM), and register file writeback - to illustrate the flow of instructions through the pipeline. Reading across a row shows the clock cycles in which a particular instruction is in each stage. For example, the `sub` instruction is fetched in cycle 3 and executed in cycle 5. Reading down a column shows what the various pipeline stages are doing on a particular cycle. For example, in cycle 6, the `or` instruction is being fetched from instruction memory, while `$s1` is being read from the register file, the ALU is computing `$t5` $\text{AND}$ `$t6`, the data memory is idle, and the register file is writing a sum to `$s3`. Stages are shaded to indicate when they are used. For example, the data memory is used by `lw` in cycle 4 and by `sw` in cycle 8. The instruction memory and ALU are used in every cycle. The register file is written by every instruction except `sw`. We assume that in the pipelined processor the register file is written in the first part of a cycle and read in the second part, as suggested by the shading. This way, data can be written and read back in a single cycle.
 
 A central challenge in pipelined systems is handling *hazards* that occur when the results of one instruction are needed by a subsequent instruction before the former instruction has completed. For example, if the `add` in the figure used `$s2` instead of `$t2`, a hazard would occur because the `$s2` register has not been written by the `lw` by the time it is read by the `add`. This section explores *forwarding*, *stalls*, and *flushes* as methods to resolve hazards.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2041.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2041.png)
 
 ## Pipelined Datapath
 
@@ -320,13 +320,13 @@ One of the subtle but critical issues in pipelining is that all signals associat
 
 The error is in the register file write logic, which should operate in the Writeback stage. The data value comes from *ResultW*, a Writeback stage signal. But the address comes from *WriteRegE*, an execute stage signal. In the pipeline diagram above, during cycle 5, the result of the `lw` instruction would be incorrectly written to register `$s4` rather than register `$s2`.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2042.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2042.png)
 
 The figure shows a corrected datapath. The *WriteReg* signal is now pipelined along through the Memory and Writeback stages, so it remains in sync with the rest of the instruction. *WriteRegW* and *ResultW* are fed back together to the register file in the Writeback stage.
 
 The PC’ logic is also problematic, because it might be updated with a Fetch or a Memory stage signal (*PCPlus4F* or *PCBranchM*). This control hazard will be fixed later.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2043.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2043.png)
 
 ## Pipelined Control
 
@@ -334,7 +334,7 @@ The pipelined processor takes the same control signals as the single-cycle proce
 
 The entire pipelined processor with control is shown in the figure. *RegWrite* must be pipelined into the Writeback stage before it feeds back to the register file, just as *WriteReg* was pipelined above.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2044.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2044.png)
 
 ## Hazards
 
@@ -348,13 +348,13 @@ On closer inspection, however, observe that the sum from the `add` instruction i
 
 Hazards are classified as data hazards or control hazards. A *data hazard* occurs when an instruction tries to read a register that has not yet been written back by a previous instruction. A *control hazard* occurs when the decision of what instruction to fetch next has not been made by the time the fetch takes place. In the remainder of this section, we will enhance the pipelined processor with a hazard unit that detects hazards and handles them appropriately, so that the processor executes the program correctly.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2045.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2045.png)
 
 ### Solving Data Hazards with Forwarding
 
 Some data hazards can be solved by *forwarding* (also called *bypassing*) a result from the Memory or Writeback stage to a dependent instruction in the Execute stage. This requires adding multiplexers in front of the ALU to select the operand from either the register file or the Memory or Writeback stage. The figure illustrates this principle. In cycle 4, `$s0` is forwarded from the memory stage of the `add` instruction to the Execute stage of the dependent `and` instruction. In cycle 5, `$s0` is forwarded from the Writeback stage of the `add` instruction to the Execute stage of the dependent `or` instruction.
 
-![Untitled](Microarchitecture%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2046.png)
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2046.png)
 
 # HDL Representation
 
