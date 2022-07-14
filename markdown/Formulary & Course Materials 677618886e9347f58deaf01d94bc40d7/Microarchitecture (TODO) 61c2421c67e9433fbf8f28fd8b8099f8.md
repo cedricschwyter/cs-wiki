@@ -388,11 +388,373 @@ In summary, stalling a stage is performed by disabling the pipeline register, so
 
 The figure modifies the pipelined processor to add stalls for `lw` data dependencies. The hazard unit examines the instruction in the Execute stage. If it is `lw` and its destination register (`rtE`) matches either source operand of the instruction in the Decode stage (`rsD` or `rtD`), that instruction must be stalled in the Decode stage until the source operand is ready.
 
-Stalls are supported by adding enable inputs to the Fetch and Decode pipeline registers and a synchronous reset/clear input to the Execute pipeline register. When a `lw` stall occurs, *StallD* and *StallF* are asserted to force the Decode and Fetch stage po
+Stalls are supported by adding enable inputs to the Fetch and Decode pipeline registers and a synchronous reset/clear input to the Execute pipeline register. When a `lw` stall occurs, *StallD* and *StallF* are asserted to force the Decode and Fetch stage pipeline registers to hold their old values. *FlushE* is also asserted to clear the contents of the Execute stage pipeline register, introducing a bubble.
+
+The *MemtoReg* signal is asserted for the `lw` instruction. Hence, the logic to compute the stalls and flushes is 
+
+```
+lwstall = ((rsD == rtE) OR (rtD == rtE)) AND MemToRegE
+StallF = StallD = FlushE = lwstall
+```
 
 ![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2050.png)
 
+### Solving Control Hazards
+
+The `beq` instruction presents a control hazard: the pipelined processor does not know what instruction to fetch next, because the branch decision has not been made by the time the next instruction is fetched.
+
+One mechanism for dealing with the control hazard is to stall the pipeline until the branch decision is made (i.e., *PCSrc* is computed). Because the decision is made in the Memory stage, the pipeline would have to be stalled for three cycles at every branch. This would severely degrade the system performance.
+
+An alternative is to predict whether the branch will be taken and begin executing instructions based on the prediction. Once the branch decision is available, the processor can throw out the instructions if the prediction was wrong. In particular, suppose that we predict that branches are not taken and simply continue executing the program in order. If the branch should have been taken, the three instructions following the branch must be *flushed* (discarded) by clearing the pipeline registers for those instructions. These wasted instruction cycles are called the *branch misprediction penalty*.
+
+The figure shows such a scheme, in which a branch from address 20 to address 64 is taken. The branch decision is not made until cycle 4, by which point the `and`, `or`, and `sub` instructions at addresses 24, 28 and 2C have already been fetched. These instructions must be flushed, and the `slt` instruction is fetched from address 64 in cycle 5. This is somewhat of an improvement, but flushing so many instructions when the branch is taken still degrades performance.
+
+We could reduce the branch misprediction penalty if the branch decision could be made earlier. Making the decision simply requires comparing the values of two registers. Using a dedicated equality comparator is much faster than performing a subtraction and zero detection. If the comparator is fast enough, it could be moved back into the Decode stage, so that the operands are read from the register file and compared to determine the next PC by the end of the Decode stage.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2051.png)
+
+The figure shows the pipeline operation with the early branch decision being made in cycle 2. In cycle 3, the `and` instruction is flushed and the `slt` instruction is fetched. Now the branch misprediction penalty is reduced to only one instruction rather than three.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2052.png)
+
+The figure modifies the pipelined processor to move the branch decision earlier and handle control hazards. An equality comparator is added to the Decode stage and the *PCSrc* $\text{AND}$ gate is moved earlier, so that *PCSrc* can be determined in the Decoder stage rather than the Memory stage. The *PCBranch* adder must also be moved into the Decode stage so that the destination address can be computed in time. The synchronous clear input connected to *PCSrcD* is added to the Decode stage pipeline register so that the incorrectly fetched instruction can be flushed when a branch is taken.
+
+Unfortunately, the early branch decision hardware introduces a new RAW data hazard. Specifically, if one of the source operands for the branch was computed by a previous instruction and has not yet been written into the register file, the branch will read the wrong operand value from the register file. As before, we can solve the data hazard by forwarding the correct value if it is available or stalling the pipeline until the data is ready.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2053.png)
+
+The figure shows the modifications to the pipelined processor needed to handle the Decode stage data dependency. If a result is in the Writeback stage, it will be written in the first half of the cycle and read during the second half, so no hazard exists. If the result of an ALU instruction is in the Memory stage, it can be forwarded to the equality comparator through two new multiplexers. If the result of an ALU instruction is in the Execute stage or the result of a `lw` instruction is in the Memory stage, the pipeline must be stalled at the Decode stage until the result is ready.
+
+The function of the Decide stage forwarding logic is given below.
+
+```
+ForwardAD = (rsD != 0) AND (rsD == WriteRegM) AND RegWriteM
+ForwardBD = (rtD != 0) AND (rtD == WriteRegM) AND RegWriteM
+```
+
+The function of the stall detection logic for a branch is given below.
+
+The processor must make a branch decision in the Decode stage. If either of the sources of the branch depends on an ALU instruction in the Execute stage or on a `lw` instruction in the Memory stage, the processor must stall until all the sources are ready.
+
+```
+branchstall = (BranchD AND RegWriteE AND (WriteRegE == rsD OR WriteRegE == rtD)) OR (BranchD AND MemtoRegM AND (WriteRegM == rsD OR WriteRegM == rtD))
+```
+
+Now the processor might stall due to either a load or a branch hazard: 
+
+```
+StallF = StallD = FlushE = lwstall OR branchstall
+```
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2054.png)
+
+### Hazard Summary
+
+In summary, RAW data hazards occur when an instruction depends on the result of another instruction that has not yet been written into the register file. The data hazards can be resolved by forwarding if the result is computed soon enough; otherwise they require stalling the pipeline until the result is available. Control hazards occur when the decision of what instruction to fetch has not been made by the time the next instruction must be fetched. Control hazards are solved by predicting which instruction should be fetched and flushing the pipeline if the prediction is later determined to be wrong. Moving the decision as early as possible minimizes the number of instructions that are flushed on a misprediction. 
+
+The figure show the complete pipelined processor handling all of the hazards.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2055.png)
+
+## Performance Analysis
+
+The pipelined processor ideally would have a CPI of 1, because a new instruction is issued every cycle. However, a stall or a flush wastes a cycle, so the CPI is slightly higher and depends on the specific program being executed.
+
+We can determine the cycle time by considering the critical path in each of the five pipeline stages. Recall that the register file is written in the first half of the Writeback cycle and read in the second half of the decode cycle. Therefore, the cycle time of the Decode and Writeback stages is twice the time necessary to do the half-cycle of work.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2056.png)
+
+The pipelined processor is similar in hardware requirements to the single-cycle processor, but it adds a substantial number of pipeline registers, along with multiplexers and control logic to resolve hazards.
+
 # HDL Representation
+
+This section presents HDL code for the single-cycle MIPS processor, supporting all of the instructions discussed above, including `addi` and `j`. The code illustrates good coding practices for a moderately complex system.
+
+In this section, the instruction and data memories are separated from the main processor and connected by address and data busses. This is more realistic, because most real processors have external memory. it also illustrates how the processor can communicate with the outside world.
+
+The processor is composed of a datapath and a controller. The controller, in turn, is composed of the main decoder and the ALU decoder. The figure shows a block diagram of the single-cycle MIPS processor interfaced to external memories. The HDL code is partitioned into several sections.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2057.png)
+
+## Single-Cycle Processor
+
+The main modules of the single-cycle MIPS processor module are given in the following Verilog examples. 
+
+### Single-Cyle MIPS Processor
+
+```verilog
+module mips (input         clk, reset,
+             output [31:0] pc,
+             input  [31:0] instr,
+             output        memwrite,
+             output [31:0] aluwrite, writedata,
+             input  [31:0] readdata);
+  wire memtoreg, branch,  alusrc, regdst, regwrite, jump;
+  wire [2:0] alucontrol;
+  controller c (instr[31:26], instr[5:0], zero, memtoreg, memwrite, pcsrc, alusrc, regdst, regwrite, jump, alucontrol);
+  datapath dp (clk, reset, memtoreg, pcsrc, alusrc, regdst, regwrite, jump, alucontrol, zero, pc, instr, aluout, writedata, readdata);
+endmodule
+```
+
+### Controller
+
+```verilog
+module controller (input  [5:0] op, funct,
+                   input        zero,
+                   output       memtoreg, memwrite,
+                   output       pcsrc, alusrc,
+                   output       regdst, regwrite,
+                   output       jump,
+                   output [2:0] alucontrol);
+  wire [1:0] aluop;
+  wire branch;
+  maindec md (op, memtoreg, memwrite, branch, alusrc, regdst, regwrite, jump, aluop);
+  aludec ad (funct, aluop, alucontrol);
+  assign pcsrc = branch & zero;
+endmodule
+```
+
+### Main Decoder
+
+```verilog
+module maindec (input  [5:0] op,
+                output       memtoreg, memwrite,
+                output       branch, alusrc,
+                output       regdst, regwrite,
+                output       jump,
+                output [1:0] aluop);
+  reg [8:0] controls;
+  assign {regwrite, regdst, alusrc, branch, memwrite, memtoreg, jump, aluop} = controls;
+  always @ (*)
+    case (op)
+      6'b000000: controls <= 9b110000010; // R-type
+      6'b100011: controls <= 9b101001000; // ls
+      6'b101011: controls <= 9b001010000; // sw
+      6'b000100: controls <= 9b000100001; // beq
+      6'b001000: controls <= 9b101000000; // addi
+      6'b000010: controls <= 9b000000100; // j
+      default: controls <= 9bxxxxxxxxx;   // ???
+    endcase
+endmodule
+```
+
+### ALU Decoder
+
+```verilog
+module aludec (input      [5:0] funct,
+               input      [1:0] aluop,
+               output reg [2:0] alucontrol);
+  always @ (*)
+    case (aluop)
+      2'b00: alucontrol <= 3'b010; // add
+      2'b01: alucontrol <= 3'b110; // sub
+      default: case (funct)        // R-type
+          6'b100000: alucontrol <= 3'b010; // add
+          6'b100010: alucontrol <= 3'b110; // sub
+          6'b100100: alucontrol <= 3'b000; // and
+          6'b100101: alucontrol <= 3'b001; // or
+          6'b101010: alucontrol <= 3'b111; // slt
+          default: alucontrol <= 3'bxxx;   // ???
+        endcase
+    endcase
+endmodule
+```
+
+### Datapath
+
+```verilog
+module datapath (input         clk, reset,
+                 input         memtoreg, pcsrc,
+                 input         alusrc, regdst,
+                 input         regwrite, jump,
+                 input  [2:0]  alucontrol,
+                 output        zero,
+                 output [31:0] pc,
+                 input  [31:0] instr,
+                 output [31:0] aluout, writedata,
+                 input  [31:0] readdata);
+  wire [4:0] writereg;
+  wire [31:0] pcnext, pcnextbr, pcplus4, pcbranch;
+  wire [31:0] signimm, signimmsh;
+  wire [31:0] srca, srcb;
+  wire [31:0] result;
+  // next PC logic
+  flopr #(32) pcreg (clk, reset, pcnext, pc);
+  adder pcadd1 (pc, 32'b100, pcplus4);
+  sl2 immsh (signimm, signimmsh);
+  adder pcadd2 (pcplus4, signimmsh, pcbranch);
+  mux2 #(32) pcbrux (pcplus4, pcbranch, pcsrc, pcnextbr);
+  mux2 #(32) pcmux (pcnextbr, {pcpluss4[31:28], instr[25:0], 2'b00}, jump, pcnext);
+  // register file logic
+  regfile rf (clk, regwrite, instr[25:21], instr[20:16], writereg, result, srca, writedata);
+  mux2 #(5) wrmux (instr[20:16], instr[15:11], regdst, writereg);
+  mux2 #(32) resmux (aluout, readdata, memtoreg, result);
+  signext se (instr[15:0], signimm);
+  // ALU logic
+  mux2 #(32) srcbmux (writedata, signimm, alusrc, srcb);
+  alu alu (srca, srcb, alucontrol, aluout, zero);
+endmodule
+```
+
+## Generic Building Blocks
+
+This section contains generic building blocks that may be useful in any MIPS microarchitecture, including a register file, adder, left shift unit, sign-extension unit, resettable flip-flop, and multiplexer.
+
+### Register File
+
+```verilog
+module regfile (input         clk,
+                input         we3,
+                input  [4:0]  ra1, ra2, wa3,
+                input  [32:0] wd3,
+                output [31:0] rd1, rd2);
+  reg [31:0] rf[31:0];
+  always @ (posedge clk)
+    if (we3) rf[wa3] <= wd3;
+  assign rd1 = (ra1 != 0) ? rf[ra1] : 0;
+  assign rd2 = (ra2 != 0) ? rf[ra2] : 0;
+endmodule
+```
+
+### Adder
+
+```verilog
+module adder (input  [31:0] a, b,
+              output [31:0] y);
+  assign y = a + b;
+endmodule
+```
+
+### Left Shift (Multiply by 4)
+
+```verilog
+module sl2 (input  [31:0] a,
+            output [31:0] y);
+  // shift left by 2
+  assign y = {a[29:0], 2'b00}
+endmodule
+```
+
+### Sign Extension
+
+```verilog
+module signet (input  [15:0] a,
+               output [31:0] y);
+  assign y = {{16{a[15]}}, a};
+endmodule
+```
+
+### Resettable Flip-Flop
+
+```verilog
+module flopr #(parameter WIDTH = 8)
+              (input                  clk, reset,
+               input      [WIDTH-1:0] d,
+               output reg [WIDTH-1:0] q);
+  always @ (posedge clk, posedge reset)
+    if (reset) q <= 0;
+    else q <= d;
+endmodule
+```
+
+### 2:1 Multiplexer
+
+```verilog
+module mux2 #(parameter WIDTH = 8)
+             (input  [WIDTH-1:0] d0, d1,
+              input              s,
+              output [WIDTH-1:0] y);
+  assign y = s ? d1 : d0;
+endmodule
+```
+
+## Testbench
+
+The MIPS testbench loads a program into the memories. The program in the figure exercises all of the instructions by performing a computation that should produce the correct answer only if all of the instructions are functioning properly. Specifically, the program will write the value 7 to address 84 if it runs correctly, and is unlikely to do so if the hardware is buggy. This is an example of *ad hoc* testing.
+
+The machine code is stored in a hexadecimal file called `memfile.dat`, which is loaded by the testbench during simulation. The file consists of the machine code for the instructions, one instruction per line.
+
+![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2058.png)
+
+The testbench, top-level MIPS module, and external memory HDL code are given in the following examples. The memories in this example hold 64 words each.
+
+### MIPS Testbench
+
+```verilog
+module testbench ();
+  reg clk;
+  reg reset;
+  wire [31:0] writedata, dataadr;
+  wire memwrite;
+  // instantiate device to be tested
+  top dut (clk, reset, writedata, dataadr, memwrite);
+  // initialize test
+  initial
+    begin
+      reset <= 1; # 22; reset <= 0;
+    end
+  // alway generate clock to sequence tests
+  always
+    begin
+      clk <= 1; # 5; clk <= 0; # 5;
+    end
+  // check results
+  always @ (negedge clk)
+    begin
+      if (memwrite) begin
+        if (dataadr === 84 & writedata === 7) begin
+          $display("Simulation succeeded");
+          $stop;
+        end else if (dataadr !== 80) begin
+          $display("Simulation failed");
+          $stop;
+        end
+      end
+    end
+endmodule
+```
+
+### MIPS Top-Level Module
+
+```verilog
+module top (input         clk, reset,
+            output [31:0] writedata, dataadr,
+            output        memwrite);
+  wire [31:0] pc, instr, readdata;
+  // instantiate processor and memories
+  mips mips (clk, reset, pc, instr, memwrite, dataadr, writedata, readdata);
+  imem imem (pc[7:2], instr);
+  imem dmem (clk, memwrite, dataadr, writedata, readdata);
+endmodule
+```
+
+### MIPS Data Memory
+
+```verilog
+module dmem (input         clk, we,
+             input  [31:0] a, wd,
+             output [31:0] rd);
+  reg [31:0] RAM[63:0];
+  assign rd = RAM[a[31:2]]; // word aligned
+  always @ (posedge clk)
+    if (we)
+      RAM[a[31:2]] <= wd;
+endmodule
+```
+
+### MIPS Instruction Memory
+
+```verilog
+module imem (input  [5:0]  a,
+             output [31:0] rd);
+  reg [31:0] RAM[63:0];
+  initial
+    begin
+      $readmemh("memfile.dat", RAM);
+    end
+  assign rd = RAM[a]; // word aligned
+endmodule
+```
 
 # Exceptions
 
