@@ -814,7 +814,9 @@ done:
 
 A *one-bit dynamic branch predictor* remembers whether the branch was taken the last time and predicts that it will do the same thing the next time. While the loop is repeating, it remembers that `beq` was not taken last time and predicts that it should not be taken next time. This is a correct prediction until the last branch of the loop, when the branch does not get taken. Unfortunately, if the loop is run again, the branch predictor remembers that the last branch was taken. Therefore, it incorrectly predicts that the branch should be taken when the loop is first run again. In summary, a 1-bit branch predictor mispredicts the first and last branches of a loop.
 
-A 2-bit dynamic branch predictor solves this problem by having four states: *strongly taken*, *weakly taken*, *weakly not taken*, and *strongly not taken*, as shown.
+A 2-bit dynamic branch predictor solves this problem by having four states: *strongly taken*, *weakly taken*, *weakly not taken*, and *strongly not taken*, as shown. When the loop is repeating, it enters the *strongly not taken* state and predicts that the branch should not be taken next time. This is correct until the last branch of the loop, which is taken and moves the predictor to the *weakly not taken* state. When the loop is first run again, the branch predictor correctly predicts that the branch should not be taken and reenters the *strongly not taken* state. In summary, a 2-bit branch predictor mispredicts only the last branch of a loop.
+
+As one can imagine, branch predictors may be used to track even more history of the program to increase the accuracy of predictions. Good branch predictors achieve better than 90% accuracy on typical programs.
 
 ![Untitled](Microarchitecture%20(TODO)%2061c2421c67e9433fbf8f28fd8b8099f8/Untitled%2063.png)
 
