@@ -18,11 +18,100 @@ In summary, you obtain the benefits of both a large collection and quick access 
 
 Memory subsystems used to build this hierarchy were already introduced. Computer memories are primarily built from dynamic RAM and static RAM. Ideally, the computer memory system is fast, large, and cheap. In practice, a single memory only has two of these three attributes; it is either slow, small, or expensive. But computer systems can approximate the ideal by combining a fast small cheap memory and a slow large cheap memory. The fast memory stores the most commonly used data and instructions, so on average the memory system appears fast. The large memory stores the remainder of the data and instructions, so the overall capacity is large. The combination of two cheap memories is much less expensive than a single large fast memory. these principles extend to using an entire hierarchy of memories of increasing capacity and decreasing speed.
 
-Computer memory is generally built from DRAM chips. In 2006, a typical PC had a *main memory* consisting of 256 MB to 1 GB of DRAM, and DRAM cost about 100 dollars per gigabyte.
+Computer memory is generally built from DRAM chips. In 2006, a typical PC had a *main memory* consisting of 256 MB to 1 GB of DRAM, and DRAM cost about 100 dollars per gigabyte. DRAM prices have declined at about 30% per year for the last three decades, and memory capacity has grown at the same rate, so the total cost of the memory in a PC has remained roughly constant. Unfortunately, DRAM speed has improved by only about 7% per year, whereas processor performance has improved at a rate of 30 to 50% per year, as shown in the figure.
+
+The plot shows memory and processor speeds with the 1980 speeds as a baseline. In about 1980, processor and memory speeds were the same. But performance has diverged since then, with memories badly lagging.
+
+DRAM could keep up with processors in the 1970s and early 1980s, but it is now woefully too slow. The DRAM access time is one to two orders of magnitude longer than the processor cycle time.
+
+To counteract this trend, computers store the most commonly used instructions and data in a faster but smaller memory, called a *cache*. The cache is usually built out of SRAM on the same chip as the processor. The cache speed is comparable to the processor speed, because SRAM is inherently faster than DRAM, and because the on-chip memory eliminates lengthy delays caused by traveling to and from a separate chip. In 2006, on-chip SRAM costs were on the order of 10’000 dollars per gigabyte, but the cache is relatively small (kilobytes to a few megabytes), so the overall cost is low. Caches can store both instructions and data, but we will refer to their contents generically as “data”.
+
+![Untitled](Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985/Untitled%201.png)
+
+If the processor requests data that is available in the cache, it is returned quickly. This is called a cache *hit*. Otherwise, the processor retrieves the data from main memory. This is called a cache *miss*. If the cache hits most of the time, then the processor seldom has to wait for the slow memory, and the average access time is low.
+
+The third level in the memory hierarchy is the *hard disk*, or *hard drive*. In the same way that a library uses the basement to store books that do not fit in the stacks, computer systems use the hard disk to store data that does not fit in main memory. In 2006, a hard disk cost less than a dollar per gigabyte and had an access time of about 10 ms. Hard disk costs have decreased at 60% per year, but access times scarcely improved. The hard disk provides an illusion of more capacity than actually exists in the main memory. It is thus called *virtual memory*. Like books in the basement, data in virtual memory takes a long time to access. Main memory, also called *physical memory*, holds a subset of the virtual memory. Hence, the main memory can be viewed a a cache for the most commonly used data from the hard disk.
+
+The figure summarizes the memory hierarchy of the computer systems discussed in the rest of this page. 
+
+The processor first seeks data in a small but fast cache that is usually located on the same chip. If the data is not available in the cache, the processor then looks in main memory. If the data is not there either, the processor fetches the data from virtual memory on the large but slow hard disk. 
+
+![Untitled](Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985/Untitled%202.png)
+
+The figure illustrates this capacity and speed trade-off in the memory hierarchy and lists typical costs and access times in 2006 technology. As access time decreases, speed increases. 
+
+![Untitled](Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985/Untitled%203.png)
 
 # Memory System Performance Analysis
 
+Designers and computer buyers need quantitative ways to measure the performance of memory systems to evaluate the cost-benefit trade-offs of various alternatives. Memory system performance metrics are *miss rate* or *hit rate* and *average memory access time*. Miss and hit rates are calculated as: 
+
+$$
+\begin{align*}
+\text{Miss rate} & = \frac{\text{Number of misses}}{\text{Number of total memory accesses}} & = & \ 1 - \text{Hit rate} \\
+\text{Hit rate} & = \frac{\text{Number of hits}}{\text{Number of total memory accesses}} & = & \ 1 - \text{Miss rate}  
+\end{align*}
+$$
+
+*Average memory access time (AMAT)* is the average time a processor must wait for memory per load or store instruction. In the typical computer system from the figure above, the processor first looks for the data in the cache. If the cache misses, the processor then looks in main memory. If the main memory misses, the processor accesses virtual memory on the hard disk. Thus, AMAT is calculated as: 
+
+$$
+\text{AMAT} = t_{\text{cache}}+ \text{MR}_{\text{cache}}(t_{\text{MM}}+\text{MR}_{\text{MM}}t_{\text{VM}})
+$$
+
+where $t_\text{cache}$, $t_{\text{MM}}$, and $t_{\text{VM}}$ are the access times of the cache, main memory, and virtual memory, and $\text{MR}_{\text{cache}}$ and $\text{MR}_{\text{MM}}$ are the cache and main memory miss rates, respectively.
+
+As a word of caution, performance improvements might not always be as good as they sound. For example, making the memory system ten times faster will not necessarily make a computer program run ten times as fast. If 50% of a program’s instructions are loads and stores, a ten-fold memory system improvement only means a 1.82-fold improvement in program performance. This general principle is called *Amdahl’s Law*, which says that the effort spent on increasing the performance of a subsystem is worthwhile only if the subsystem affects a large percentage of the overall performance.
+
 # Caches
+
+A cache holds commonly used memory data. The number of data words that it can hold is called the *capacity*, $C$. Because the capacity of the cache is smaller than that of main memory, the computer system designer must choose what subset of the main memory is kept in the cache.
+
+When the processor attempts to access data, it first checks the cache for the data. IF the cache hits, the data is available immediately. If the cache misses, the processor fetches the data from main memory and places it in the cache for future use. To accommodate the new data, the cache must *replace* old data. This section investigates these issues in cache design by answering the following questions:
+
+- What data is held in the cache?
+- How is the data found?
+- What data is replaced to make room for new data when the cache is full?
+
+Keep in mind that the driving force in answering these questions is the inherent spatial and temporal locality of data accesses in most applications. Caches use spatial and temporal locality to predict what data will be needed next. If a program accesses data in a random order, it would not benefit from a cache.
+
+Caches are specified by their capacity ($C$), number of sets ($S$), block size ($b$), number of blocks ($B$), and degree of associativity ($N$).
+
+Although we focus on data cache loads, the same principles apply for fetches from an instruction cache. Data cache store operations are similar and are discussed later.
+
+## What Data Is Held In The Cache?
+
+An ideal cache would anticipate all of the data needed by the processor and fetch it from memory ahead of time so that the cache has a zero miss rate. Because it is impossible to predict the future with perfect accuracy, the cache must guess what data will be needed based on the past pattern of memory accesses. In particular, the cache exploits temporal and spatial locality to achieve a low miss rate.
+
+Recall that temporal locality means that the processor is likely to access a piece of data again soon if it has accessed that data recently. Therefore, when the processor loads or stores data that is not in the cache, the data is copied from main memory into the cache. Subsequent requests for that data hit in the cache.
+
+Recall that spatial locality means that, when the processor accesses a piece of data, it is also likely to access data in nearby memory locations. Therefore, when the cache fetches one word from memory, it may also fetch several adjacent words. This group of words is called a *cache block*. The number of words in the cache block, $b$, is called the *block size*. A cache of capacity $C$ contains $B = \frac{C}{b}$ blocks.
+
+The principles of temporal and spatial locality have been experimentally verified in real programs. If a variable is used in a program, the same variable is likely to be used again, creating temporal locality. If an element in an array is used, other elements in the same array are also likely to be used, creating spatial locality.
+
+## How Is The Data Found?
+
+A cache is organized into $S$ *sets*, each of which holds one or more blocks of data. The relationship between the address of data in main memory and the location of that data in the cache is called the *mapping*. Each memory address maps to exactly one set in the cache. Some of the address bits are used to determine which cache set contains the data. If the set contains more than one block, the data may be kept in any of the blocks in the set.
+
+Caches are categorized based on the number of blocks in a set. In a *direct mapped* cache, each set contains exactly one block, so the cache has $S = B$ sets. Thus, a particular main memory address maps to a unique block in the cache. In an $N$-*way set associative* cache, each set contains $N$ blocks. The address still maps to a unique set, with $S = \frac{B}{N}$ sets. But the data from that address can go in any of the $N$ blocks in that set. A *fully associative* cache has only $S = 1$ set. Data can go in any of the $B$ blocks in the set. Hence, a fully associative cache is another name for a $B$-way associative cache.
+
+To illustrate these cache organizations, we will consider a MIPS memory system with 32-bit addresses and 32-bit words. The memory is byte-addressable, and each word is four bytes, so the memory consists of $2^{30}$ words aligned on word boundaries. We analyze caches with an eight-word capacity ($C$) for the sake of simplicity. We begin with a one-word block size ($b$), then generalize later to larger blocks.
+
+### Direct Mapped Cache
+
+A *direct mapped* cache has one block in each set, so it is organized into $S = B$ sets. To understand the mapping of memory addresses onto cache blocks, imagine main memory as being mapped into $b$-word blocks, just as the cache is. An address in block 0 of main memory maps to set 0 of the cache. An address in block 1 of main memory maps to set 1 of the cache, and so forth until an address in block $B-1$ of main memory maps to block $B-1$ of the cache. There are no more blocks of the cache, so the mapping wraps around, such that block $B$ of main memory maps to set 0 of the cache.What Data Is Replaced?
+
+This mapping is illustrated in the figure for a direct mapped cache with a capacity of eight words and a block size of one word. The cache has eight sets, each of which contains a one-word block. The bottom two bits of the address are always 00, because they are word aligned. The next $\log_28=3$ bits indicate the set onto which the memory address maps. Thus, the data at addresses 0x00000004, 0x00000024,…,0xFFFFFFE4 all map to set 1, as shown in blue. Likewise, data at addresses 0x00000010,…,0xFFFFFFF0 all map to set 4, and so forth. Each main memory address maps to exactly one set in the cache.
+
+![Untitled](Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985/Untitled%204.png)
+
+Because many addresses map to a single set, the cache must also keep track of the address of the data actually contained in each set. The least significant bits of the address specify which set holds the data. The remaining most significant bits are called the *tag* and indicate which of the many possible addresses is held in that set.
+
+In the previous example, the two least significant bits of the 32-bit address are called the *byte offset*, because they indicate the byte withing the word. The next three bits are called the *set bits*, because they indicate the set to which the address maps (in general, the number of set bits is $\log_2S$). The remaining 27 tag bits indicate the memory adress of the data stored in a given cache set. The figure shows the cache fields for address 0xFFFFFFE4. It maps to set 1 and its tag is all 1’s.
+
+So
+
+![Untitled](Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985/Untitled%205.png)
 
 # Virtual Memory
 
