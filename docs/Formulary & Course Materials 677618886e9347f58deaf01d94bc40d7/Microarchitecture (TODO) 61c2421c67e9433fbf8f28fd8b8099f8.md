@@ -929,4 +929,12 @@ Multithreading does not improve the performance of an individual thread, because
 
 ## Multiprocessors
 
-# IA-32 Microarchitecture
+A *multiprocessor* system consists of multiple processors and a method for communication between the processors. A common form of multiprocessing in computer systems is *symmetric multiprocessing (SMP)*, in which two or more identical processors share a single main memory.
+
+The multiple processors may be separate chips or multiple *cores* on the same chip. Modern processors have enormous numbers of transistors available. Using the to increase the pipeline depth or to add more execution units to a superscalar processor gives little performance benefit and is a waste of power. Around the year 2005, computer architects made a major shift to build multiple copies of the processor on the same chip; thee copies are called cores.
+
+Multiprocessors can be used to run more threads simultaneously or to run a particular thread faster. Running more threads simultaneously is easy; the threads are simply divided up among the processors. Unfortunately, typical PC users need to run only a small number of threads at any given time. Running a particular thread faster is much more challenging. The programmer must divide the thread into pieces to perform on each processor. This becomes tricky when the processors need to communicate with each other. One of the major challenges for computer designers and programmers is to effectively use large numbers of processor cores.
+
+Other forms of multiprocessing include asymmetric multiprocessing and clusters. *Asymmetric multiprocessors* use separate specialized microprocessors for separate tasks. For example, a cell phone contains a *digital signal processor (DSP)* with specialized instructions to decipher the wireless data in real time and a separate conventional processor to interact with the user, manage the phone book, and play games. In *clustered multiprocessing*, each processor has its own local memory system. Clustering can also refer to a group of PCs connected together on the network running software to jointly solve a large problem.
+
+# IA-32 Microarchitecture (TODO)
