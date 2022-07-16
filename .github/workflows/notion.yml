@@ -35,7 +35,7 @@ jobs:
       - name: Remove external documents
         run: rm -rf *.zip && rm -rf *.pdf
       - name: Copy to docs/
-        run: mv docs/_includes/ _includes && mv docs/_config.yml _config.yml && mv docs/CNAME CNAME && rm -rf docs && cp -r markdown docs && mv _includes docs/_includes && mv _config.yml docs/_config.yml && mv CNAME docs/CNAME && cd docs/ && mv *.md index.md && cd ..
+        run: mv docs/_includes/ _includes && mv docs/_layouts/ _layouts && mv docs/_config.yml _config.yml && mv docs/CNAME CNAME && rm -rf docs && cp -r markdown docs && mv _includes docs/_includes && mv _layouts docs/_layouts && mv _config.yml docs/_config.yml && mv CNAME docs/CNAME && cd docs/ && mv *.md index.md && cd ..
       - name: Adjust relative links (naively, might break things) & prerender KaTeX
         run: cd docs && ../scripts/replacer.sh
       - name: Track LFS files
