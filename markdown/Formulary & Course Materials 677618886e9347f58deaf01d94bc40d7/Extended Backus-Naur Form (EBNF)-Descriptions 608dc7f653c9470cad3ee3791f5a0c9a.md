@@ -16,7 +16,7 @@ EBNF descriptions only allow for statements about the *syntax* of the symbols of
 - Sequence
     - order is relevant, example: $\textit{myrule} \Longleftarrow \textit{form\_1} \space \textit{form\_2} \space \textit{form\_3}$ , where $\textit{form\_1}$, $\textit{form\_2}$, $\textit{form\_3}$ are other EBNF rules defined previously in the description
 - Decision
-    - a set of alternatives, order irrelevant. Denoted by $\vert$. Example: $\textit{room} \Longleftarrow \textit{room\_1} \space | \space \textit{room\_2} \space | \space \textit{room\_3}$. Sequence preceeds decision, however in order to prevent misunderstandings use parentheses when using |
+    - a set of alternatives, order irrelevant. Denoted by a vertical bar. Example: $\textit{room} \Longleftarrow \textit{room\_1} \space | \space \textit{room\_2} \space | \space \textit{room\_3}$. Sequence preceeds decision, however in order to prevent misunderstandings use parentheses when using |
     - Option: elements wrapped in square brackets, can be chosen, can also be omitted. Example: $\textit{initials} \Longleftarrow T \space [ \space R \space ] \space G$. If the option is omitted it is denoted $\epsilon$, which represents the empty character
 - Repetition
     - denoted by curly braces, signifying its contents can be repeated $0, 1,...$ times, where 0 times represents a choice of $\epsilon$. Example:
