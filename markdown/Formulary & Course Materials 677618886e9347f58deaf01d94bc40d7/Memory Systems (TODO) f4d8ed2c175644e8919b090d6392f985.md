@@ -277,6 +277,22 @@ Virtual memory systems provide memory protection by giving each program its own 
 
 Virtual memory systems use write-back and an approximate least recently used (LRU) replacement policy. A write-through policy, where each write to physical memory initiates a write to disk, would be impractical. Store instructions would operate at the speed of the disk instead of the speed of the processor (milliseconds instead of nanoseconds). Under the write-back policy, the physical page is written back to disk only when it is evicted from physical memory. Writing the physical page back to disk and reloading it with a different virtual page is called *swapping*, so the disk in a virtual memory system is sometimes called *swap space*. The processor swaps out one of the least recently used physical pages when a page fault occurs, then replaces that page with the missing virtual page. To support these replacement policies, each page table entry contains two additional status bits: a dirty bit, $D$, and a use bit, $U$.
 
-# Memory-Mapped I/O
+The dirty bit is 1 if any store instructions have changed the physical page since it was read from disk. When a physical page is swapped out, it needs to be written back to disk only if its dirty bit is 1; otherwise, the disk already holds an exact copy of the page.
 
-# IA-32 Memory and I/O Systems
+The use bit is 1 if the physical page has been accessed recently. As in a cache system, exact LRU replacement would be impractically complicated. Instead, the OS approximates LRU replacement by periodically resetting all the use bits in the page table. When a page is accessed, its use bit is set to 1. Upon a page fault, the OS finds a page with $U=0$ to swap out of physical memory. Thus, it does not necessarily replace the least recently used page, just one of the least recently used pages.
+
+## Multilevel Page Tables
+
+Page tables can occupy a large amount of physical memory. For example, the page table from the previous sections for a 2 GB virtual memory with 4 KB pages would need $2^{19}$ entries. If each entry is 4 bytes, the page table is $2^{19} \times 2^2$ bytes $= 2^{21}$ bytes $= 2$ MB.
+
+To conserve physical memory, page tables can be broken up into multiple levels. The first-level page table is always kept in physical memory. It indicates where small second-level page tables are stored in virtual memory. The second-level page tables each contain the actual translations for a range of virtual pages. If a particular range of translations is not actively used, the corresponding second-level page table can be swapped out to the hard disk so it does not waste physical memory.
+
+In a two-level page table, the virtual page number is split into two parts: the *page table number* and the *page table offset*, as shown in the figure. The page table number indexes the first-level page table, which must reside in physical memory. The first-level page table entry gives the base address of the second-level page table or indicates that it must be fetched from disk when $V$ is 0. The page table offset indexes the second-level page table. The remaining 12 bits of the virtual address are the page offset, as before, for a page size of $2^{12} =$  4 KB.
+
+In the figure, the 19-bit virtual page number is broken into 9 and 10 bits, to indicate the page table number and the page table offset, respectively. Thus, the first-level page table has $2^9=512$ entries. Each of these 512 second-level page tables has $2^{10}=$ 1 K entries. If each of the first- and second-level page table entries is 32 bits and only two second-level page tables are present in physical memory at once, the hierarchical page table use only $(512 \times 4 \ \text{bytes})+2\times(1 \ \text{K} \times 4 \ \text{bytes}) = 10 \ \text{KB}$ of physical memory. The two-level page table requires a fraction of the physical memory needed to store the entire page table (2 MB). The drawback of a two-level page table is that it adds yet another memory access for translation when the TLB misses.
+
+![Untitled](Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985/Untitled%2021.png)
+
+# Memory-Mapped I/O (TODO)
+
+# IA-32 Memory and I/O Systems (TODO)
