@@ -198,22 +198,22 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Cauchy-Product of the Exponential Function](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequences%20and%20Series%208a981a9ce10e4dfb82e989be6760ed05/Cauchy-Product%20of%20the%20Exponential%20Function%209768354a1fa247a2aff9ab665de61605.html) 
 
-## **Theoretical Computer Science - 252-0057-00L - HS22**
+## Theoretical Computer Science - **252-0057-00L** - HS22
 
 ---
 
-## **Systems Programming and Computer Architecture - 252-0061-00L - HS22**
+## Systems Programming and Computer Architecture - **252-0061-00L** - HS22
 
 ---
 
-## **Analysis II - 401-0213-16L - HS22**
+## Analysis II - **401-0213-16L** - HS22
 
 ---
 
-## **Numerical Methods for Computer Science - 401-0663-00L - HS22**
+## Numerical Methods for Computer Science - **401-0663-00L** - HS22
 
 ---
 
-## **Numerical Modeling I and II: Theory and Applications - 651-4241-00L - HS22**
+## Numerical Modeling I and II: Theory and Applications - **651-4241-00L** - HS22
 
 ---
