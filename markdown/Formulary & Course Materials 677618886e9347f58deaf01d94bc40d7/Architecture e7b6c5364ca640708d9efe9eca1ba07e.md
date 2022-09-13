@@ -1,4 +1,4 @@
-# Architecture (TODO)
+# Architecture
 
 # Introduction
 
@@ -66,7 +66,7 @@ In the high-level language examples, single-line comments begin with `//` and co
 
 The MIPS instruction set makes the common case fast by including only simple, commonly used instructions. The number of instructions is kept small so that the hardware required to decode the instruction and its operands can be simple, small, and fast. more elaborate operations that are less common are performed using sequences of multiple simple instructions. Thus, MIPS is a *reduced instruction set computer (RISC)* architecture. Architectures with many complex instructions, such as Intel’s IA-32 architecture, are *complex instruction set computers (CISC)*. For example, IA-32 defines a “string move” instruction that copies a string from one part of memory to another. Such an operation requires many, possibly even hundreds, of simple instructions in a RISC machine. However, the cost of implementing complex instructions in a CISC architecture is added hardware and overhead that slows down the simple instructions.
 
-A RISC architecture minimizes the hardware complexity and the necessary instruction encoding by keeping the set of distinct instructions small. For example, an instruction set with 64 simple instructions would need <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9386em;vertical-align:-0.2441em;"></span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.207em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">64</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span></span></span></span> bits to encode the operation. An instruction set with 256 complex instructions would need <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9386em;vertical-align:-0.2441em;"></span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.207em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> bits of encoding per instruction. In a CISC machine, even though the complex instructions may be used only rarely, they add overhead to all instruction, even the simple ones.
+A RISC architecture minimizes the hardware complexity and the necessary instruction encoding by keeping the set of distinct instructions small. For example, an instruction set with 64 simple instructions would need $\log_264=6$ bits to encode the operation. An instruction set with 256 complex instructions would need $\log_2256=8$ bits of encoding per instruction. In a CISC machine, even though the complex instructions may be used only rarely, they add overhead to all instruction, even the simple ones.
 
 ## Operands: Registers, Memory, and Constants
 
@@ -105,7 +105,7 @@ add $s0, $s1, $t0
 
 The MIPS architecture defines 32 registers. Each register has a name and a number ranging from 0 to 31. The table lists the name, number, and use for each register. `$0` always contains the value 0 because this constant is so frequently used in computer programs. 
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled.png)
 
 ### Memory
 
@@ -115,7 +115,7 @@ MIPS uses a byte-addressable memory. That is, each byte in memory has a unique a
 
 The figure shows a memory array that is *word-addressable*. That is, each 32-bit data word has a unique 32-bit address. Both the 32-bit word address and the 32-bit data value are written in hexadecimal in the figure. By convention, memory is drawn with low memory addresses toward the bottom and high memory addresses toward the top.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%201.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%201.png)
 
 MIPS uses the *load word* instruction, `lw`, to read a data word from memory into a register. The example loads memory word 1 into `$s3`. The `lw` instruction specifies the *effective address* in memory as the sum of a *base address* and an *offset*. The base address (written in parentheses in the instruction) is a register. The offset is a constant (written before the parentheses). In the example, the base address is `$0`, which holds the value 0, and the offset is 1, so the `lw` instruction reads from memory address `($0 + 1) = 1`. After the load word instruction is executed, `$s3` holds the value 0xF2F1AC07, which is the data value stored at memory address 1 in the above figure.
 
@@ -131,7 +131,7 @@ sw $s7, 5($0)
 
 The previous two code examples have shown a computer architecture with a word-addressable memory. The MIPS memory model, however, is byte-addressable, *not* word-addressable. Each data byte has a unique address. A 32-bit word consists of four 8-bit bytes. So each word address is a multiple of 4, as shown in the figure. Again, both the 32-bit word address and the data value are given in hexadecimal.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%202.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%202.png)
 
 The example shows how to read and write words in the MIPS byte-addressable memory. The word address is four times the word number. The MIPS assembly code reads words 0, 2, and 3 and writes words 1, 8, and 100. 
 
@@ -150,7 +150,7 @@ IBMs PowerPC (formerly found in Macintosh computers) uses big-endian addressing.
 
 In the MIPS architecture, word addresses for `lw` and `sw` must be *word aligned*. That is, the address must be divisible by 4. Thus, the instruction `lw $s0, 7($0)` is an illegal instruction. Some architectures, like IA-32 for example, allow non-word-aligned data reads and writes, but MIPS requires strict alignment for simplicity. Of course, byte addresses for load byte and store byte, `lb` and `sb` need not be word aligned.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%203.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%203.png)
 
 ### Constants/Immediates
 
@@ -166,7 +166,7 @@ addi $s0, $s0, 4
 addi $s1, $s0, -12
 ```
 
-The immediate specified in an instruction is a 16-bit two’s complement number in the range <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">32768</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">32767</span><span class="mclose">]</span></span></span></span>. Subtraction is equivalent to adding a negative number, so, in the interest of simplicity, there is no `subi` instruction in the MIPS architecture.
+The immediate specified in an instruction is a 16-bit two’s complement number in the range $[-32768, 32767]$. Subtraction is equivalent to adding a negative number, so, in the interest of simplicity, there is no `subi` instruction in the MIPS architecture.
 
 Recall that the `add` and `sub` instructions use three register operands. But the `lw`, `sw`, and `addi` instructions use two register operands and a constant. Because the instruction formats differ, `lw` and `sw` instructions violate design principle 1. However, this issue allows us to introduce the last design principle.
 
@@ -182,17 +182,17 @@ MIPS uses 32-bit instructions. Again, simplicity favors regularity, and the most
 
 The name R-type is short for *register-type*. R-type instructions use three registers as operands: two as sources, and one as a destination. The figure shows the R-type machine instruction format. The 32-bit instruction has six fields: `op, rs, rt, rd, shamt,` and `funct`. Each field is five or six bits, as indicated.
 
-The operation the instruction performs is encoded in the two fields highlighted in blue: `op` (also called `opcode` or operation code) and `funct` (also called the function). All R-type instructions have an `opcode` of 0. The specific R-type instruction is determined by the `funct` field. For example, the `opcode` and `funct` fields for the `add` instruction are 0 (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">00000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) and 32 (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">10000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>), respectively. Similarly, the `sub` instruction has an `opcode` and `funct` field of 0 and 34.
+The operation the instruction performs is encoded in the two fields highlighted in blue: `op` (also called `opcode` or operation code) and `funct` (also called the function). All R-type instructions have an `opcode` of 0. The specific R-type instruction is determined by the `funct` field. For example, the `opcode` and `funct` fields for the `add` instruction are 0 ($000000_2$) and 32 ($100000_2$), respectively. Similarly, the `sub` instruction has an `opcode` and `funct` field of 0 and 34.
 
 The operands are encoded in the three fields: `rs`, `rt`, and `rd`. The first two registers, `rs` and `rt`, are the source registers; `rd` is the destination register. The fields contain the register numbers that were given in the table above.
 
 The fifth field, `shamt`, is used only in shift operations. In those instructions, the binary value stored in the 5-bit `shamt` field indicates the amount to shift. For all other R-type instructions, `shamt` is 0.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%204.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%204.png)
 
 The figure shows the machine code for the R-type instructions `add` and `sub`. Notice that the destination is the first register in an assembly language instruction, but it is the third register field (`rd`) in the machine language instruction. For example, the assembly instruction `add $s0, $s1, $s2` has `rs = $s1`, `rt = $s2`, and `rd = $s0`. 
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%205.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%205.png)
 
 ## I-Type Instructions
 
@@ -200,21 +200,21 @@ The name I-type is short for *immediate-type*. I-type instructions use two regis
 
 The operation is determined solely by the `opcode`, highlighted in blue. The operands are specified in the three fields, `rs`, `rt`, and `imm`. `rs` and `imm` are always used as source operands. `rt` is used as a destination for some instructions (such as `addi` and `lw`) but as another source for others (such as `sw`).
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%206.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%206.png)
 
 The figure shows several examples of encoding I-type instructions. Recall that negative immediate values are represented using 16-bit two’s complement notation. `rt` is listed first in the assembly language instruction when it is used as a destination, but it is the second register field in the machine language instruction.
 
-I-type instructions have a 16-bit immediate field, but the immediates are used in 32-bit operations. What should go in the upper half of the 32 bits? For positive immediates, the upper half should be all 0’s, but for negative immediates, the upper half should be all 1’s. Recall that this is called *sign extension*. An <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>-bit two’s complement number is sign-extended to an <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>-bit number (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>) by copying the sign bit (most significant bit) of the <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>-bit number into all of the upper bits of the <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>-bit number. Sign-extending a two’s complement number does not change its value.
+I-type instructions have a 16-bit immediate field, but the immediates are used in 32-bit operations. What should go in the upper half of the 32 bits? For positive immediates, the upper half should be all 0’s, but for negative immediates, the upper half should be all 1’s. Recall that this is called *sign extension*. An $N$-bit two’s complement number is sign-extended to an $M$-bit number ($M \gt N$) by copying the sign bit (most significant bit) of the $N$-bit number into all of the upper bits of the $M$-bit number. Sign-extending a two’s complement number does not change its value.
 
 Most MIPS instructions sign-extend the immediate. For example, `addi`, `lw`, and `sw`, do sign extension to support both positive and negative immediates. An exception to this rule is that logical operations (`andi`, `ori`, `xori`) place 0’s in the upper half; this is called *zero extension* rather than sign extension.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%207.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%207.png)
 
 ## J-Type Instructions
 
 The name J-type is short for *jump-type*. This format is used only with jump instructions. This instruction format uses a single 26-bit address operand, `addr`, as shown in the figure. Like other formats, J-type instructions begin with a 6-bit `opcode`. The remaining bits are used to specify an address, `addr`. More on J-type instructions below.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%208.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%208.png)
 
 ## Interpreting Machine Language Code
 
@@ -234,7 +234,7 @@ To execute the code in the figure, the operating system sets the `PC` to address
 
 The *architectural state* of a microprocessor holds the state of a program. For MIPS, the architectural state consists of the register file and `PC`. If the operating system saves the architectural state at some point in the program, it can interrupt the program, do something else, then restore the state such that the program continues properly, unaware that it was ever interrupted.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%209.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%209.png)
 
 # Programming
 
@@ -248,37 +248,37 @@ The MIPS architecture defines a variety of arithmetic and logical instructions. 
 
 MIPS logical operations include `and`, `or`, `xor`, and `nor`. These R-type instructions operate bit-by-bit on two source registers and write the result to the destination register. The figure shows examples of these operations on the two source values 0xFFFF0000 and 0x46A1F0B7. The figure shows the values stored in the destination register, `rd`, after the instruction executes.
 
-The `and` instruction is useful for *masking* bits (i.e., forcing unwanted bits to 0). For example, in the figure, 0xFFFF0000 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">AND</span></span></span></span></span> 0x46A1F0B7 = 0x46A10000. The `and` instruction masks off the bottom two bytes and places the unmasked top two bytes of `$s2`, 0x46A1, in `$s3`. Any subset of register bits can be masked.
+The `and` instruction is useful for *masking* bits (i.e., forcing unwanted bits to 0). For example, in the figure, 0xFFFF0000 $\text{AND}$ 0x46A1F0B7 = 0x46A10000. The `and` instruction masks off the bottom two bytes and places the unmasked top two bytes of `$s2`, 0x46A1, in `$s3`. Any subset of register bits can be masked.
 
-The `or` instruction is useful for combining bits from two registers. For example, 0x347A0000 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">OR</span></span></span></span></span> 0x000072FC = 0x347A72FC, a combination of the two values.
+The `or` instruction is useful for combining bits from two registers. For example, 0x347A0000 $\text{OR}$ 0x000072FC = 0x347A72FC, a combination of the two values.
 
-MIPS does not provide a <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">NOT</span></span></span></span></span> instruction, but <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace"> </span><span class="mord text"><span class="mord">NOR</span></span><span class="mspace"> </span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">NOT</span></span><span class="mspace"> </span><span class="mord mathnormal">A</span></span></span></span>, so the <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">NOR</span></span></span></span></span> instruction can substitute.
+MIPS does not provide a $\text{NOT}$ instruction, but $A \ \text{NOR} \ 0 = \text{NOT} \ A$, so the $\text{NOR}$ instruction can substitute.
 
 Logical operations can also operate on immediates. These I-type instructions are `andi`, `ori`, and `xori`. `nori` is not provided, because the same functionality can be easily implemented using the other instructions.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2010.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2010.png)
 
 The figure shows examples of the `andi`, `ori` and `xori` instructions. The figure gives the values of the source register and immediate, and the value of the destination register, `rt`, after the instruction executes. Because these instructions operate on a 32-bit value from a register and a 16-bit immediate, they first zero-extend the immediate to 32 bits.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2011.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2011.png)
 
 ### Shift Instructions
 
 Shift instructions shift the value in a register left or right by up to 31 bits. Shift operations multiply or divide by powers of two. MIPS shift operations are `sll` (shift left logical), `srl` (shift right logical), and `sra` (shift right arithmetic). As discussed previously, left shifts always fill the least significant bits with 0’s. However, right shifts can be either logical (0’s shift into the most significant bits) or arithmetic (the sign bit shifts into the most significant bits). The figure shows the machine code for the R-type instructions `sll`, `srl`, and `sra`. `rt` (i.e., `$s1`) holds the 32-bit value to be shifted, and `shamt` gives the amount by which to shift (4). The shifted result is placed in `rd`.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2012.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2012.png)
 
-The figure shows the register values for the shift instructions `sll`, `srl`, and `sra`. Shifting a value left by <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> is equivalent to multiplying it by <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span></span></span></span>. Likewise, arithmetically shifting a value right by <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> is equivalent to dividing it by <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span></span></span></span>.
+The figure shows the register values for the shift instructions `sll`, `srl`, and `sra`. Shifting a value left by $N$ is equivalent to multiplying it by $2^N$. Likewise, arithmetically shifting a value right by $N$ is equivalent to dividing it by $2^N$.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2013.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2013.png)
 
 MIPS also has variable-shift instructions: `sllv` (shift left logical variable), `srlv` (shift right logical variable), and `srav` (shift right arithmetic variable). The figure shows the machine code for these instructions.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2014.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2014.png)
 
 `rt` (i.e., `$s1`) holds the value to be shifted, and the five least significant bits of `rs` (i.e., `$s2`) give the amount to shift. The shifted result is placed in `rd` as before. The `shamt` field is ignored and should be all 0’s. The figure shows register values for each type of variable-shift instruction.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2015.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2015.png)
 
 ### Generating Constants
 
@@ -466,7 +466,7 @@ Loops repeatedly execute a block of code depending on a condition. `for` loops a
 
 ### While Loops
 
-`while` loops repeatedly execute a block of code until a condition is *not* met. The `while` loop in the example determines the value of `x` such that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">128</span></span></span></span>. It executes seven times, until `pow = 128`.
+`while` loops repeatedly execute a block of code until a condition is *not* met. The `while` loop in the example determines the value of `x` such that $2^x=128$. It executes seven times, until `pow = 128`.
 
 ```c
 int pow = 1;
@@ -568,7 +568,7 @@ Arrays are useful for accessing large amounts of similar data. An array is organ
 
 The figure shows an array of five integers stored in memory. The *index* ranges from 0 to 4. In this case, the array is stored in a processor’s main memory starting at *base address* 0x10007000. The base address gives the address of the first array element, `array[0]`.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2016.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2016.png)
 
 The example multiplies the first two elements in `array` by 8 and stores them back in the array. 
 
@@ -626,23 +626,23 @@ done:
 
 The figure shows the 1000-element array in memory. The index into the array is now a variable rather than a constant, so we cannot take advantage of the immediate offset in `lw`. Instead, we compute the address of the `i`-th element and store it in `$t0`. Remember that each array element is a word but that memory is byte addressed, so the offset from the base address is `4 * i`. Shifting left by 2 is a convenient way to multiply by 4 in MIPS assembly language. 
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2017.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2017.png)
 
 ### Bytes and Characters
 
-Numbers in the range <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">128</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">127</span><span class="mclose">]</span></span></span></span> can be stored in a single byte rather than an entire word. Because there are much fewer than 256 characters on an English language keyboard, English characters are often represented by bytes. The C language uses the type `char` to represent a byte or character. Early computers lacked a standard mapping between bytes and English characters, so exchanging text between computers was difficult. In 1963, the American Standards Association published the *American Standard Code for Information Interchange (ASCII)*, which assigns each text character a unique byte value. The table shows these character encodings for printable characters. The ASCII values are given in hexadecimal. Lower-case and upper-case letters differ by 0x20 (32).
+Numbers in the range $[-128, 127]$ can be stored in a single byte rather than an entire word. Because there are much fewer than 256 characters on an English language keyboard, English characters are often represented by bytes. The C language uses the type `char` to represent a byte or character. Early computers lacked a standard mapping between bytes and English characters, so exchanging text between computers was difficult. In 1963, the American Standards Association published the *American Standard Code for Information Interchange (ASCII)*, which assigns each text character a unique byte value. The table shows these character encodings for printable characters. The ASCII values are given in hexadecimal. Lower-case and upper-case letters differ by 0x20 (32).
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2018.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2018.png)
 
 MIPS provides load byte and store byte instructions to manipulate bytes or characters of data: load byte unsigned (`lbu`), load byte (`lb`) and store byte (`sb`). All three are illustrated in the figure.
 
 Load byte unsigned zero-extends the byte, and load byte sign-extends the byte to fill the entire 32-bit register. Store byte stores the least significant byte of the 32-bit register into the specified byte address in memory. In the figure, `lbu` loads the byte at memory address 2 into the least significant byte of `$s1` and fills the remaining register bits with 0. `lb` loads the sign-extended byte at memory address 2 into `$s2`. `sb` stores the least significant byte of `$s3` into memory byte 3; it replaces 0xF7 with 0x9B. The more significant bytes of `$s3` are ignored.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2019.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2019.png)
 
 A series of characters is called a *string*. Strings have a variable length, so programming languages must provide a way to determine the length or end of the string. In C, the null character 0x00 signifies the end of a string. The figure shows the string “Hello!” stored in memory. The string is seven bytes long. The first character of the string is stored at the lowest byte address.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2020.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2020.png)
 
 ## Procedure Calls
 
@@ -734,7 +734,7 @@ To solve this problem, a procedure saves registers on the stack before it modifi
 4. Restores the original values of the registers from the stack
 5. Deallocates space on the stack
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2021.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2021.png)
 
 The example shows an improved version of `diffofsums` that saves and restores `$t0`, `$t1`, and `$s0`.
 
@@ -759,7 +759,7 @@ The figure shows the stack before, during, and after a call to the `diffofsums` 
 
 The stack space that a procedure allocates for itself is called its *stack frame*. `diffofsums` stack frame is three words deep. The principle of modularity tells us that each procedure should access only its own stack frame, not the frames belonging to other procedures.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2022.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2022.png)
 
 ### Preserved Registers
 
@@ -786,13 +786,13 @@ The table summarizes which registers are preserved. `$s0 - $s7` are generally us
 
 The stack above the stack pointer is automatically preserved as long as the callee does not write to memory addresses above `$sp`. In this way, it does not modify the stack frame of any other procedures. The stack pointer itself is preserved, because the callee deallocates its stack frame before returning by adding back the same amount that it subtracted from`$sp` at the beginning of the procedure.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2023.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2023.png)
 
 ### Recursive Procedure Calls
 
 A procedure that does not call others is called a *leaf* procedure; an example is `diffofsums`. A procedure that does call others is called a *nonleaf* procedure. As mentioned earlier, nonleaf procedures are somewhat more complicated because they may need to save nonpreserved registers on the stack before they call another procedure, and then restore those registers afterward. Specifically, the caller saves and nonpreserved registers that are needed after the call. The callee saves any of the preserved registers that it intends to modify.
 
-A *recursive* procedure is a nonleaf procedure that calls itself. The factorial function can be written as a recursive procedure call. Recall that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">n</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">...</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, The factorial function can be rewritten recursively as <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">n</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)!</span></span></span></span>. The factorial of 1 is simply 1. The example shows the factorial function written as a recursive procedure.
+A *recursive* procedure is a nonleaf procedure that calls itself. The factorial function can be written as a recursive procedure call. Recall that $n! = n \times (n - 1) \times (n - 2) \times...\times2\times 1$, The factorial function can be rewritten recursively as $n! = n \times (n - 1)!$. The factorial of 1 is simply 1. The example shows the factorial function written as a recursive procedure.
 
 ```c
 int factorial(int n) {
@@ -829,7 +829,7 @@ The `factorial` procedure might modify `$a0` and `$ra`, so it saves them on the 
 
 The figure shows the stack when executing `factorial(3)`.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2024.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2024.png)
 
 ### Additional Arguments and Local Variables
 
@@ -839,7 +839,7 @@ A procedure can also declare local variables or arrays. *Local* variables are de
 
 Figure b) shows the organization of the callee’s stack frame. The frame holds the procedure’s own arguments, the return address, and any of the saved registers that the procedure will modify. It also holds local arrays and any excess local variables. If the callee has more than four arguments, it finds them in the caller’s stack frame. Accessing additional input arguments is the one exception in which a procedure can access stack data not in its own stack frame.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2025.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2025.png)
 
 # Addressing Modes
 
@@ -873,13 +873,13 @@ else:
 
 The figure shows the machine code for the `beq` instruction. The *branch target address (BTA)* is the address of the next instruction to execute if the branch is taken. The `beq` instruction in the figure has a BTA of 0xB4, the instruction address of the `else` label.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2026.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2026.png)
 
 ### Pseudo-Direct Addressing
 
 In *direct addressing*, an address is specified in the instruction. The jump instructions, `j` and `jal`, ideally would use direct addressing to specify a 32-bit *jump target address (JTA)* to indicate the instruction address to execute next.
 
-Unfortunately, the J-type instruction encoding does not have enough bits to specify a full 32-bit JTA. Six bits of the instruction are used for the `opcode`, so only 32 bits are left to encode the JTA. Fortunately, the two last significant bits, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">JTA</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mrel mtight">:</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, should always be 0, because instructions are word aligned. The next 26 bits, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">JTA</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">27</span><span class="mrel mtight">:</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, are taken from the `addr` field of the instruction. The four most significant bits, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">JTA</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span><span class="mrel mtight">:</span><span class="mord mtight">28</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, are obtained from the four most significant bits of `PC+4`. This addressing mode is called *pseudo-direct*.
+Unfortunately, the J-type instruction encoding does not have enough bits to specify a full 32-bit JTA. Six bits of the instruction are used for the `opcode`, so only 32 bits are left to encode the JTA. Fortunately, the two last significant bits, $\text{JTA}_{1:0}$, should always be 0, because instructions are word aligned. The next 26 bits, $\text{JTA}_{27:2}$, are taken from the `addr` field of the instruction. The four most significant bits, $\text{JTA}_{31:28}$, are obtained from the four most significant bits of `PC+4`. This addressing mode is called *pseudo-direct*.
 
 The example illustrates a `jal` instruction using pseudo-direct addressing. 
 
@@ -897,7 +897,7 @@ Because the four most significant bits of the JTA are taken from `PC+4`, the jum
 
 Note that the jump register instruction, `jr`, is not a J-type instruction. It is an R-type instruction that jumps to the 32-bit value held in register rs.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2027.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2027.png)
 
 # Compiling, Assembling, and Loading
 
@@ -905,7 +905,7 @@ We introduce the MIPS *memory map*, which defines where code, data, and stack me
 
 ## The Memory Map
 
-With 32-bit addresses, the MIPS *address space* spans <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span></span> bytes = 4 gigabytes (GB). Word addresses are divisible by 4 and range from 0 to 0xFFFFFFFC. The figure shows the MIPS memory map. The MIPS architecture divides the address space into four parts or *segments*: the text segment, global data segment, dynamic data segment, and reserved segments.
+With 32-bit addresses, the MIPS *address space* spans $2^{32}$ bytes = 4 gigabytes (GB). Word addresses are divisible by 4 and range from 0 to 0xFFFFFFFC. The figure shows the MIPS memory map. The MIPS architecture divides the address space into four parts or *segments*: the text segment, global data segment, dynamic data segment, and reserved segments.
 
 ### The Text Segment
 
@@ -931,13 +931,13 @@ If the stack and heap ever grow into each other, the program’s data can become
 
 The *reserved segments* are used by the operating system and cannot directly be used by the program. Part of the reserved memory is used for interrupts and for memory-mapped I/O.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2028.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2028.png)
 
 ## Translating and Starting a Program
 
 The figure shows the steps required to translate a program from a high-level language into machine language and to start executing that program. First, the high-level assembly code is compiled into assembly code. The assembly code is assembled into machine code in an *object file*. The linker combines the machine code with object code from libraries and other files to produce an entire executable program. In practice, most compilers perform all three steps of compiling, assembling, and linking. Finally, the loader loads the program into memory and starts execution.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2029.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2029.png)
 
 ### Step 1: Compilation
 
@@ -1008,7 +1008,7 @@ The names and addresses of the symbols are kept in a *symbol table*, as shown in
 
 On the second pass through the code, the assembler produces the machine language code. Addresses for the global variables and labels are taken from the symbol table. The machine language code and symbol table are stored in the object file.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2030.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2030.png)
 
 ### Step 3: Linking
 
@@ -1018,14 +1018,10 @@ The job of the linker is to combine all of the object files into one machine lan
 
 In our example, there is only one object file, so no relocation is necessary. The figure shows the executable file. It has three sections: the executable file header, the text segment, and the data segment. The executable file header reports the text size (code size) and data size (amount of globally declared data). Both are given in units of bytes. The text segment gives the instructions and the addresses where they are to be stored. The figure shows the instructions in human-readable format net to the machine code for ease of interpretation, but the executable file includes only machine instructions. The data segment gives the address of each global variable. The global variables are addressed with respect to the base address given by the global pointer, `$gp`.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2031.png)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2031.png)
 
 ### Step 4: Loading
 
 The operating system loads a program by reading the text segment of the executable file from a storage device into the text segment of memory. The operating system sets `$gp` to 0x10008000 (the middle of the global data segment) and `$sp` to 0x7FFFFFFC (the top of the dynamic data segment), then performs a `jal 0x00400000` to jump to the beginning of the program. The figure shows the memory map at the beginning of program execution.
 
-![Untitled](Architecture%20(TODO)%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2032.png)
-
-# Odds and Ends (TODO)
-
-# IA-32 Architecture (TODO)
+![Untitled](Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2032.png)

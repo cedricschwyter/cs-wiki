@@ -1,0 +1,956 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Architecture</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e7b6c536-4ca6-4070-8d9e-fe9eca1ba07e" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🧴</span></div><h1 class="page-title">Architecture</h1></header><div class="page-body"><nav id="10c28683-5477-467e-a7d3-d283125aa3ed" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#44ce40b5-03e0-459c-af9b-46f77a486ebf">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#766b4b1e-eb03-4d41-8cba-f5b2e30ac4ca">Assembly Language</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d13b6daa-bcf2-462b-8d9d-2e2fcba1274e">Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8e6ea7f8-f861-42b7-a47d-e87ab2f75bd7">Operands: Registers, Memory, and Constants</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#adaa6cbe-efb2-4f94-8249-b02731cc3519">Registers</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#db516cd5-42e2-47d3-9315-a64c32b64774">The Register Set</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e961c58c-fcb6-45d2-b06a-c3e54dc1af14">Memory</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2df98ee9-c66b-4ad4-90df-a7e45f231e0f">Constants/Immediates</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e0781c65-3e14-4857-ba26-0ea2332869f4">Machine Language</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#50a9b88e-8991-4110-928a-dc79cdcbb196">R-Type Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#132bdc42-23b8-45fc-9b9d-44c19b039a59">I-Type Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e7865729-6b71-418f-9f79-d94be0ab94e1">J-Type Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c3e95c4b-9e73-4e55-ba90-a290fbf122d6">Interpreting Machine Language Code</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b7569da7-3d7d-4d0b-9d45-0ba773f13018">The Power of the Stored Program</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8545b6a5-d12e-48b7-8b9d-4797cfadaa91">Programming</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fe1db5e3-9340-4b54-9523-874e51bc33da">Arithmetic/Logical Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#a555624f-497c-4830-a565-ead18a6b5c4b">Logical Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#ed5a4aea-cb5e-4ab5-a211-7391c6e070f6">Shift Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#75f36c07-992c-40f5-834c-0c85062d3657">Generating Constants</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2f2d7d1a-7957-45e0-9411-ed352f8f32f7">Multiplication and Division Instructions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b1bcc89b-a576-46f1-9380-f6a593bec22e">Branching</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#cb79f112-5936-4863-b254-b50014bdedf6">Conditional Branches</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#48dbbefb-1997-4a20-994c-6c71817dd8cc">Jump</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e801c7f3-2865-4cd8-8a4c-d13e3eedbd4b">Conditional Statements</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#30faa536-1f57-42cb-b6d3-744898d60525">If Statements</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#168f5823-6a16-42ec-ad55-ccdc377490ac">If/Else Statements</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#cb8eba47-0c58-41b0-af44-5360ff992bad">Switch/Case Statements</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6e3d8ea3-b63b-4b57-b850-8e1009d9c2bc">Loops</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e4f2f63c-65e2-4834-8cd9-23c5adbb62f9">While Loops</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2d176d2b-7457-4e8e-8372-12ae104b5fdd">For Loops</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#72be64fe-9966-4eff-b9b5-31832d18c861">Magnitude Comparison</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#16142eae-73a8-480c-b45c-b93cdd8e43f0">Arrays</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#f149d8f0-f7bb-4b06-9cfc-c3b30fc0f440">Array Indexing</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#96c08bc8-7be4-40f2-ad67-bfbde3834d5e">Bytes and Characters</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1d66cd3a-9a5e-40f0-85aa-4b1c762293eb">Procedure Calls</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#1a835c45-18a3-4794-9f14-d7737600becf">Procedure Calls and Returns</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7ad2f0ed-d138-4f2e-ab65-37cd640ddfae">Input Arguments and Return Values</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#778659cc-7166-445f-9842-ff8debafd293">The Stack</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#c2510663-6c6a-48b9-a6e6-3f2935c47766">Preserved Registers</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#8359a162-9242-4ba8-8729-5d42def3bb2f">Recursive Procedure Calls</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#0d518272-0495-4562-88a8-241da89852d5">Additional Arguments and Local Variables</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#15eac00a-92f7-4582-b5d0-4dbb3be05324">Addressing Modes</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#decb2ec0-5d5d-46e3-ac6c-f229b232a878">Register-Only Addressing</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c15741c3-1826-4ec8-9ea1-f6330b9a27eb">Immediate Addressing</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#763a6ac7-aa6c-442c-9802-3268f776d052">Base Addressing</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#00a7a032-4524-412c-884c-5497e7ab09b2">PC-relative Addressing</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#efd0a1f5-a76e-4c88-b6e2-ded92ba211c9">Pseudo-Direct Addressing</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#05abe010-1da1-4595-9b16-1746603c6a5e">Compiling, Assembling, and Loading</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a5514cdb-27b4-4e6b-b2d9-57dd9eac4f2f">The Memory Map</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#b6b9bb84-2f8f-4c20-bcba-07e44cd38fce">The Text Segment</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#f95dd1f2-1281-42da-be3a-72dc4c714079">The Global Data Segment</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3cf50ee3-6138-49e7-aba3-e6207f1b2672">The Dynamic Data Segment</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#6d79079f-afbb-48a4-8cc7-6d13c39428af">The Reserved Segments</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a0d2de78-4d30-4f77-aa73-b1551e360a44">Translating and Starting a Program</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#9516c58f-4772-4ee0-bd94-0f2536c9f9d3">Step 1: Compilation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#783232a3-e783-4af9-aa55-ad678bff0dd4">Step 2: Assembling</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#60c1da69-cb98-44a8-9b9c-1d6660533da0">Step 3: Linking</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#de4c8f5a-e199-46cf-88a9-c0b6ba470dbd">Step 4: Loading</a></div></nav><h1 id="44ce40b5-03e0-459c-af9b-46f77a486ebf" class="">Introduction</h1><p id="16e66c18-36f9-4925-8f62-fef294976644" class="">In this chapter we raise the level of abstraction to define the <em>architecture</em> of a computer. The architecture is the programmer’s view of a computer. It is defined by the instruction set (language) and operand locations (registers and memory). Many different architectures exist, such as IA-32, MIPS, SPARC, and PowerPC.</p><p id="431f3db2-e16f-4bad-86b0-2481697f3355" class="">The first step in understanding any computer architecture is to learn its language. The words in a computer’s language are called <em>instructions</em>. The computer’s vocabulary is called the instruction set. All programs running on a computer use the same <em>instruction set</em>. Even complex software applications are eventually compiled into a series of simple instructions such as add, subtract, and jump. Computer instructions indicate both the operation to perform and the operands to use. The operands may come from memory, from registers, or from the instruction itself.</p><p id="ebe8208e-2bb3-4cdd-aeff-b637159d464b" class="">Computer hardware only understands 1’s and 0’s, so instructions are encoded as binary numbers in a format called <em>machine language</em>. Just as we use letters to encode human language, computers use binary numbers to encode machine language. Microprocessors are digital systems that read and execute machine language instructions. However, humans consider reading machine language to be tedious, so we prefer to represent the instructions in a symbolic format, called <em>assembly language</em>.</p><p id="b13c6964-e665-4661-8b9e-914a59dbf3fa" class="">The instruction sets of different architectures are more like different dialects than different languages. Almost all architectures define basic instructions, such as add, subtract, and jump, that operate on memory or registers. </p><p id="42443436-a369-4390-81cc-cfb2d9669868" class="">A computer architecture does not define the underlying hardware implementation. Often, many different hardware implementations of a single architecture exist. For example, Intel and AMD sell various microprocessors belonging to the same IA-32 architecture. They all can run the same programs, but they use different underlying hardware and therefore offer trade-offs in performance, price, and power. Some microprocessors are optimized for high-performance servers, whereas others are optimized for long battery life in laptop computers. The specific arrangement of registers, memories, ALUs, and other building blocks to form a microprocessor is called the <em>microarchitecture</em>. Often, many different microarchitectures exist for a single architecture.</p><p id="4579d2f8-567d-4a82-809e-1d76697345c4" class="">On this page we introduce the MIPS architecture that was first developed by John Hennesssy and his colleagues at Stanford in the 1980’s. MIPS processors are used by, among others, Silicon Graphics, Nintendo, and Cisco. We start by introducing the basic instructions, operand locations, and machine language formats. We then introduce more instructions used in common programming constructs, such as branches, loops, array manipulations, and procedure calls.</p><p id="5ccb88fe-3200-4ef4-9086-e1c7a922c07d" class="">Throughout the page we motivate the design of the MIPS architecture using four principles articulated by Patterson and Hennessy:</p><ol type="1" id="bfa82e63-3aab-41d2-b941-2dd5f1d8b1d1" class="numbered-list" start="1"><li>simplicity favors regularity</li></ol><ol type="1" id="92385160-ec1e-4fdf-89fb-6594926b0252" class="numbered-list" start="2"><li>make the common case fast</li></ol><ol type="1" id="f904332a-936b-4a87-b2b4-3179f787b924" class="numbered-list" start="3"><li>smaller is faster</li></ol><ol type="1" id="bcbfc7d8-1a0d-4538-a11f-00c512fc2af5" class="numbered-list" start="4"><li>good design demands good compromises</li></ol><h1 id="766b4b1e-eb03-4d41-8cba-f5b2e30ac4ca" class="">Assembly Language</h1><p id="3df2acaf-0201-4d3a-8dba-69907c626f2f" class="">Assembly language is the human-readable representation of the computer’s native language. Each assembly language instruction specifies both the operation to perform and the operands on which to operate. We introduce simple arithmetic instructions and show how these operations are written in assembly language. We then define the MIPS instruction operands: registers, memory, and constants.</p><h2 id="d13b6daa-bcf2-462b-8d9d-2e2fcba1274e" class="">Instructions</h2><p id="c3424d6e-68ae-48e9-9a8b-f6416e7d9b49" class="">The most common operation computers perform is addition. The example shows code for adding variables <code>b</code> and <code>c</code> and writing the result to <code>a</code>. The program is shown first in a high-level language, and then rewritten on in MIPS assembly language.</p><div id="338182d3-2da1-4329-8d02-1e8d84097833" class="column-list"><div id="7608e8ac-5127-4382-b8b9-60b634ef8a44" style="width:50%" class="column"><pre id="6a6346d7-e2fc-4097-a6b7-e2e94eda869b" class="code"><code>a = b + c;</code></pre></div><div id="d97f1771-6368-4783-9c54-0d21205dc0b7" style="width:50%" class="column"><pre id="7de7d778-ebc0-488d-8dc6-cf7f7ce442bf" class="code"><code>add a, b, c</code></pre></div></div><p id="143737ec-abc0-4d6f-9f55-3348e6f8d550" class="">The first part of the assembly instruction, <code>add</code>, is called the <em>mnemonic</em> and indicates what operation to perform. The operation is performed on <code>b</code> and <code>c</code>, the <em>source operands</em>, and the result is written to <code>a</code>, the <em>destination operand</em>.</p><p id="0faab1c1-16cc-47f9-a1a1-f50e8094a2b0" class="">This example shows that subtraction is similar to addition. The instruction format is the same as the <code>add</code> instruction except for the operation specification, <code>sub</code>. This consistent instruction format is an example of the first design principle.</p><div id="9f8dc0a7-470f-4887-8e7f-af81e39bfe2d" class="column-list"><div id="61e4f373-f902-47bb-94a9-bc0db261e063" style="width:50%" class="column"><pre id="7fc6a246-a740-4017-afb2-c2182025b4fb" class="code"><code>a = b - c;</code></pre></div><div id="39b0eaa1-496d-4379-b830-79ad06d611df" style="width:50%" class="column"><pre id="88a9aa07-ec43-4ac6-9735-88dbe41907e9" class="code"><code>sub a, b, c</code></pre></div></div><p id="4e7ebb4f-dd2d-4702-8862-35c02801c37f" class="">Instructions with a consistent number of operands - in this case, two sources and one destination - are easier to encode and handle in hardware. More complex high-level code translates into multiple MIPS instructions, as shown in this example.</p><div id="53f0473a-f76f-4a78-9bb3-b415ecdcc33b" class="column-list"><div id="b664ecaa-3446-4f0c-8ea9-65c07d37a1d1" style="width:50%" class="column"><pre id="588abec1-6149-454e-8ea5-148cdb03b212" class="code"><code>a = b + c - d; // single-line comment
+               /* multiple-line
+                  comment */</code></pre></div><div id="1eb99068-49c0-43d7-9cb6-c66129385719" style="width:50%" class="column"><pre id="5ad6d10f-245a-44e0-b7c8-b7abe11c4cd0" class="code"><code>sub t, c, d # t = c - d
+add a, b, t # a = b + t</code></pre></div></div><p id="eafa26ee-4598-4873-95a9-1511f2675df4" class="">In the high-level language examples, single-line comments begin with <code>//</code> and continue until the end of the line. Multiline comments begin with <code>/*</code> and end with <code>*/</code>. In assembly language, only single-line comments are used. They begin with <code>#</code> and continue until the end of the line. The assembly language program in the above example requires a temporary variable, <code>t</code>, to store the intermediate result. Using multiple assembly language instructions to perform more complex operations is an example of the second design principle of computer architecture.</p><p id="67024f10-c8ed-4140-be69-952413dd02bc" class="">The MIPS instruction set makes the common case fast by including only simple, commonly used instructions. The number of instructions is kept small so that the hardware required to decode the instruction and its operands can be simple, small, and fast. more elaborate operations that are less common are performed using sequences of multiple simple instructions. Thus, MIPS is a <em>reduced instruction set computer (RISC)</em> architecture. Architectures with many complex instructions, such as Intel’s IA-32 architecture, are <em>complex instruction set computers (CISC)</em>. For example, IA-32 defines a “string move” instruction that copies a string from one part of memory to another. Such an operation requires many, possibly even hundreds, of simple instructions in a RISC machine. However, the cost of implementing complex instructions in a CISC architecture is added hardware and overhead that slows down the simple instructions.</p><p id="f40f98b2-151d-41e4-93e9-bd83ce5f2d1d" class="">A RISC architecture minimizes the hardware complexity and the necessary instruction encoding by keeping the set of distinct instructions small. For example, an instruction set with 64 simple instructions would need <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mn>64</mn><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">\log_264=6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.93858em;vertical-align:-0.24414em;"></span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.20696799999999996em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">64</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span></span></span></span></span><span>﻿</span></span> bits to encode the operation. An instruction set with 256 complex instructions would need <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mn>256</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">\log_2256=8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.93858em;vertical-align:-0.24414em;"></span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.20696799999999996em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span></span></span></span></span><span>﻿</span></span> bits of encoding per instruction. In a CISC machine, even though the complex instructions may be used only rarely, they add overhead to all instruction, even the simple ones.</p><h2 id="8e6ea7f8-f861-42b7-a47d-e87ab2f75bd7" class="">Operands: Registers, Memory, and Constants</h2><p id="6e3db48b-de71-482f-a4f3-59307b01a208" class="">An instruction operates on <em>operands</em>. But computers operate on 1’s and 0’s, not variable names. The instructions need a physical location from which to retrieve the binary data. Operands can be stored in registers or memory, or they may be <em>constants</em> stored in the instruction itself. Computers use various locations to hold operands, to optimize for speed and data capacity. Operands stored as constants or in registers are accessed quickly, but they hold only a small amount of data. Additional data must be accessed from memory, which is large but slow. MIPS is called a 32-bit architecture because it operates on 32-bit data. The MIPS architecture has been extended to 64 bits in commercial products, but for our purposes we will stick to the 32-bit one.</p><h3 id="adaa6cbe-efb2-4f94-8249-b02731cc3519" class="">Registers</h3><p id="bf7c09c3-f9d1-4925-a2a9-a788fb6deba4" class="">Instructions need to access operands quickly so that they can run fast. But operands stored in memory take a long time to retrieve. Therefore, most architectures specify a small number of registers that hold commonly used operands. The MIPS architecture uses 32 registers, called the <em>register set</em> or <em>register file</em>. The fewer the registers. the faster they can be accessed. This is an application of the third design principle.</p><p id="b5325977-4c7c-4c8a-8549-3cde20480ddc" class="">Looking up information from a small number of relevant books on your desk is a lot faster than searching for the information in the stacks at a library. Likewise, reading data from a mall set of registers is faster than reading it from 10000 registers or a large memory. A small register file is typically built from a small SRAM array. The SRAM array uses a small decoder and bitlines connected to relatively few memory cells, so it has a shorter critical path than a large memory does.</p><p id="7736e2a7-1d32-4db6-8dbe-b41e932eec2f" class="">The example shows the <code>add</code> instruction with register operands. MIPS register names are preceded by the <code>$</code> sign. The variables <code>a</code>, <code>b</code>, and <code>c</code> are arbitrarily placed in <code>$s0</code>, <code>$s1</code>, and <code>$s2</code>. The instruction adds the 32-bit values contained in <code>$s1</code> and <code>$s2</code> and writes the 32-bit result to <code>$s0</code>.</p><div id="ca150c1f-2f10-4681-ba48-af11bbd088c3" class="column-list"><div id="6907f641-ce26-4361-abec-311c673c65e8" style="width:50%" class="column"><pre id="0adbafc5-cf20-4e00-b614-7b1216808c13" class="code"><code>a = b + c;</code></pre></div><div id="1aacf72a-2dbd-4be6-a558-d3ee7375d8dc" style="width:50%" class="column"><pre id="bc1a8b92-8377-4b92-996f-873d938c4cf3" class="code"><code>add $s0, $s1, $s2</code></pre></div></div><p id="a1b929ec-1e1f-4a63-96f1-f80d3396a6ee" class="">MIPS generally stores variables in 18 of the 32 registers: <code>$s0 - $s7</code>, and <code>$t0 - $t9</code>. Register names beginning with <code>$s</code> are called <em>saved</em> registers. Following MIPS convention, these registers store variables such as <code>a</code>, <code>b</code>, and <code>c</code> above. Saved registers have special connotations when they are used with procedure calls. Register names beginning with <code>$t</code> are called <em>temporary</em> registers They are used for storing temporary variables. </p><p id="7cfe00b6-5224-4312-acfc-5501767741a7" class="">The example shows MIPS assembly code using a temporary register, <code>$t0</code>, to store the intermediate calculation of <code>c - d</code>. </p><div id="03f49d23-06e1-4cf6-88b7-8ba8b16a2812" class="column-list"><div id="19076659-6f03-4b83-8945-b73cb28b1bb4" style="width:50%" class="column"><pre id="955e4a1c-9b57-4840-a7ab-64caa3b7a24b" class="code"><code>a = b + c - d;</code></pre></div><div id="fac5c348-4d47-4daa-b244-6dc164b338c5" style="width:50%" class="column"><pre id="5ab9ef91-a42a-4c7a-acde-f2b8890fd324" class="code"><code>sub $t0, $s2, $s3
+add $s0, $s1, $t0</code></pre></div></div><h3 id="db516cd5-42e2-47d3-9315-a64c32b64774" class="">The Register Set</h3><div id="851d37f8-ac61-4641-a94f-2e7790cce214" class="column-list"><div id="23668eb7-4d8c-4430-9a92-50ef0efa2372" style="width:68.75%" class="column"><p id="4ae72620-9aad-4c39-bb16-d8f4c4a3bb0c" class="">The MIPS architecture defines 32 registers. Each register has a name and a number ranging from 0 to 31. The table lists the name, number, and use for each register. <code>$0</code> always contains the value 0 because this constant is so frequently used in computer programs. </p></div><div id="040b90e7-5d9c-4e3c-b419-9fd50365c0bd" style="width:31.25%" class="column"><figure id="d4f4a952-7ded-434a-a7fe-5e55bd57e8f0" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled.png"><img style="width:986px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled.png"/></a></figure></div></div><h3 id="e961c58c-fcb6-45d2-b06a-c3e54dc1af14" class="">Memory</h3><p id="24f6ef9c-dc97-4c0e-bf8c-a75771b17493" class="">If registers were the only storage space for operands we would be confined to simple programs with no more than 32 variables. However, data can also be stored in memory. When compared to the register file, memory has many data locations, but accessing it takes a longer amount of time. Whereas the register file is small and fast, memory is large and slow. For this reason, commonly used variables are kept in registers. By using a combination of memory and registers, a program can access a large amount of data fairly quickly. As previously described, memories are organized as an array of data words. The MIPS architecture uses 32-bit memory addresses and 32-bit data words.</p><p id="92763ba8-1162-47e5-aa06-2d33eb3b4770" class="">MIPS uses a byte-addressable memory. That is, each byte in memory has a unique address. However, for explanation purposes only, we first introduce a word-addressable memory and afterwards describe the MIPS byte-addressable memory.</p><div id="444cecdc-7389-4160-9bce-49978d60a4c9" class="column-list"><div id="91b6fb05-1f3c-4c10-b3fc-2131db9fef53" style="width:75%" class="column"><p id="eed36480-26a7-4710-a640-8c4f54578f9f" class="">The figure shows a memory array that is <em>word-addressable</em>. That is, each 32-bit data word has a unique 32-bit address. Both the 32-bit word address and the 32-bit data value are written in hexadecimal in the figure. By convention, memory is drawn with low memory addresses toward the bottom and high memory addresses toward the top.</p></div><div id="faba8ca0-abca-4ab9-8bdf-5256d8231788" style="width:25.000000000000007%" class="column"><figure id="0ddb472f-15de-4596-a3a0-94206300970c" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%201.png"><img style="width:496px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%201.png"/></a></figure></div></div><p id="733975e7-9517-4fd3-98e3-4b76026f3789" class="">MIPS uses the <em>load word</em> instruction, <code>lw</code>, to read a data word from memory into a register. The example loads memory word 1 into <code>$s3</code>. The <code>lw</code> instruction specifies the <em>effective address</em> in memory as the sum of a <em>base address</em> and an <em>offset</em>. The base address (written in parentheses in the instruction) is a register. The offset is a constant (written before the parentheses). In the example, the base address is <code>$0</code>, which holds the value 0, and the offset is 1, so the <code>lw</code> instruction reads from memory address <code>($0 + 1) = 1</code>. After the load word instruction is executed, <code>$s3</code> holds the value 0xF2F1AC07, which is the data value stored at memory address 1 in the above figure.</p><pre id="ee34c86b-2f3c-410e-96ee-3076592ea2a2" class="code"><code>lw $s3, 1($0)</code></pre><p id="7adedddc-e072-4e98-b164-3cd4c72f7a12" class="">Similarly, MIPS uses the <em>store word</em> instruction, <code>sw</code>, to write a data word from a register into memory. The example writes the contents of register <code>$s7</code> into memory word 5. These examples have used <code>$0</code> as the base address, but remember that any register can be used to supply the base address.</p><pre id="1531315b-04f0-4254-bbd0-f8be4c4ebf91" class="code"><code>sw $s7, 5($0)</code></pre><div id="b31fd33a-2808-42e8-8641-ceeca98d873a" class="column-list"><div id="236413f4-0710-4506-b10a-1b23e8877503" style="width:75%" class="column"><p id="20bc045f-2de6-461c-870d-5ec2566d826e" class="">The previous two code examples have shown a computer architecture with a word-addressable memory. The MIPS memory model, however, is byte-addressable, <em>not</em> word-addressable. Each data byte has a unique address. A 32-bit word consists of four 8-bit bytes. So each word address is a multiple of 4, as shown in the figure. Again, both the 32-bit word address and the data value are given in hexadecimal.</p></div><div id="c10c5d7a-35a9-4afa-b31d-69a3ad6508e3" style="width:25.000000000000007%" class="column"><figure id="8f08cdda-1b99-4ce4-9994-af783622fd05" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%202.png"><img style="width:499px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%202.png"/></a></figure></div></div><p id="bc124a23-c077-4ddb-9240-95a34bb513a7" class="">The example shows how to read and write words in the MIPS byte-addressable memory. The word address is four times the word number. The MIPS assembly code reads words 0, 2, and 3 and writes words 1, 8, and 100. </p><pre id="d622fe9b-2700-477d-ac8a-5e2159c37830" class="code"><code>1w $s0, 0($0) # read data word 0 (0xABCDEF78) into $s0
+1w $s1, 8($0) # read data word 2 (0x01EE2842) into $s1
+1w $s2, 0xC($0) # read data word 3 (0x40F30788) into $s2
+sw $s3, 4($0) # write $s3 to data word 1
+sw $s4, 0x20($0) # write $s4 to data word 8
+sw $s5, 400($0) # write $s5 to data word 100</code></pre><div id="6120e4e7-a8d5-40d8-8b88-5f5fee1d4d1a" class="column-list"><div id="b2e46401-8237-4633-b090-cf0578e133c0" style="width:81.25%" class="column"><p id="dcd8c5bd-c85e-4d2e-af15-fcefec948a33" class="">Byte-addressable memories are organized in a <em>big-endian</em> or <em>little-endian</em> fashion, as shown in the figure. In both formats, the <em>most significant byte (MSB)</em> is on the left and the <em>least significant byte (LSB)</em> is on the right. In big-endian machines, bytes are numbered starting with 0 at the big (most significant) end. In little-endian machines, bytes are numbered starting with 0 at the little (least significant) end. Word addresses are the same in both formats and refer to the same four bytes. Only the addresses of bytes within a word differ.</p><p id="187d34ef-ced5-4ba8-bf11-4fa0c5d0ac1c" class="">IBMs PowerPC (formerly found in Macintosh computers) uses big-endian addressing. Intel’s IA-32 architecture (found in PCs) uses little-endian addressing. Some MIPS processors are little-endian, and some are big-endian. The choice of endianness is completely arbitrary, but it leads to hassles when sharing data between big-endian and little-endian computers. In examples in this wiki we will use little-endian format whenever byte ordering matters.</p><p id="2a74f86f-61f9-4cb2-aa63-007536243b2d" class="">In the MIPS architecture, word addresses for <code>lw</code> and <code>sw</code> must be <em>word aligned</em>. That is, the address must be divisible by 4. Thus, the instruction <code>lw $s0, 7($0)</code> is an illegal instruction. Some architectures, like IA-32 for example, allow non-word-aligned data reads and writes, but MIPS requires strict alignment for simplicity. Of course, byte addresses for load byte and store byte, <code>lb</code> and <code>sb</code> need not be word aligned.</p></div><div id="27d81bdd-6b04-4ed9-91ee-d8707a272596" style="width:18.750000000000004%" class="column"><figure id="23c6aed0-7476-420e-ab27-39a2b5cd0197" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%203.png"><img style="width:390px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%203.png"/></a></figure></div></div><h3 id="2df98ee9-c66b-4ad4-90df-a7e45f231e0f" class="">Constants/Immediates</h3><p id="739c3a0a-843b-4cc6-802b-b1a73878186c" class="">Load word and store word, <code>lw</code> and <code>sw</code>, also illustrate the use of <em>constants</em> in MIPS instructions. These constants are called <em>immediates</em>, because their values are immediately available from the instruction and do not require a register or memory access. Add immediate, <code>addi</code>, is another common MIPS instruction that uses an immediate operand. <code>addi</code> adds the immediate specified in the instruction to a value in a register, as shown in the example.</p><div id="ad74ffa5-6ab0-4500-90b2-7bcc5be8f97c" class="column-list"><div id="0982a69f-8894-467c-9ca6-d82d367e00e5" style="width:50%" class="column"><pre id="395a54be-5930-4999-a37f-5793b4c0fc6a" class="code"><code>a = a + 4;
+b = a - 12;</code></pre></div><div id="d0f3766c-4c05-4aae-a830-a43a6575710b" style="width:50%" class="column"><pre id="360b6e2a-bc0e-4cfb-be36-df2c553dd9f7" class="code"><code>addi $s0, $s0, 4
+addi $s1, $s0, -12</code></pre></div></div><p id="358cadf4-99cc-4003-8163-1eda1cbe321b" class="">The immediate specified in an instruction is a 16-bit two’s complement number in the range <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mo>−</mo><mn>32768</mn><mo separator="true">,</mo><mn>32767</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[-32768, 32767]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">32768</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">32767</span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>. Subtraction is equivalent to adding a negative number, so, in the interest of simplicity, there is no <code>subi</code> instruction in the MIPS architecture.</p><p id="b5187286-6c3c-4c46-8541-c2cae265d990" class="">Recall that the <code>add</code> and <code>sub</code> instructions use three register operands. But the <code>lw</code>, <code>sw</code>, and <code>addi</code> instructions use two register operands and a constant. Because the instruction formats differ, <code>lw</code> and <code>sw</code> instructions violate design principle 1. However, this issue allows us to introduce the last design principle.</p><p id="573a6d97-9319-45a8-9489-227dcbe34efe" class="">A single instruction format would be simple but not flexible. The MIPS instruction set makes the compromise of supporting three instruction formats. One format, used for instructions such as <code>add</code> and <code>sub</code>, has three register operands. Another, used for instructions such as <code>lw</code> and <code>addi</code>, has two register operands and a 16-bit immediate. A third, to be discussed later, has a 26-bit immediate and no registers.</p><h1 id="e0781c65-3e14-4857-ba26-0ea2332869f4" class="">Machine Language</h1><p id="4b9c72eb-725e-4001-84db-627b5e0a6f46" class="">Assembly language is convenient for humans to read. However, digital circuits understand only 1’s and 0’s. Therefore, a program written in assembly language is translated from mnemonics to a representation using only 1’s and 0’s, called <em>machine language</em>.</p><p id="f2b3214a-8e25-40b8-b1a7-5e16c04bbaef" class="">MIPS uses 32-bit instructions. Again, simplicity favors regularity, and the most regular choice is to encode all instructions as words that can be stored in memory. Even though some instructions may not require all 32 bits of encoding, variable-length instructions would add too much complexity. Simplicity would also encourage a single instruction format, but, as already mentioned, that is too restrictive. MIPS makes the compromise of defining three instruction formats: R-type, I-type, and J-type. This small number of formats allows for some regularity among all the types, and thus simpler hardware while also accommodating different instruction needs, such as the need to encode large constants in the instruction. <em>R-type</em> instructions operate on three registers. <em>I-type</em> instructions operate on two registers and a 16-bit immediate. <em>J-type</em> instructions (jump) operate on one 26-bit immediate.</p><h2 id="50a9b88e-8991-4110-928a-dc79cdcbb196" class="">R-Type Instructions</h2><div id="44d82344-0823-4c0f-a5a9-af0604eae46e" class="column-list"><div id="4f880b36-b1c2-4514-84d0-a1cddf77e164" style="width:75%" class="column"><p id="dc4bfdf0-77ae-4bca-83e8-09cf501b85b5" class="">The name R-type is short for <em>register-type</em>. R-type instructions use three registers as operands: two as sources, and one as a destination. The figure shows the R-type machine instruction format. The 32-bit instruction has six fields: <code>op, rs, rt, rd, shamt,</code> and <code>funct</code>. Each field is five or six bits, as indicated.</p><p id="bcf25719-3628-49b2-9d1d-a1da2f13825b" class="">The operation the instruction performs is encoded in the two fields highlighted in blue: <code>op</code> (also called <code>opcode</code> or operation code) and <code>funct</code> (also called the function). All R-type instructions have an <code>opcode</code> of 0. The specific R-type instruction is determined by the <code>funct</code> field. For example, the <code>opcode</code> and <code>funct</code> fields for the <code>add</code> instruction are 0 (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>00000</mn><msub><mn>0</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">000000_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.79444em;vertical-align:-0.15em;"></span><span class="mord">00000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>) and 32 (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10000</mn><msub><mn>0</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">100000_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.79444em;vertical-align:-0.15em;"></span><span class="mord">10000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>), respectively. Similarly, the <code>sub</code> instruction has an <code>opcode</code> and <code>funct</code> field of 0 and 34.</p><p id="54bbfc89-23ab-4561-a380-bf20f5855e7a" class="">The operands are encoded in the three fields: <code>rs</code>, <code>rt</code>, and <code>rd</code>. The first two registers, <code>rs</code> and <code>rt</code>, are the source registers; <code>rd</code> is the destination register. The fields contain the register numbers that were given in the table above.</p><p id="cedfe4ec-a1f8-47eb-95d3-659683bf1321" class="">The fifth field, <code>shamt</code>, is used only in shift operations. In those instructions, the binary value stored in the 5-bit <code>shamt</code> field indicates the amount to shift. For all other R-type instructions, <code>shamt</code> is 0.</p></div><div id="ee9e46b1-da37-4582-87e0-754afc2a70a9" style="width:25.000000000000007%" class="column"><figure id="8dd5157f-039a-4b9d-a828-cea96833a987" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%204.png"><img style="width:703px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%204.png"/></a></figure></div></div><div id="e5f119e4-7ce8-482b-be45-be8aa9fe838c" class="column-list"><div id="e8fb0b5a-a33d-46dd-bf00-cab3c913b502" style="width:56.25%" class="column"><p id="8e0ffdaa-0486-4b06-a281-551019f0163d" class="">The figure shows the machine code for the R-type instructions <code>add</code> and <code>sub</code>. Notice that the destination is the first register in an assembly language instruction, but it is the third register field (<code>rd</code>) in the machine language instruction. For example, the assembly instruction <code>add $s0, $s1, $s2</code> has <code>rs = $s1</code>, <code>rt = $s2</code>, and <code>rd = $s0</code>. </p></div><div id="5fbc7bff-26d6-4f40-907f-bfa761327d55" style="width:43.75%" class="column"><figure id="096f12ac-0009-492c-8dcd-a67c7dd1d001" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%205.png"><img style="width:1802px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%205.png"/></a></figure></div></div><h2 id="132bdc42-23b8-45fc-9b9d-44c19b039a59" class="">I-Type Instructions</h2><div id="3a0e2bd6-8332-4082-abd9-90a90bad72bd" class="column-list"><div id="73e816e4-ca5b-4db5-863b-176defbe6c3e" style="width:75%" class="column"><p id="4b8dea7a-0a0b-4f7f-9957-eaed076f15db" class="">The name I-type is short for <em>immediate-type</em>. I-type instructions use two register operands and one immediate operand. The figure shows the I-type machine instruction format. The 32-bit instruction has four fields: <code>op</code>, <code>rs</code>, <code>rt</code>, and <code>imm</code>. The first three fields, <code>op</code>, <code>rs</code>, and <code>rt</code> are like those of R-type instructions. The <code>imm</code> field holds the 16-bit immediate. </p><p id="8d0ba991-aa1e-4961-8bdc-9ba926790ec8" class="">The operation is determined solely by the <code>opcode</code>, highlighted in blue. The operands are specified in the three fields, <code>rs</code>, <code>rt</code>, and <code>imm</code>. <code>rs</code> and <code>imm</code> are always used as source operands. <code>rt</code> is used as a destination for some instructions (such as <code>addi</code> and <code>lw</code>) but as another source for others (such as <code>sw</code>).</p></div><div id="a3231021-be05-4f6f-bc02-c5cd03aba4a6" style="width:24.999999999999993%" class="column"><figure id="95ae4aeb-b410-43fb-9506-d17ef19648d6" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%206.png"><img style="width:734px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%206.png"/></a></figure></div></div><div id="b344755d-3999-485d-883a-354d4cec5c5c" class="column-list"><div id="531e51e0-0dbb-4763-9d70-9c389276ff77" style="width:56.25%" class="column"><p id="bbf54213-6a40-41b7-a642-0c85f9116353" class="">The figure shows several examples of encoding I-type instructions. Recall that negative immediate values are represented using 16-bit two’s complement notation. <code>rt</code> is listed first in the assembly language instruction when it is used as a destination, but it is the second register field in the machine language instruction.</p><p id="88365da8-7e6e-4cc2-bd6c-ce53730af8f1" class="">I-type instructions have a 16-bit immediate field, but the immediates are used in 32-bit operations. What should go in the upper half of the 32 bits? For positive immediates, the upper half should be all 0’s, but for negative immediates, the upper half should be all 1’s. Recall that this is called <em>sign extension</em>. An <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span>-bit two’s complement number is sign-extended to an <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span></span><span>﻿</span></span>-bit number (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>&gt;</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">M \gt N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span>) by copying the sign bit (most significant bit) of the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span>-bit number into all of the upper bits of the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span></span><span>﻿</span></span>-bit number. Sign-extending a two’s complement number does not change its value.</p><p id="8e20791f-cea4-4b1f-9cd5-19d16271b195" class="">Most MIPS instructions sign-extend the immediate. For example, <code>addi</code>, <code>lw</code>, and <code>sw</code>, do sign extension to support both positive and negative immediates. An exception to this rule is that logical operations (<code>andi</code>, <code>ori</code>, <code>xori</code>) place 0’s in the upper half; this is called <em>zero extension</em> rather than sign extension.</p></div><div id="ecab894f-72e1-4a56-8305-3c56f5fa5d06" style="width:43.74999999999999%" class="column"><figure id="e8238623-1f09-4007-abc8-a7befd146c3b" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%207.png"><img style="width:1841px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%207.png"/></a></figure></div></div><h2 id="e7865729-6b71-418f-9f79-d94be0ab94e1" class="">J-Type Instructions</h2><div id="56b56374-b831-4e68-a089-cc99d7d11c17" class="column-list"><div id="6d90ef6d-a65f-4537-8f56-343f0fcabeb8" style="width:75%" class="column"><p id="3e80a86a-54ce-48e5-9149-1afd33719e22" class="">The name J-type is short for <em>jump-type</em>. This format is used only with jump instructions. This instruction format uses a single 26-bit address operand, <code>addr</code>, as shown in the figure. Like other formats, J-type instructions begin with a 6-bit <code>opcode</code>. The remaining bits are used to specify an address, <code>addr</code>. More on J-type instructions below.</p></div><div id="913f8f1d-7ffa-4130-9238-9595c8ac4894" style="width:25%" class="column"><figure id="3b61d7ce-61a1-449b-ab4b-01cfad1f2d53" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%208.png"><img style="width:641px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%208.png"/></a></figure></div></div><h2 id="c3e95c4b-9e73-4e55-ba90-a290fbf122d6" class="">Interpreting Machine Language Code</h2><p id="a059c609-37c7-4c7b-8816-f14d2190038a" class="">To interpret machine language, one must decipher the fields of each 32-bit instruction word. Different instructions use different formats, but all formats start with a 6-bit <code>opcode</code> field. Thus, the best place to begin is to look at the <code>opcode</code>. If it is 0, the instruction is R-type; otherwise it is I-type or J-type.</p><h2 id="b7569da7-3d7d-4d0b-9d45-0ba773f13018" class="">The Power of the Stored Program</h2><p id="9f79b925-2368-49e0-ac71-b508b1cffe82" class="">A program written in machine language is a series of 32-bit numbers representing the instructions. Like other binary numbers, these instructions can be stored in memory. This is called the <em>stored program</em> concept, and it is a key reason why computers are so powerful. Running a different program does not require large amounts of time and effort to reconfigure or rewire hardware; it only requires writing the new program to memory. Instead of dedicated hardware, the stored program offers <em>general purpose</em> computing. In this way, a computer can execute applications ranging from a calculator to a word processor to a video player simply by changing the stored program.</p><p id="4ef90da7-f8ef-4506-90b9-fc8ae58cb433" class="">Instructions in a stored program are retrieved, or <em>fetched</em>, from memory and executed by the processor. Even large, complex programs are simplified to a series of memory reads and instruction executions.</p><div id="343e171d-2a9b-4c09-b91e-f06c3b796d52" class="column-list"><div id="9a703675-80ea-4b15-ad4f-c585fc538598" style="width:62.5%" class="column"><p id="9623f37c-4023-4e42-be17-dac20aae73d2" class="">The figure shows how machine instructions are stored in memory. In MIPS programs, the instructions are normally stored starting at  address 0x00400000. Remember that MIPS memory is byte addressable, so 32-bit (4-byte) instruction addresses advance by 4 bytes, not 1.</p><p id="0ee076aa-5522-40af-8ad1-b4d6ab69174e" class="">To run or <em>execute</em> the stored program, the processor fetches the instructions from memory sequentially. The fetched instructions are then decoded and executed by the digital hardware. The address of the current instruction is kept in a 32-bit register called the <em>program counter</em> (<code>PC</code>). The <code>PC</code> is separate from the 32 registers shown previously.</p><p id="d356351f-9f79-481e-b311-2c9209f329ba" class="">To execute the code in the figure, the operating system sets the <code>PC</code> to address 0x00400000. The processor reads the instruction at that memory address and executes the instruction 0x8C0A0020. The processor then increments the <code>PC</code> by 4, to 0x00400004, fetches and executes that instruction and repeats.</p><p id="e914eb72-2f0e-47b1-a6dc-375306e72909" class="">The <em>architectural state</em> of a microprocessor holds the state of a program. For MIPS, the architectural state consists of the register file and <code>PC</code>. If the operating system saves the architectural state at some point in the program, it can interrupt the program, do something else, then restore the state such that the program continues properly, unaware that it was ever interrupted.</p></div><div id="63520452-4f27-4263-a2b4-4e0e9ea489df" style="width:37.5%" class="column"><figure id="b66f0589-2f92-49c2-a589-e59759fcadcf" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%209.png"><img style="width:1368px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%209.png"/></a></figure></div></div><h1 id="8545b6a5-d12e-48b7-8b9d-4797cfadaa91" class="">Programming</h1><p id="c454af2f-759e-46cc-bf6e-15d1b959a123" class="">Software languages such as C or Java are called high-level programming languages, because they are written at a more abstract level than assembly language. Many high-level languages use common software constructs such as arithmetic and logical operations, <code>if/else</code> statements, <code>for</code> and <code>while</code> loops, array indexing, and procedure calls.</p><h2 id="fe1db5e3-9340-4b54-9523-874e51bc33da" class="">Arithmetic/Logical Instructions</h2><p id="a670840b-4659-40d8-ae1a-0c9e4f464560" class="">The MIPS architecture defines a variety of arithmetic and logical instructions. We introduce these instructions briefly here, because they are necessary to implement higher-level constructs.</p><h3 id="a555624f-497c-4830-a565-ead18a6b5c4b" class="">Logical Instructions</h3><div id="4a98b71a-4a37-49a0-871b-61bf83135f14" class="column-list"><div id="ee914282-50c6-4ff7-8f98-258ba31f2e3a" style="width:62.5%" class="column"><p id="777033a6-4358-42ec-897d-391ec7778ff8" class="">MIPS logical operations include <code>and</code>, <code>or</code>, <code>xor</code>, and <code>nor</code>. These R-type instructions operate bit-by-bit on two source registers and write the result to the destination register. The figure shows examples of these operations on the two source values 0xFFFF0000 and 0x46A1F0B7. The figure shows the values stored in the destination register, <code>rd</code>, after the instruction executes.</p><p id="dd65bf7f-d43a-4cf7-85a0-992609df107a" class="">The <code>and</code> instruction is useful for <em>masking</em> bits (i.e., forcing unwanted bits to 0). For example, in the figure, 0xFFFF0000 <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>AND</mtext></mrow><annotation encoding="application/x-tex">\text{AND}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">AND</span></span></span></span></span></span><span>﻿</span></span> 0x46A1F0B7 = 0x46A10000. The <code>and</code> instruction masks off the bottom two bytes and places the unmasked top two bytes of <code>$s2</code>, 0x46A1, in <code>$s3</code>. Any subset of register bits can be masked.</p><p id="66f78144-7b0e-4370-820b-ec5fb6210736" class="">The <code>or</code> instruction is useful for combining bits from two registers. For example, 0x347A0000 <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>OR</mtext></mrow><annotation encoding="application/x-tex">\text{OR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">OR</span></span></span></span></span></span><span>﻿</span></span> 0x000072FC = 0x347A72FC, a combination of the two values.</p><p id="5109646f-9abe-4e00-8b2e-8d84c08d2828" class="">MIPS does not provide a <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>NOT</mtext></mrow><annotation encoding="application/x-tex">\text{NOT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">NOT</span></span></span></span></span></span><span>﻿</span></span> instruction, but <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mtext> NOR </mtext><mn>0</mn><mo>=</mo><mtext>NOT </mtext><mi>A</mi></mrow><annotation encoding="application/x-tex">A \ \text{NOR} \ 0 = \text{NOT} \ A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span><span class="mspace"> </span><span class="mord text"><span class="mord">NOR</span></span><span class="mspace"> </span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">NOT</span></span><span class="mspace"> </span><span class="mord mathnormal">A</span></span></span></span></span><span>﻿</span></span>, so the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>NOR</mtext></mrow><annotation encoding="application/x-tex">\text{NOR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">NOR</span></span></span></span></span></span><span>﻿</span></span> instruction can substitute.</p><p id="f2f9d3dc-6365-418a-b3a9-cd439568d271" class="">Logical operations can also operate on immediates. These I-type instructions are <code>andi</code>, <code>ori</code>, and <code>xori</code>. <code>nori</code> is not provided, because the same functionality can be easily implemented using the other instructions.</p></div><div id="e4859d4f-f3c8-4a69-b2fb-59691cab80c5" style="width:37.49999999999999%" class="column"><figure id="76c6f0af-0fba-49c4-98c3-489ffd4e5419" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2010.png"><img style="width:1193px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2010.png"/></a></figure></div></div><div id="0e44bd6a-df8a-4648-8900-91cc565f31a9" class="column-list"><div id="d51d12d0-8464-4556-9809-24464b294d8a" style="width:62.5%" class="column"><p id="aebccadd-ec66-4567-982c-c22ff51e6e26" class="">The figure shows examples of the <code>andi</code>, <code>ori</code> and <code>xori</code> instructions. The figure gives the values of the source register and immediate, and the value of the destination register, <code>rt</code>, after the instruction executes. Because these instructions operate on a 32-bit value from a register and a 16-bit immediate, they first zero-extend the immediate to 32 bits.</p></div><div id="5db03b89-0fcf-458e-bb49-054dc8029425" style="width:37.49999999999999%" class="column"><figure id="988f296e-84eb-4e4e-861f-78e5489a0f75" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2011.png"><img style="width:1230px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2011.png"/></a></figure></div></div><h3 id="ed5a4aea-cb5e-4ab5-a211-7391c6e070f6" class="">Shift Instructions</h3><div id="c465681f-9616-40a8-b92f-2ca02d206fa4" class="column-list"><div id="bb27f44e-1903-42e4-a562-771c560d8d13" style="width:62.5%" class="column"><p id="aad0053b-f5e9-482b-904b-26cc576dbaab" class="">Shift instructions shift the value in a register left or right by up to 31 bits. Shift operations multiply or divide by powers of two. MIPS shift operations are <code>sll</code> (shift left logical), <code>srl</code> (shift right logical), and <code>sra</code> (shift right arithmetic). As discussed previously, left shifts always fill the least significant bits with 0’s. However, right shifts can be either logical (0’s shift into the most significant bits) or arithmetic (the sign bit shifts into the most significant bits). The figure shows the machine code for the R-type instructions <code>sll</code>, <code>srl</code>, and <code>sra</code>. <code>rt</code> (i.e., <code>$s1</code>) holds the 32-bit value to be shifted, and <code>shamt</code> gives the amount by which to shift (4). The shifted result is placed in <code>rd</code>.</p></div><div id="152fe1b9-2ad9-4b8b-b774-02785f904977" style="width:37.5%" class="column"><figure id="098e1cb6-0da0-428c-b05e-8d99345e1566" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2012.png"><img style="width:1761px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2012.png"/></a></figure></div></div><div id="6c428c4c-5ef3-4887-bf78-9f6e973c40d2" class="column-list"><div id="e0b1fd6f-fd86-46c9-bc4f-e52f00c6e0ba" style="width:62.5%" class="column"><p id="f06b5425-99a7-4010-bab4-3b4945e09c91" class="">The figure shows the register values for the shift instructions <code>sll</code>, <code>srl</code>, and <code>sra</code>. Shifting a value left by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span> is equivalent to multiplying it by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>N</mi></msup></mrow><annotation encoding="application/x-tex">2^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>. Likewise, arithmetically shifting a value right by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span> is equivalent to dividing it by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>N</mi></msup></mrow><annotation encoding="application/x-tex">2^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>.</p></div><div id="c1ead447-dd60-4570-8296-6f69abc1a032" style="width:37.5%" class="column"><figure id="1656b74d-87cc-471b-8132-bf24b5b87127" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2013.png"><img style="width:1118px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2013.png"/></a></figure></div></div><div id="bd4d976e-e54b-47f6-8402-0a70dc60d6b4" class="column-list"><div id="c5cc7656-bfa0-4328-a967-2abf4b2a113f" style="width:62.5%" class="column"><p id="a10e87e9-e5b8-4a18-a12a-ef24a07c5b1c" class="">MIPS also has variable-shift instructions: <code>sllv</code> (shift left logical variable), <code>srlv</code> (shift right logical variable), and <code>srav</code> (shift right arithmetic variable). The figure shows the machine code for these instructions.</p></div><div id="b2f2b528-2173-4a64-9031-b23afd1d2e16" style="width:37.5%" class="column"><figure id="09337f93-0a27-48c2-8146-73165f7c24ff" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2014.png"><img style="width:1829px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2014.png"/></a></figure></div></div><div id="b5491ee3-2658-459a-8a94-43ddb2992ecb" class="column-list"><div id="cd13abd2-0f7a-4724-996d-dec5cd886347" style="width:62.5%" class="column"><p id="3b2f9d3f-e884-42ba-80d9-b655ed8ba553" class=""><code>rt</code> (i.e., <code>$s1</code>) holds the value to be shifted, and the five least significant bits of <code>rs</code> (i.e., <code>$s2</code>) give the amount to shift. The shifted result is placed in <code>rd</code> as before. The <code>shamt</code> field is ignored and should be all 0’s. The figure shows register values for each type of variable-shift instruction.</p></div><div id="362519dc-0305-4037-9495-75fa4b6106e6" style="width:37.50000000000001%" class="column"><figure id="9000890f-7d2d-4235-a69d-e09cf310419e" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2015.png"><img style="width:1117px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2015.png"/></a></figure></div></div><h3 id="75f36c07-992c-40f5-834c-0c85062d3657" class="">Generating Constants</h3><p id="c291557d-ae19-4e49-ba2e-595a783b235f" class="">The <code>addi</code> instruction is helpful for assigning 16-bit constants, as shown in the example. </p><div id="58148f88-232c-4bb5-970c-5bc3a11c7df1" class="column-list"><div id="43f86bc7-9254-437d-a08b-2b408b5b7329" style="width:50%" class="column"><pre id="8e6d3eb6-b0f4-4aeb-90c7-d85123964bdb" class="code"><code>int a = 0x4f3c;</code></pre></div><div id="3ac6b8ed-4da9-4924-b07c-d218fd1ce9a0" style="width:50%" class="column"><pre id="b07e1f0e-0508-430c-bae9-abda6500b21a" class="code"><code>addi $s0, $0, 0x4f3c</code></pre></div></div><p id="566a770b-8ff4-4319-ab22-4f5a4d7e5736" class="">To assign 32-bit constants, use a load upper immediate instruction (<code>lui</code>) followed by an or immediate (<code>ori</code>) instruction, as shown in the example.</p><div id="69972a50-569b-4d04-8d77-9764a82a235a" class="column-list"><div id="8f90f955-0185-4c94-aa11-af49729899f6" style="width:50%" class="column"><pre id="a98818ed-574d-4f8f-bbe8-fe6681740510" class="code"><code>int a = 0x6d5e4f3c;</code></pre></div><div id="093b274f-73bf-4d5f-8869-74043d69fb4c" style="width:50%" class="column"><pre id="a1275e7e-36f4-4acc-a73a-04ae7571e344" class="code"><code>lui $s0, 0x6d5e
+ori $s0, $s0, 0x4f3c</code></pre></div></div><p id="832ce62b-9ed5-4008-8bc1-513205e2c01f" class=""><code>lui</code> loads a 16-bit immediate into the upper half of a register and sets the lower half to 0. As mentioned earlier, <code>ori</code> merges a 16-bit immediate into the lower half.</p><h3 id="2f2d7d1a-7957-45e0-9411-ed352f8f32f7" class="">Multiplication and Division Instructions</h3><p id="ce7f3aa7-729e-4623-9bc9-7663960efb84" class="">Multiplication and division are somewhat different from other arithmetic operations. Multiplying two 32-bit numbers produces a 64-bit product. Dividing two 32-bit numbers produces a 32-bit quotient and a 32-bit remainder.</p><p id="c62aa39d-ff3d-4f6f-916f-f5541c786b67" class="">The MIPS architecture has two special-purpose registers, <code>hi</code> and <code>lo</code>, which are used to hold the results of multiplication and division. <code>mult $s0, $s1</code> multiplies the values in <code>$s0</code> and <code>$s1</code>. The 32 most significant bits are placed in <code>hi</code> and the 32 least significant bits are placed in <code>lo</code>. Similarly, <code>div $s0, $s1</code> computes <code>$s0/$s1</code>. The quotient is placed in <code>lo</code> and the remained is placed in <code>hi</code>.</p><h2 id="b1bcc89b-a576-46f1-9380-f6a593bec22e" class="">Branching</h2><p id="56bb69b8-ee56-48c6-820f-636fc39c61a8" class="">An advantage of a computer over a calculator is its ability to make decisions. A computer performs different tasks depending on the input. For example, <code>if/else</code> statements, <code>case</code> statements, <code>while</code> loops and <code>for</code> loops all conditionally execute code depending on some test. To sequentially execute instructions, the program counter increments by 4 after each instruction. <em>Branch</em> instructions modify the program counter to skip over sections of code or to go back to repeat previous code. <em>Conditional branch</em> instructions perform a test and branch only if the test is TRUE. <em>Unconditional branch</em> instructions, called <em>jumps</em>, always branch.</p><h3 id="cb79f112-5936-4863-b254-b50014bdedf6" class="">Conditional Branches</h3><p id="f4bc2440-3e14-4f33-95dc-d432b31e2023" class="">The MIPS instruction set has two conditional branch instructions: branch if equal (<code>beq</code>) and branch if not equal (<code>bne</code>). <code>beq</code> branches when the values in two registers are equal, and <code>bne</code> branches when they are not equal. The example illustrates the use of <code>beq</code>. Note that branches are written as <code>beq $rs, $rt, imm</code>, where <code>$rs</code> is the first source register. This order is reversed from most I-type instructions.</p><pre id="9b597c1f-e69f-46c2-aaa9-a0743d7e65cb" class="code"><code>  addi $s0, $0, 4
+  addi $s1, $0, 1
+  sll $s1, $s1, 2
+  beq $s0, $s1, target
+  addi $s1, $s1, 1
+  sub $s1, $s1, $s0
+
+target:
+  add $s1, $s1, $s0</code></pre><p id="c236b209-0790-4bf4-9f94-3267f96f4917" class="">When the above program reaches the branch if equal instruction, the value in <code>$s0</code> is equal to the value in <code>$s1</code>, so the branch is <em>taken</em>. That is, the next instruction executed is the <code>add</code> instruction just after the <em>label</em> called <code>target</code>. The two instructions directly after the branch and before the label are not executed.</p><p id="1f70c631-4fda-4372-aea8-0f66661c7552" class="">Assembly code uses labels to indicate instruction locations in the program. When the assembly code is translated into machine code, these labels are translated into instruction addresses. MIPS assembly labels are followed by a (:) and cannot use reserved words such as instruction mnemonics. Most programmers indent their instructions but not the labels, to help make labels stand out.</p><p id="2093ba39-cc32-4a3b-a1ea-e2c8c7a554f9" class="">The example shows an example using the branch if not equal instruction (<code>bne</code>). In this case, the branch is <em>not taken</em> because <code>$s0</code> is equal to <code>$s1</code>, and the code continues to execute directly after the <code>bne</code> instruction. All instructions in this code snippet are executed.</p><pre id="92d0f3a3-c6a5-4a73-8472-eb4e8bb6fc99" class="code"><code>  addi $s0, $0, 4
+  addi $s1, $0, 1
+  s11 $s1, $s1, 2
+  bne $s0, $s1, target
+  addi $s1, $s1, 1
+  sub $s1, $s1, $s0
+target:
+  add $s1, $s1, $s0</code></pre><h3 id="48dbbefb-1997-4a20-994c-6c71817dd8cc" class="">Jump</h3><p id="5dba4d07-61f4-40b6-8c5f-0f5465ff8732" class="">A program can unconditionally branch, or <em>jump</em>, using the three types of jump instructions: jump (<code>j</code>), jump and link (<code>jal</code>), and jump register (<code>jr</code>). Jump jumps directly to the instruction at the specified label. Jump and link is similar to jummp but is used by procedures to save a return address. Jump register jumps to the address held in a register. The example shows the use of the jump instruction.</p><pre id="a4da772d-0d88-4e4a-ad65-4b020868d570" class="code"><code>  addi $s0, $0, 4
+  addi $s1, $0, 1
+  j target
+  addi $s1, $s1, 1 
+  sub $s1, $s1, $s0
+target:
+  add $s1, $s1, $s0</code></pre><p id="9f77d788-e33b-4a0b-b398-57c210e24a89" class="">This example shows the use of the jump register instruction. Instruction addresses are given to the left of each instruction. </p><pre id="8d8454b2-4103-4447-ae8f-49ba13ce18f1" class="code"><code>0x00002000 addi $s0, $0, 0x2010  # $s0 = 0x2010
+0x00002004 jr $s0                # jump to 0x00002010
+0x00002008 addi $s1, $0, 1       # not executed
+0x0000200c sra $s1, $s1, 2       # not executed
+0x00002010 lw $s3, 44 ($s1)      # executed after jr instruction</code></pre><h2 id="e801c7f3-2865-4cd8-8a4c-d13e3eedbd4b" class="">Conditional Statements</h2><p id="ff53d81d-90df-450a-a2bf-fca29873db03" class=""><code>if</code> statements, <code>if/else</code> statements, and <code>case</code> statements are conditional statements commonly used by high-level languages. They each conditionally execute a <em>block</em> of code consisting of one or more instructions. This section shows how to translate these high-level constructs into MIPS assembly language.</p><h3 id="30faa536-1f57-42cb-b6d3-744898d60525" class="">If Statements</h3><p id="3e4e5ae0-ead4-4ccc-b1db-1f35e5250538" class="">An <code>if</code> statement executes a block of code, the <em>if block</em>, only when a condition is met. The example shows how to translate an <code>if</code> statement into MIPS assembly code. </p><div id="bb9fe5d2-4ab0-471b-bb0d-4b7e0b7a3dfc" class="column-list"><div id="9c947c41-47c5-4ec2-b1e0-ec21caeed3e2" style="width:50%" class="column"><pre id="b0738cc7-39aa-4fe3-b5ad-74e97e9c0342" class="code"><code>if (i == j) {
+    f = g + h;
+}
+
+f = f - 1;</code></pre></div><div id="49ee44e0-e872-48f1-bad4-0f4e41703044" style="width:50%" class="column"><pre id="a3825d49-4663-49cd-9404-46c4676450cf" class="code"><code>  bne $s3, $s4, L1
+  add $s0, $s1, $s2
+L1:
+  sub $s0, $s0, $s3</code></pre></div></div><p id="23a15226-6ace-406d-89cf-a686eeb7a136" class="">The assembly code for the <code>if</code> statement tests the opposite condition of the one in the high-level code. The high-level code tests for <code>i == j</code>, and the assembly code tests for <code>i != j</code>. The <code>bne</code> instruction branches when <code>i != j</code>. Otherwise, <code>i == j</code>, the branch is not taken and the <code>if</code> block i executed as desired.</p><h3 id="168f5823-6a16-42ec-ad55-ccdc377490ac" class="">If/Else Statements</h3><p id="b69a882e-6b88-4548-8db5-a2429170287b" class=""><code>if/else</code> statements execute one of two blocks of code depending on a condition. When the condition in the <code>if</code> statement is met, the <em>if block</em> is executed. Otherwise, the <em>else block</em> is executed. The examples shows an example <code>if/else</code> statement. </p><div id="20d82869-e0af-4714-8c13-de9197159d92" class="column-list"><div id="d752af9e-bb14-4eb7-86fe-e4dd16afac4b" style="width:50%" class="column"><pre id="4cad7dbb-3c60-458e-a142-88be42704b79" class="code"><code>if (i == j) {
+    f = g + h;
+} else {
+    f = f - i;
+}</code></pre></div><div id="41b98e47-e27f-488d-9bff-7a77a1e83c8c" style="width:50%" class="column"><pre id="3bd31482-f32e-409d-8896-8866564c335a" class="code"><code>  bne $s3, $s4, else 
+  add $s0, $s1, $s2
+  j L2
+else:
+  sub $s0, $s0, $s3
+L2:</code></pre></div></div><p id="608cdb0d-5bd2-4385-9a02-8d026c366e9f" class="">Like <code>if</code> statements, <code>if/else</code> assembly code tests the opposite condition of the one in the high-level code. The above code tests for <code>i == j</code>. The assembly code tests for the opposite condition (<code>i != j</code>). If that opposite condition is TRUE, <code>bne</code> skips the <code>if</code> block and executes the <code>else</code> block. Otherwise, the <code>if</code> block executes and finishes with a jump instruction to jump past the <code>else</code> block.</p><h3 id="cb8eba47-0c58-41b0-af44-5360ff992bad" class="">Switch/Case Statements</h3><p id="4edb4a5f-c519-40d7-81bc-a8f5a7aa6e08" class=""><code>switch/case</code> statements execute one of several blocks of code depending on the conditions. If no conditions are met, the <code>default</code> block is executed. A <code>case</code> statement is equivalent to a series of <em>nested</em> <code>if/else</code> statements. The example shows two high-level code snippets with the same functionality: they calculate the fee for an ATM, as defined by <code>amount</code>. The MIPS assembly implementation is the same for both high-level code snippets.</p><div id="7225b5c8-2f4a-4412-91f7-260e9716f032" class="column-list"><div id="a3300ed6-d591-41ae-b0de-428016fc9300" style="width:50%" class="column"><pre id="55c4a8a4-070c-48b8-a6c0-52a617f6672e" class="code"><code>switch (amount) {
+    case 20: fee = 2; break;
+    case 50: fee = 3; break;
+    case 100: fee = 5; break;
+    default: fee = 0;
+}
+
+// equivalent function using if/else statements
+if (amount == 20) fee = 2;
+else if (amount == 50) fee = 3;
+else if (amount == 100) fee = 5;
+else fee = 0;</code></pre></div><div id="4a09caf6-5cc3-4a80-bb95-cdd5f30aee46" style="width:50%" class="column"><pre id="b43c31a3-1f45-4ed8-be79-bb9909b033f1" class="code"><code>case20:
+  addi $t0, $0, 20
+  bne $s0, $t0, case50
+  addi $s1, $0, 2
+  j done
+case50:
+  addi $t0, $0, 50
+  bne $s0, $t0, case100
+  addi $s1, $0, 3
+  j done
+case100:
+  addi $t0, $0, 100
+  bne $s0, $t0, default
+  addi $s1, $0, 5
+  j done
+default:
+  add $s1, $0, $0
+done:</code></pre></div></div><h2 id="6e3d8ea3-b63b-4b57-b850-8e1009d9c2bc" class="">Loops</h2><p id="68993c4e-4471-467b-b886-d44170ca054f" class="">Loops repeatedly execute a block of code depending on a condition. <code>for</code> loops and <code>while</code> loops are common loop constructs used by high-level languages. This section shows how to translate them into MIPS assembly language.</p><h3 id="e4f2f63c-65e2-4834-8cd9-23c5adbb62f9" class="">While Loops</h3><p id="6cb29531-1d89-4687-8980-f04d456bd542" class=""><code>while</code> loops repeatedly execute a block of code until a condition is <em>not</em> met. The <code>while</code> loop in the example determines the value of <code>x</code> such that <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>x</mi></msup><mo>=</mo><mn>128</mn></mrow><annotation encoding="application/x-tex">2^x=128</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">128</span></span></span></span></span><span>﻿</span></span>. It executes seven times, until <code>pow = 128</code>.</p><div id="dd712566-e161-495a-95c5-0c9093aee160" class="column-list"><div id="b22f157d-7ffa-4283-9ec4-dcc2596d279d" style="width:50%" class="column"><pre id="6fc8baa2-3422-43e9-ad45-1754e27cca63" class="code"><code>int pow = 1;
+int x = 0;
+
+while (pow != 128) {
+    pow = pow * 2;
+    x = x + 1;
+}</code></pre></div><div id="dd6fd898-f245-4cce-8e30-b69329670269" style="width:50%" class="column"><pre id="939161bc-36d1-48a1-a3d3-93b2591fc333" class="code"><code>  addi $s0, $0, 1
+  addi $s1, $0, 0
+  addi $t0, $0, 128
+while:
+  beq $s0, $t0, done
+  sll $s0, $s0, 1
+  addi $s1, $s1, 1
+  j while
+done:</code></pre></div></div><p id="50432fec-9886-4294-8bc1-34e544dea7dd" class="">Like <code>if/else</code> statements, the assembly code for the <code>while</code> loop tests the opposite condition of the one given in the high-level code. If that opposite condition is TRUE, the <code>while</code> loop is finished.</p><p id="c6bcc4de-8161-4299-b172-b18709b647fd" class="">The above <code>while</code> loop compares <code>pow</code> to 128 and exits the loop if it is equal. Otherwise, it doubles <code>pow</code> (using a left shift), increments <code>x</code> and jumps back to the start of the <code>while</code> loop.</p><h3 id="2d176d2b-7457-4e8e-8372-12ae104b5fdd" class="">For Loops</h3><p id="172470cc-8f8c-4a25-932c-60075836e993" class=""><code>for</code> loops, like <code>while</code> loops, repeatedly execute a block of code until a condition is <em>not</em> met. However, <code>for</code> loops add support for a <em>loop variable</em>, which typically keeps track of the number of loop executions. A general format of the <code>for</code> loop is </p><pre id="c9eaa86e-d3dd-4be3-a1c4-8c6db98fca66" class="code"><code>for (initialization; condition; loop operation)</code></pre><p id="8bf14aa7-683e-424c-97e0-2b2371eea4e8" class="">The <em>initialization</em> code executes before the <code>for</code> loop begins, The <em>condition</em> is tested at the beginning of each loop. If the condition is not met, the loop exits. The <em>loop operation</em> executes at the end of each loop.</p><p id="2fd9dbea-2e32-4191-afbb-6c8513b49479" class="">The example adds the numbers from 0 to 9. The loop variable, <code>i</code>, is initialized to 0 and is incremented at the end of each loop iteration. At the beginning of each iteration, the <code>for</code> loop executes only when <code>i</code> is not equal to 10. Otherwise, the loop is finished. In this case, the <code>for</code> loop executes 10 times. <code>for</code> loops can be implemented using a <code>while</code> loop, but the <code>for</code> loop is often convenient.</p><div id="b5522b98-2ab9-4726-a314-d34b6193f730" class="column-list"><div id="00fa22e4-b7b7-44a9-9c36-8f291e104f27" style="width:50%" class="column"><pre id="ac662c74-5880-4851-bb5b-060a844f6380" class="code"><code>int sum = 0;
+
+for (int i = 0; i != 10; i = i + 1) {
+    sum = sum + 1;
+}
+
+// equivalent to the following while loop
+int sum = 0;
+int i = 0;
+while (i != 10) {
+    sum = sum + i;
+    i = i + 1;
+}</code></pre></div><div id="a801cbf5-ba1d-4d00-987e-a6df1c7c6516" style="width:50%" class="column"><pre id="08fd7cbd-b3f9-4fdf-b40d-15b8261e02fd" class="code"><code>  add $s1, $0, $0
+  addi $s0, $0, 0
+  addi $t0, $0, 10
+for:
+  beq $s0, $t0, done
+  add $s1, $s1, $s0
+  addi $s0, $s0, 1
+  j for
+done:</code></pre></div></div><h3 id="72be64fe-9966-4eff-b9b5-31832d18c861" class="">Magnitude Comparison</h3><p id="c6c11108-3a55-42ca-ad73-2c4b07d857d6" class="">So far, the examples have used <code>beq</code> and <code>bne</code> to perform equality or inequality comparisons and branches. MIPS provides the <em>set less than</em> instruction, <code>slt</code>, for magnitude comparison. <code>slt</code> sets <code>rd</code> to 1 when <code>rs &lt; rt</code>. Otherwise, <code>rd</code> is 0.</p><p id="cf6fbe50-443f-413a-944e-d56fd2e077c7" class="">The following high-level code adds the powers of 2 from 1 to 100.</p><div id="2f28e343-a7da-4fec-acec-e4c7977be866" class="column-list"><div id="86c6414e-3a58-43f5-99f0-0cd77d68402e" style="width:50%" class="column"><pre id="0a656a4b-805e-4096-bbde-2c5d2ae2860e" class="code"><code>int sum = 0;
+for (int i = 1; i &lt; 101; i = i * 2) {
+    sum = sum + i;
+}</code></pre></div><div id="14d9aefe-ea38-4602-8ede-7960376eb480" style="width:50%" class="column"><pre id="1745b509-cadd-495f-af2e-54bdd9d66905" class="code"><code>  addi $s1, $0, 0
+  addi $s0, $0, 1
+  addi $t0, $0, 101
+loop:
+  slt $t1, $s0, $t0
+  beq $t1, $0, done
+  add $s1, $s1, $s0
+  sll $s0, $s0, 1
+  j loop
+done:</code></pre></div></div><h2 id="16142eae-73a8-480c-b45c-b93cdd8e43f0" class="">Arrays</h2><p id="9482935b-5eaf-4a70-b325-2ee5e41dc521" class="">Arrays are useful for accessing large amounts of similar data. An array is organized as sequential data addresses in memory. Each array element is identified by a number called its <em>index</em>. The number of elements in the array is called the <em>size</em> of the array. This section shows how to access array elements in memory.</p><h3 id="f149d8f0-f7bb-4b06-9cfc-c3b30fc0f440" class="">Array Indexing</h3><div id="0e5364cf-522d-4eb0-aca6-1a4e7bd4e193" class="column-list"><div id="03cd7dcf-295c-492b-bfe6-732727d04a35" style="width:75%" class="column"><p id="258932e8-2807-49fb-810a-5fed10e602f4" class="">The figure shows an array of five integers stored in memory. The <em>index</em> ranges from 0 to 4. In this case, the array is stored in a processor’s main memory starting at <em>base address</em> 0x10007000. The base address gives the address of the first array element, <code>array[0]</code>.</p></div><div id="dc67a525-9a6a-4722-87c8-bf0d7534617a" style="width:25%" class="column"><figure id="aba5c919-a5ae-4891-8bec-4afcbed5af25" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2016.png"><img style="width:680px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2016.png"/></a></figure></div></div><p id="6ee333eb-16ce-4632-a140-b9228fa3f5e4" class="">The example multiplies the first two elements in <code>array</code> by 8 and stores them back in the array. </p><div id="e59e00b4-e0a4-4a75-9f8d-0b0195214cff" class="column-list"><div id="a2b87c9c-1edc-4841-ad96-d16bf8e967c7" style="width:50%" class="column"><pre id="069d8c81-12aa-4888-af97-e4e8b76843ad" class="code"><code>int array [5];
+
+array[0] = array[0] * 8;
+array[1] = array[1] * 8;</code></pre></div><div id="65347d09-4ad0-45c8-a790-32f4934cdcac" style="width:50%" class="column"><pre id="c8761aaf-9c54-4896-82fb-a090e49eaa2c" class="code"><code>lui $s0, 0x1000
+ori $s0, $s0, 0x7000
+lw $t1, 0($s0)
+sll $t1, $t1, 3
+sw $t1, 0($s0)
+lw $t1, 4($s0)
+sll $t1, $t1, 3
+sw $t1, 4($s0)</code></pre></div></div><p id="5473dc07-6cb0-480b-b33b-460c5a156ecb" class="">The first step in accessing an array element is to load the base address of the array into a register. The example loads the base address into <code>$s0</code>. Recall that the load upper immediate (<code>lui</code>) and or immediate (<code>ori</code>) instructions can be used to load a 32-bit constant into a register.</p><p id="8bca7ff7-b06e-45fc-92ab-7951082038bf" class="">The example also illustrates why <code>lw</code> takes a base address and an offset. The base address points to the start of the array. The offset can be used to access subsequent elements of the array.</p><p id="27c0cda9-fb98-4a15-98a8-34217f461d2b" class="">One might have notices that the code for manipulating each of the array elements in the example is essentially the same except for the index. When accessing all of the elements in a large array, this would become terribly inefficient.</p><p id="5e668743-6450-4be6-978b-1aac71edd8da" class="">This example uses a <code>for</code> loop to multiply all of the elements of a 1000-element array by 8, which is stored at a base address of 0x23B8F000.</p><div id="f6b694f5-87bd-4d78-9049-04a2c1e66242" class="column-list"><div id="adb79e63-f6d3-4f01-b5d6-43c4932f5693" style="width:50%" class="column"><pre id="82574b67-6714-44d2-ab34-959819ab726b" class="code"><code>int array[1000];
+
+for (int i = 0; i &lt; 1000; i = i + 1) {
+    array[i] = array[i] * 8;
+}</code></pre></div><div id="15716440-e548-4950-9fa7-5ccc855ef308" style="width:50%" class="column"><pre id="df48c8f1-f90e-4c0b-8661-dae89ef38c9b" class="code"><code>  lui $s0, 0x23B8
+  ori $s0, $s0, 0xF000
+  addi $s1, $0
+  addi $t2, $0, 1000
+loop:
+  slt $t0, $s1, $t2
+  beq $t0, $0, done
+  sll $t0, $s1, 2
+  add $t0, $t0, $s0
+  lw $t1, 0($t0)
+  sll $t1, $t1, 3
+  sw $t1, 0($t0)
+  addi $s1, $s1, 1
+  j loop
+done:</code></pre></div></div><div id="bd19f1c2-0444-4b4a-9612-ff27690f9215" class="column-list"><div id="488d24ab-23b3-4be5-91ff-4ed7e808cc1a" style="width:81.25%" class="column"><p id="907e471f-e0a9-424c-96b2-2003f303475a" class="">The figure shows the 1000-element array in memory. The index into the array is now a variable rather than a constant, so we cannot take advantage of the immediate offset in <code>lw</code>. Instead, we compute the address of the <code>i</code>-th element and store it in <code>$t0</code>. Remember that each array element is a word but that memory is byte addressed, so the offset from the base address is <code>4 * i</code>. Shifting left by 2 is a convenient way to multiply by 4 in MIPS assembly language. </p></div><div id="a88b912b-ea6d-4ae1-a5d1-f1563dadad70" style="width:18.750000000000004%" class="column"><figure id="753badd5-7b09-4817-8dbb-2d7e8bdf7788" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2017.png"><img style="width:553px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2017.png"/></a></figure></div></div><h3 id="96c08bc8-7be4-40f2-ad67-bfbde3834d5e" class="">Bytes and Characters</h3><div id="7e07944e-d5da-4b15-88c0-00823954e8dd" class="column-list"><div id="0b987604-ca65-443e-b648-f123de1a9cae" style="width:68.75%" class="column"><p id="ccb4bd3d-2261-414d-9a01-60a6bff59924" class="">Numbers in the range <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mo>−</mo><mn>128</mn><mo separator="true">,</mo><mn>127</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[-128, 127]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">128</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">127</span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span> can be stored in a single byte rather than an entire word. Because there are much fewer than 256 characters on an English language keyboard, English characters are often represented by bytes. The C language uses the type <code>char</code> to represent a byte or character. Early computers lacked a standard mapping between bytes and English characters, so exchanging text between computers was difficult. In 1963, the American Standards Association published the <em>American Standard Code for Information Interchange (ASCII)</em>, which assigns each text character a unique byte value. The table shows these character encodings for printable characters. The ASCII values are given in hexadecimal. Lower-case and upper-case letters differ by 0x20 (32).</p></div><div id="f44d6606-9b1a-4250-8563-d6e27b0c132e" style="width:31.250000000000007%" class="column"><figure id="721dc1e3-6f05-47e2-be5e-56d80e94f813" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2018.png"><img style="width:958px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2018.png"/></a></figure></div></div><div id="e18615b8-d0c2-4976-8eb0-701239263777" class="column-list"><div id="6c6271a9-bf10-4e65-966a-3e40c89b4fb4" style="width:81.25%" class="column"><p id="6e4dc37f-f95c-483e-abb6-42bab5806681" class="">MIPS provides load byte and store byte instructions to manipulate bytes or characters of data: load byte unsigned (<code>lbu</code>), load byte (<code>lb</code>) and store byte (<code>sb</code>). All three are illustrated in the figure.</p><p id="027ffe8e-0ee7-4deb-bc0c-fc2244e3eb2e" class="">Load byte unsigned zero-extends the byte, and load byte sign-extends the byte to fill the entire 32-bit register. Store byte stores the least significant byte of the 32-bit register into the specified byte address in memory. In the figure, <code>lbu</code> loads the byte at memory address 2 into the least significant byte of <code>$s1</code> and fills the remaining register bits with 0. <code>lb</code> loads the sign-extended byte at memory address 2 into <code>$s2</code>. <code>sb</code> stores the least significant byte of <code>$s3</code> into memory byte 3; it replaces 0xF7 with 0x9B. The more significant bytes of <code>$s3</code> are ignored.</p></div><div id="9d0d4434-06d8-4d7d-abe7-9eff10899b10" style="width:18.749999999999996%" class="column"><figure id="4afe4389-3a71-43bb-bed8-055d8ed3026c" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2019.png"><img style="width:522px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2019.png"/></a></figure></div></div><div id="2b777f2c-be78-479e-9c40-85a97a8b82b8" class="column-list"><div id="4d5018df-93fb-4f33-84e8-14f36b525982" style="width:81.25%" class="column"><p id="ca676aec-949a-4422-a37e-3058c77773db" class="">A series of characters is called a <em>string</em>. Strings have a variable length, so programming languages must provide a way to determine the length or end of the string. In C, the null character 0x00 signifies the end of a string. The figure shows the string “Hello!” stored in memory. The string is seven bytes long. The first character of the string is stored at the lowest byte address.</p></div><div id="a9b3a9cf-6e1b-4249-824d-2fbd7c9137be" style="width:18.75%" class="column"><figure id="f4fcb82b-ba0a-4956-9bac-320fe1380907" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2020.png"><img style="width:377px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2020.png"/></a></figure></div></div><h2 id="1d66cd3a-9a5e-40f0-85aa-4b1c762293eb" class="">Procedure Calls</h2><p id="0c1e4cbf-80c8-4092-ad36-031b6c7b27a0" class="">High-level languages often use <em>procedures</em> (also called <em>functions</em>) to reuse frequently accessed code and to make a program more readable. Procedures have inputs, called <em>arguments</em>, and an output, called the <em>return value</em>. Procedures should calculate the return value and cause no other unintended side effects.</p><p id="6139840a-3bd3-42bb-b04b-08bb11072642" class="">When one procedure calls another, the calling procedure, the <em>caller</em>, and the called procedure, the <em>callee</em>, must agree on where to put the arguments and the return value. In MIPS, the caller conventionally places up to four arguments in registers<code>$a0 - $a3</code> before making the procedure call, and the callee places the return value in registers <code>$v0 - ävv1</code> before finishing. By following this convention, both procedures know where to find the arguments and return value, even if the caller and callee were written by different people.</p><p id="ddb3272c-2ca9-4178-96a9-ab093beeeff7" class="">The callee must not interfere with the function of the caller. Briefly, this means that the callee must know where to return to after it completes and it must not trample on any registers or memory needed by the caller. The caller stores the <em>return address</em> in <code>$ra</code> at the same time it jumps to the callee using the jump and link instruction (<code>jal</code>). The callee must not overwrite any architectural state or memory that the caller is depending on. Specifically, the callee must leave the saved registers, <code>$s0 - $s7</code>, <code>$ra</code>, and the <em>stack</em>, a portion of memory used for temporary variables, unmodified.</p><h3 id="1a835c45-18a3-4794-9f14-d7737600becf" class="">Procedure Calls and Returns</h3><p id="0c781e5c-27cf-47fd-8cd4-2b4198a6ded6" class="">MIPS uses the <em>jump and link</em> instruction (<code>jal</code>) to call a procedure and the <em>jump register</em> instruction (<code>jr</code>) to return from a procedure. The example shows the <code>main</code> procedure calling the <code>simple</code> procedure. <code>main</code> is the caller, and <code>simple</code> is the callee. The <code>simple</code> procedure is called with no input arguments and generates no return value; it simply returns to the caller.</p><div id="58992165-1916-4dec-bcfe-007a71c892fa" class="column-list"><div id="2caca38c-628a-4589-8998-552c21db4b29" style="width:50%" class="column"><pre id="d8f2367f-5960-41cc-a924-587982be1937" class="code"><code>int main() {
+    simple();
+    ...
+}
+
+void simple() {
+    return;
+}</code></pre></div><div id="092f225a-60cf-4fad-9072-aa67f1ae4ac5" style="width:50%" class="column"><pre id="ef6b5d4c-71b0-4a27-8a09-b20e1393f3f2" class="code"><code>main: jal simple
+      ...
+
+simple: jr $ra</code></pre></div></div><p id="68aa2009-4078-4ee0-8797-7a6d23837ea6" class="">Jump and link and jump register are the two essential instructions needed for a procedure call. <code>jal</code> performs two functions: it stores the address of the <em>next</em> instruction (the instruction after <code>jal</code>) in the return address register (<code>$ra</code>) and it jumps to the target instruction.</p><h3 id="7ad2f0ed-d138-4f2e-ab65-37cd640ddfae" class="">Input Arguments and Return Values</h3><p id="99de023b-99d5-437e-91f2-c05ff869920e" class="">The procedure above is not very useful, because it receives no input from the calling procedure and returns no output. By MIPS convention, procedures use <code>$a0 - $a3</code> for input arguments and <code>$v0 - $v1</code> for the return value. In the example, the procedure <code>diffofsums</code> is called with four arguments and returns one result.</p><div id="c636a68e-9307-44e8-968a-0f32b314f795" class="column-list"><div id="64510f91-1c6f-461a-bb85-a2ec77250476" style="width:50%" class="column"><pre id="f660f0de-c521-41f0-9985-5282961f8e3b" class="code"><code>int main() {
+    int y;
+    ...
+    y = diffofsums(2, 3, 4, 5);
+    ...
+}
+
+int diffofsums(int f, int g, int h, int i) {
+    int result = (f + g) - (h + i);
+    return result;
+}</code></pre></div><div id="a6c90082-bf7d-4126-a456-caaf48ea7bfc" style="width:50%" class="column"><pre id="8a589817-816b-48d7-90ed-307c7e8db1e9" class="code"><code>main:
+  ...
+  addi $a0, $0, 2
+  addi $a1, $0, 3
+  addi $a2, $0, 4
+  addi $a3, $0, 5
+  jal diffofsums
+  add $s0, $v0, $0
+
+diffofsums:
+  add $t0, $a0, $a1
+  add $t1, $a2, $a3
+  sub $s0, $t0, $t1
+  add $v0, $s0, $0
+  jr $ra</code></pre></div></div><p id="d1ad1ff9-6004-48ca-9857-f84b611f1261" class="">According to MIPS convention, the calling procedure, <code>main</code>, places the procedure arguments, from left to right, into the input registers, <code>$a0 - $a3</code>. The called procedure, <code>diffofsums</code>, stores the return value in the return register, <code>$v0</code>.</p><p id="c4338014-d8c6-4e31-8d3c-cff50fe9e92b" class="">A procedure that returns a 64-bit value, such as a double-precision floating point number, uses both return registers, <code>$v0</code> and <code>$v1</code>. When a procedure with more than four arguments is called, the additional input arguments are placed on the stack.</p><h3 id="778659cc-7166-445f-9842-ff8debafd293" class="">The Stack</h3><p id="f81c0275-3326-4009-8a80-022a3385a0f8" class="">The <em>stack</em> is memory that is used to save local variables within a procedure. The stack expands (uses more memory) as the processor needs more scratch space and contracts (uses less memory) when the processor no longer needs the variables stored there. The stack is a <em>last-in-first-out (LIFO) queue</em>. Like a stack of dishes, the last item <em>pushed</em> onto the stack is the first one that can be <em>popped</em> off. Each procedure may allocate stack space but must deallocate it before returning. The <em>top of the stack</em>, is the most recently allocated space. Whereas a stack of dishes grows up in space, the MIPS stack grows <em>down</em> in memory. The stack expands to lower memory addresses when a program needs more scratch space.</p><div id="07db8e8d-e12d-4f24-b702-ca8157a17292" class="column-list"><div id="9065f605-17f4-4f82-a14f-60b732ed73db" style="width:81.25%" class="column"><p id="8b15d052-2a01-4ceb-8dd2-59ca3ccb15f8" class="">The figure shows a picture of the stack. The <em>stack pointer</em>, <code>$sp</code>, is a special MIPS register that points to the top of the stack. A <em>pointer</em> is a fancy name for a memory address. It points to (gives the address of) data.</p><p id="ee1a0905-cff6-48a5-8c68-3e4ee40f9910" class="">The stack pointer (<code>$sp</code>) starts at a high memory address and decrements to expand as needed. b) shows the stack expanding to allow two more data words of temporary storage. To do so, <code>$sp</code> decrements by 8. </p><p id="823281ce-e99d-44a6-978a-bb4be00c0428" class="">One of the important uses of the stack is to save and restore registers that are used by a procedure. Recall that a procedure should calculate a return value but have no other unintended side effects. In particular, it should not modify any registers besides the one containing the return value, <code>$v0</code>. The <code>diffofsums</code> procedure in the above example violate this rule because it modifies <code>$t0</code>, <code>$t1</code> and <code>$s0</code>. If <code>main</code> had been using these registers before the call to <code>diffofsums</code>, the contents of these registers would have been corrupted by the procedure call.</p><p id="7275c1ea-fed4-437f-bdef-a88e9ae21cd3" class="">To solve this problem, a procedure saves registers on the stack before it modifies them, then restores them from the stack before it returns. Specifically, it performs the following steps.</p><ol type="1" id="028894db-e788-4fe6-838f-eba8f681abdc" class="numbered-list" start="1"><li>Makes space on the stack to store the values of one or more registers</li></ol><ol type="1" id="2ac30191-ed18-4573-9c88-ef97855d169f" class="numbered-list" start="2"><li>Stores the values of the registers on the stack</li></ol><ol type="1" id="e70b1535-a614-4678-8d49-01a802f08de8" class="numbered-list" start="3"><li>Executes the procedure using the registers</li></ol><ol type="1" id="90a4b626-7f66-4a40-826f-3b72b543e2a2" class="numbered-list" start="4"><li>Restores the original values of the registers from the stack</li></ol><ol type="1" id="7587b436-1e1d-4002-9fbc-45f1f89e8c9b" class="numbered-list" start="5"><li>Deallocates space on the stack</li></ol></div><div id="8e3e727a-b7e4-44cb-bd4b-0995e80e03c8" style="width:18.749999999999996%" class="column"><figure id="55b5a01f-8a24-4eb8-8fb0-84ac74aae165" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2021.png"><img style="width:240px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2021.png"/></a></figure></div></div><p id="94c86b1c-6a57-4df1-b02b-e4c482d4ffa6" class="">The example shows an improved version of <code>diffofsums</code> that saves and restores <code>$t0</code>, <code>$t1</code>, and <code>$s0</code>.</p><pre id="e2f2ef84-64b5-4c6c-b481-cffda2e3b7db" class="code"><code>diffofsums:
+  addi $sp, $sp, 12
+  sw $s0, 8($sp)
+  sw $t0, 4($sp)
+  sw $t1, 0($sp)
+  add $t0, $a0, $a1
+  add $t1, $a2, $a3
+  sub $s0, $t0, $t1
+  add $v0, $s0, $0
+  lw $t1, 0($sp)
+  lw $t0, 4($sp)
+  lw $s0, 8($sp)
+  addi $sp, $sp, 12
+  jr $ra</code></pre><div id="9cf725e3-c749-475a-9cd4-beafda7d7c95" class="column-list"><div id="a3150b9a-cc83-4628-a1d8-cc4f50327abb" style="width:62.5%" class="column"><p id="dcc82889-9a06-440a-a588-f365c13fe7af" class="">The figure shows the stack before, during, and after a call to the <code>diffofsums</code> procedure. <code>diffofsums</code> makes room for three words on the stack by decrementing the stack pointer by 12. It then stores the current values of <code>$s0</code>, <code>$t0</code> and <code>$s1</code> in the newly allocated space. It executes the rest of the procedure, changing the values in these three registers. At the end of the procedure, <code>diffofsums</code> restores the values of <code>$s0</code>, <code>$t0</code>, and <code>$t1</code> from the stack, deallocates its stack space, and returns. When the procedure returns, <code>$v0</code> holds the result, but there are no other side effects: <code>$s0</code>, <code>$t0</code>, <code>$t1</code> and <code>$sp</code> have the same values as they did before the procedure call.</p><p id="38ade6a3-76b9-42c9-9684-1b540ef75460" class="">The stack space that a procedure allocates for itself is called its <em>stack frame</em>. <code>diffofsums</code> stack frame is three words deep. The principle of modularity tells us that each procedure should access only its own stack frame, not the frames belonging to other procedures.</p></div><div id="71dad775-f050-4cf6-aa34-309919dee1d2" style="width:37.50000000000001%" class="column"><figure id="d476656e-a0c0-4e59-a751-fee27d1bcbcb" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2022.png"><img style="width:943px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2022.png"/></a></figure></div></div><h3 id="c2510663-6c6a-48b9-a6e6-3f2935c47766" class="">Preserved Registers</h3><p id="b36d0a76-051e-4c7f-ad23-37e4fe2e0dae" class="">The above example assumes that temporary registers <code>$t0</code> and <code>$t1</code> must be saved and restored. If the calling procedure does not use those registers, the effort to save and restore them is wasted. To avoid this waste, MIPS divides registers into <em>preserved</em> and <em>nonpreserved</em> categories. The preserved registers include <code>$s0 - $s7</code> (hence their name, <em>saved</em>). The nonpreserved registers include <code>$t0 - $t9</code> (hence their name, <em>temporary</em>). A procedure must save and restore any of the preserved registers that it wishes to use, but it can change the nonpreserved registers freely.</p><p id="fa027e6b-cb2b-489d-934f-562345e1e25f" class="">The example shows a further improved version of <code>diffofsums</code> that saves only <code>$s0</code> on the stack. <code>$t0</code> and <code>$t1</code> are nonpreserved registers, so they need not be saved.</p><pre id="dc18418f-b85a-4840-8bb4-87722ccf2bbb" class="code"><code>diffofsums:
+  addi $sp, $sp, 4
+  sw $s0, 0($sp)
+  add $t0, $a0, $a1
+  add $t1, $a2, $a3
+  sub $s0, $t0, $t1
+  add $v0, $s0, $0
+  lw $s0, 0($sp)
+  addi $sp, $sp, 4
+  jr $ra</code></pre><p id="aaee1e6b-e717-4f8f-a299-a9bf07215278" class="">Remember that when one procedure calls another, the former is the <em>caller</em> and the latter is the <em>callee</em>. The callee must save and restore any preserved register that it wishes to use. The callee may change any of the nonpreserved registers. Hence, if the caller is holding active data in a nonpreserved register, the caller needs to save that nonpreserved register before making the procedure call and then needs to restore it afterward. For these reasons, preserved registers are also called <em>callee-save</em>, and nonpreserved registers are also called <em>caller-save</em>.</p><div id="3776b03e-4572-4a56-8ab1-d68012ffe1fb" class="column-list"><div id="231b4840-e44c-4192-9e94-b14fb99dac11" style="width:62.5%" class="column"><p id="d952207a-1fa0-4ee1-9fbf-85e927676e67" class="">The table summarizes which registers are preserved. <code>$s0 - $s7</code> are generally used to hold local variables within a procedure, so they must be saved. <code>$ra</code> must also be saved, so that the procedure knows where to return. <code>$t0 - $t9</code> are used to hold temporary results before they are assigned to local variables. These calculations typically complete before a procedure call is made, so they are not preserved, and it is rare that the caller needs to save them. <code>$a0 - $a3</code> are often overwritten in the process of calling a procedure. hence, they must be saved by the caller if the caller depends on any of its own arguments after a called procedure returns. <code>$v0 - $v1</code> certainly should not be preserved, because the callee returns its result in these registers.</p><p id="7803898b-f93b-42da-8376-2f5ec631e240" class="">The stack above the stack pointer is automatically preserved as long as the callee does not write to memory addresses above <code>$sp</code>. In this way, it does not modify the stack frame of any other procedures. The stack pointer itself is preserved, because the callee deallocates its stack frame before returning by adding back the same amount that it subtracted from<code>$sp</code> at the beginning of the procedure.</p></div><div id="c652a600-a6c8-4ac7-b0c7-ddf30c007eac" style="width:37.49999999999999%" class="column"><figure id="9117de4e-7985-4658-b82a-607a8db4eead" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2023.png"><img style="width:963px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2023.png"/></a></figure></div></div><h3 id="8359a162-9242-4ba8-8729-5d42def3bb2f" class="">Recursive Procedure Calls</h3><p id="42735c66-b4e5-4317-838c-6fbf2e15b314" class="">A procedure that does not call others is called a <em>leaf</em> procedure; an example is <code>diffofsums</code>. A procedure that does call others is called a <em>nonleaf</em> procedure. As mentioned earlier, nonleaf procedures are somewhat more complicated because they may need to save nonpreserved registers on the stack before they call another procedure, and then restore those registers afterward. Specifically, the caller saves and nonpreserved registers that are needed after the call. The callee saves any of the preserved registers that it intends to modify.</p><p id="79e149f0-ba84-42b2-806c-01a067deefae" class="">A <em>recursive</em> procedure is a nonleaf procedure that calls itself. The factorial function can be written as a recursive procedure call. Recall that <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo stretchy="false">!</mo><mo>=</mo><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>2</mn><mo stretchy="false">)</mo><mo>×</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>×</mo><mn>2</mn><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n! = n \times (n - 1) \times (n - 2) \times...\times2\times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">...</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span>, The factorial function can be rewritten recursively as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo stretchy="false">!</mo><mo>=</mo><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">!</mo></mrow><annotation encoding="application/x-tex">n! = n \times (n - 1)!</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)!</span></span></span></span></span><span>﻿</span></span>. The factorial of 1 is simply 1. The example shows the factorial function written as a recursive procedure.</p><div id="900c2d3d-25a9-4251-ba6b-9651112e0ecd" class="column-list"><div id="124b0a70-43c2-44d8-8b0e-d6973c9baf39" style="width:50%" class="column"><pre id="3588d1cb-8324-4c18-9d7f-6c727a001f31" class="code"><code>int factorial(int n) {
+    if (n &lt;= 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}</code></pre></div><div id="c6658b04-7bfb-4ef7-9e31-f20de06e117f" style="width:50%" class="column"><pre id="d256667d-ff40-4fae-afeb-a774b358f6ae" class="code"><code>factorial:
+  addi $sp, $sp, -8
+  sw $a0, 4($sp)
+  sw $ra, 0($sp)
+  addi $t0, $0, 2
+  slt $t0, $a0, $t0
+  beq $t0, $0, else
+  addi $v0, $0, 1
+  addi $sp, $sp, 8
+  jr $ra
+else:
+  addi $a0, $a0, -1
+  jal factorial
+  lw $ra, 0($sp)
+  lw $a0, 4($sp)
+  addi $sp, $sp, 8
+  mul $v0, $a0, $v0
+  jr $ra</code></pre></div></div><p id="3d2bba5f-7459-4a66-8880-3d933f63f0bc" class="">The <code>factorial</code> procedure might modify <code>$a0</code> and <code>$ra</code>, so it saves them on the stack. It then checks whether <code>n &lt; 2</code>. If so, it puts the return value of 1 in <code>$v0</code>, restores the stack pointer, and returns to the caller. It does not have to reload <code>$ra</code> and <code>$a0</code> in this case, because they were never modified. If <code>n &gt; 1</code>, the procedure recursively calls <code>factorial(n - 1)</code>. If then restores the value of <code>n</code> and the return address <code>$ra</code> from the stack, performs the multiplication, and returns this result. The multiply instruction multiplies <code>$a0</code> and <code>$v0</code> and places the result in <code>$v0</code>.</p><div id="8b7d0554-fee6-4ae0-8693-d6090c35bfe7" class="column-list"><div id="47f5a0fc-ad62-451b-99d9-7d39bd63b079" style="width:62.5%" class="column"><p id="3f9e6e0e-921b-437c-b2db-699fc92d1218" class="">The figure shows the stack when executing <code>factorial(3)</code>.</p></div><div id="a048ee90-56c9-4f18-92f9-2ad061a233ea" style="width:37.5%" class="column"><figure id="4e1fd8e7-f1de-4c8b-b36d-b5d16f093d36" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2024.png"><img style="width:1018px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2024.png"/></a></figure></div></div><h3 id="0d518272-0495-4562-88a8-241da89852d5" class="">Additional Arguments and Local Variables</h3><div id="d2bb2f5f-9c1e-417d-b2cd-8fb740d2846b" class="column-list"><div id="05589411-0316-42df-a791-c78cc22825ac" style="width:68.75%" class="column"><p id="b280d6e7-521e-42a3-8ef8-5e8ac7562d51" class="">Procedures may have more than four input arguments and local variables. The stack is used to store these temporary values. By MIPS convention, if a procedure has more than four arguments, the first four are passed in the argument registers as usual. Additional arguments are passed on the stack, just above <code>$sp</code>. The <em>caller</em> must expand its stack to make room for the additional arguments. Figure a) shows the caller’s stack for calling a procedure with more than four arguments.</p><p id="df799e7f-21df-4ad3-9b77-973c7d1df5f5" class="">A procedure can also declare local variables or arrays. <em>Local</em> variables are declared within a procedure and can be accessed only within that procedure. Local variable are stored in <code>$s0 - $s7</code>; if there are too many local variables, they can also be stored in the procedure’s stack frame. In particular, local arrays are stored on the stack.</p><p id="6e58c7c7-8fd7-44c5-8a94-6dab8e0a672c" class="">Figure b) shows the organization of the callee’s stack frame. The frame holds the procedure’s own arguments, the return address, and any of the saved registers that the procedure will modify. It also holds local arrays and any excess local variables. If the callee has more than four arguments, it finds them in the caller’s stack frame. Accessing additional input arguments is the one exception in which a procedure can access stack data not in its own stack frame.</p></div><div id="f41fd1ad-e702-4d43-b8a4-2574d896e919" style="width:31.25%" class="column"><figure id="0e19e025-90a7-4917-8dd8-cff2a415338e" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2025.png"><img style="width:824px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2025.png"/></a></figure></div></div><h1 id="15eac00a-92f7-4582-b5d0-4dbb3be05324" class="">Addressing Modes</h1><p id="0a566890-ec44-4b57-a3ca-cca5f8635ef1" class="">MIPS uses five <em>addressing modes</em>: register-only, immediate, base, PC-relative, and pseudo-direct. The first three modes define modes of reading and writing operands. The last two define modes of writing the program counter.</p><h3 id="decb2ec0-5d5d-46e3-ac6c-f229b232a878" class="">Register-Only Addressing</h3><p id="1b89ccc5-ae8c-44b6-8ac9-b42f70bef645" class=""><em>Register-only addressing</em> uses registers for all source and destination operands. All R-type instructions use register-only addressing.</p><h3 id="c15741c3-1826-4ec8-9ea1-f6330b9a27eb" class="">Immediate Addressing</h3><p id="4a3fe8c4-1659-4090-954d-cfe0cd537eec" class=""><em>Immediate addressing</em> uses the 16-bit immediate along with registers as operands. Some I-type instructions, such as add immediate and load upper immediate, use immediate addressing.</p><h3 id="763a6ac7-aa6c-442c-9802-3268f776d052" class="">Base Addressing</h3><p id="7faca9bc-d8cc-41c5-b941-39e9a5bea773" class="">Memory access instructions, such as load word and store word, use <em>base addressing</em>. The effective address of the memory operand is found by adding the base address in register <code>rs</code> to the sign-extended 16-bit offset found in the immediate field.</p><h3 id="00a7a032-4524-412c-884c-5497e7ab09b2" class="">PC-relative Addressing</h3><p id="c093df12-7d50-4c8b-8b64-3b5121fd1654" class="">Conditional branch instructions use <em>PC-relative addressing</em> to specify the new value of the <code>PC</code> if the branch is taken. The signed offset in the immediate field is added to the <code>PC</code> to obtain the new <code>PC</code>; hence, the branch destination address is said to be <em>relative</em> to the current <code>PC</code>. The example shows part of the <code>factorial</code> procedure from earlier.</p><pre id="96b6640e-5d90-496a-a925-31955a3166f4" class="code"><code>  beq $t0, $0, else
+  addi $v0, $0, 1
+  addi $sp, $sp, 8
+  jr $ra
+else:
+  addi $a0, $a0, -1
+  jal factorial</code></pre><div id="87c825a4-6b34-4ee4-bce3-c4dcebe2d576" class="column-list"><div id="caf54b3c-2a00-4ac5-8248-05c06de4a116" style="width:50%" class="column"><p id="475308ca-d021-48f3-ae1c-374ba392e94a" class="">The figure shows the machine code for the <code>beq</code> instruction. The <em>branch target address (BTA)</em> is the address of the next instruction to execute if the branch is taken. The <code>beq</code> instruction in the figure has a BTA of 0xB4, the instruction address of the <code>else</code> label.</p></div><div id="1abe49f3-a9fa-4453-bf18-b616f80e82a5" style="width:50%" class="column"><figure id="fc470f41-c6d0-444c-b1b0-74b691e2f184" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2026.png"><img style="width:1409px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2026.png"/></a></figure></div></div><h3 id="efd0a1f5-a76e-4c88-b6e2-ded92ba211c9" class="">Pseudo-Direct Addressing</h3><p id="64767dba-56cd-4663-b948-a4c0b02de041" class="">In <em>direct addressing</em>, an address is specified in the instruction. The jump instructions, <code>j</code> and <code>jal</code>, ideally would use direct addressing to specify a 32-bit <em>jump target address (JTA)</em> to indicate the instruction address to execute next.</p><p id="9ad1ef2f-c11c-45e0-9b20-68b00ed1835a" class="">Unfortunately, the J-type instruction encoding does not have enough bits to specify a full 32-bit JTA. Six bits of the instruction are used for the <code>opcode</code>, so only 32 bits are left to encode the JTA. Fortunately, the two last significant bits, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>JTA</mtext><mrow><mn>1</mn><mo>:</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\text{JTA}_{1:0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">JTA</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mrel mtight">:</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, should always be 0, because instructions are word aligned. The next 26 bits, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>JTA</mtext><mrow><mn>27</mn><mo>:</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\text{JTA}_{27:2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">JTA</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">27</span><span class="mrel mtight">:</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, are taken from the <code>addr</code> field of the instruction. The four most significant bits, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>JTA</mtext><mrow><mn>31</mn><mo>:</mo><mn>28</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\text{JTA}_{31:28}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">JTA</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span><span class="mrel mtight">:</span><span class="mord mtight">28</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, are obtained from the four most significant bits of <code>PC+4</code>. This addressing mode is called <em>pseudo-direct</em>.</p><p id="45ff58c8-779f-4eca-b951-5479b8c8e2d2" class="">The example illustrates a <code>jal</code> instruction using pseudo-direct addressing. </p><pre id="81023ba4-f03c-4d45-bd11-50fdb2ae8a16" class="code"><code>  jal sum
+sum:
+  add $v0, $a0, $a1</code></pre><div id="41f0517d-6e0a-4bb2-bf1e-a427d662a6f2" class="column-list"><div id="ccf55cda-fa71-41db-a504-42632ce5fd5b" style="width:50%" class="column"><p id="ddbade3d-2ea5-429c-a156-783fd64de75b" class="">The figure shows the machine code for the instruction. The top four bits and bottom two bits of the JTA are discarded. The remaining bits are stored in the 26-bit address field.</p><p id="51c1df07-c4c9-4ad2-b5e8-0cc4f318101f" class="">The processor calculates the JTA from the J-type instruction by appending two 0’s and pepending the four most significant bits of <code>PC+4</code> to the 26-bit address field.</p><p id="5faf4be1-d337-4e39-b272-f658d0fc5706" class="">Because the four most significant bits of the JTA are taken from <code>PC+4</code>, the jump range is limited. All J-type instructions, <code>j</code> and <code>jal</code>, use pseudo-direct addressing.</p><p id="67457d7b-baec-47a4-8e91-969439ce4aae" class="">Note that the jump register instruction, <code>jr</code>, is not a J-type instruction. It is an R-type instruction that jumps to the 32-bit value held in register rs.</p></div><div id="3bad4107-f913-449c-a486-758d53ccdbdf" style="width:50%" class="column"><figure id="a4d6381c-f346-4574-8d9c-ac28d2fd4448" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2027.png"><img style="width:1391px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2027.png"/></a></figure></div></div><h1 id="05abe010-1da1-4595-9b16-1746603c6a5e" class="">Compiling, Assembling, and Loading</h1><p id="9b7c64e7-1b35-4afd-a2e0-690e3c7775fd" class="">We introduce the MIPS <em>memory map</em>, which defines where code, data, and stack memory are located.</p><h2 id="a5514cdb-27b4-4e6b-b2d9-57dd9eac4f2f" class="">The Memory Map</h2><div id="f7544b62-725a-419f-88e2-bb9dec6a7d0d" class="column-list"><div id="fe88c9e4-fd4a-4d5a-a6a6-e15b8f2b4d98" style="width:75%" class="column"><p id="931793a2-56a2-473a-bfce-26ad65b0fbb1" class="">With 32-bit addresses, the MIPS <em>address space</em> spans <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">2^{32}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> bytes = 4 gigabytes (GB). Word addresses are divisible by 4 and range from 0 to 0xFFFFFFFC. The figure shows the MIPS memory map. The MIPS architecture divides the address space into four parts or <em>segments</em>: the text segment, global data segment, dynamic data segment, and reserved segments.</p><h3 id="b6b9bb84-2f8f-4c20-bcba-07e44cd38fce" class="">The Text Segment</h3><p id="49671172-93d9-4782-8804-0822021717dc" class="">The <em>text segment</em> stores the machine language program. It is large enough to accommodate almost 256 MB of code. Note that the four most significant bits of the address in the text space are all 0, so the <code>j</code> instruction can directly jump to any address in the program.</p><h3 id="f95dd1f2-1281-42da-be3a-72dc4c714079" class="">The Global Data Segment</h3><p id="2e68dafb-5349-4cc5-acf1-d47732a5421e" class="">The <em>global data segment</em> stores global variables that, in contrast to local variables, can be seen by all procedures in a program. Global variables are defined at <em>start-up</em>, before the program begins executing. These variables are declared outside the main procedure in a C program and can be accessed by any procedure. The global data segment is large enough to store 64 KB of global variables.</p><p id="bc882016-82aa-4795-b968-d6818f5c086e" class="">Global variables are accessed using the global pointer (<code>$gp</code>), which is initialized to 0x100008000. Unlike the stack pointer (<code>$sp</code>), <code>$gp</code> does not change during program execution. Any global variable can be accessed with a 16-bit positive or negative offset from <code>$gp</code>. The offset is known at assembly time, so the variables can be efficiently accessed using base addressing mode with constant offsets.</p><h3 id="3cf50ee3-6138-49e7-aba3-e6207f1b2672" class="">The Dynamic Data Segment</h3><p id="3b1e0b29-9f1f-4e43-98ba-2c7b2b2673fc" class="">The <em>dynamic data segment</em> holds the stack and the <em>heap</em>. The data in this segment are not known at start-up but are dynamically allocated and deallocated throughout the execution of the program. this is the largest segment of memory, spanning almost 2 GB of the address space.</p><p id="377b5fb4-a8ee-4be6-84c5-a6f09c2a3d48" class="">As discussed previously, the stack is used to save and restore registers used by procedure and to hold local variables such as arrays. The stack grows downward from the top of the dynamic data segment (0x7FFFFFFC) and is accessed in last-in-first-out (LIFO) order.</p><p id="5cf1c711-99c6-4599-8d16-a0e684bc4533" class="">The heap stores data that is allocated by the program during runtime. In C, memory allocations are made by the <code>malloc</code> function; in C++ and Java, <code>new</code> is used to allocate memory. Like a heap of clothes on a dorm room floor, heap data can be used and discarded in any order. The heap grows upward from the bottom of the dynamic data segment.</p><p id="96cc5464-b2af-4d5b-8484-70af4b752d4c" class="">If the stack and heap ever grow into each other, the program’s data can become corrupted. The memory allocator tries to ensure that this never happens by returning an out-of-memory error if there is insufficient space to allocate more dynamic data.</p><h3 id="6d79079f-afbb-48a4-8cc7-6d13c39428af" class="">The Reserved Segments</h3><p id="674f1ebb-b486-44b8-9071-ec34b02a4b01" class="">The <em>reserved segments</em> are used by the operating system and cannot directly be used by the program. Part of the reserved memory is used for interrupts and for memory-mapped I/O.</p></div><div id="1e6657d0-4ef3-4608-a77c-8fb222f4526b" style="width:24.999999999999993%" class="column"><figure id="ca4a9980-9fcc-4c3f-a89b-9586209f15aa" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2028.png"><img style="width:645px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2028.png"/></a></figure></div></div><h2 id="a0d2de78-4d30-4f77-aa73-b1551e360a44" class="">Translating and Starting a Program</h2><div id="2706db4d-c150-4fe6-a855-443c6f6f2fd2" class="column-list"><div id="1d5d1dfc-7a79-47b8-bb74-319152b84962" style="width:87.5%" class="column"><p id="fafae1bc-b7de-4d95-863e-dc48e8646515" class="">The figure shows the steps required to translate a program from a high-level language into machine language and to start executing that program. First, the high-level assembly code is compiled into assembly code. The assembly code is assembled into machine code in an <em>object file</em>. The linker combines the machine code with object code from libraries and other files to produce an entire executable program. In practice, most compilers perform all three steps of compiling, assembling, and linking. Finally, the loader loads the program into memory and starts execution.</p></div><div id="958e8563-0d12-4794-a91c-627fb2bbf02b" style="width:12.499999999999998%" class="column"><figure id="d1fe59db-4cbb-439d-b1c2-719c37df0182" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2029.png"><img style="width:399px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2029.png"/></a></figure></div></div><h3 id="9516c58f-4772-4ee0-bd94-0f2536c9f9d3" class="">Step 1: Compilation</h3><p id="bc1373cf-b7dd-4201-85be-34a5e918df0c" class="">A compiler translates high-level code into assembly language. The example shows a simple high-level program with three global variables and two procedures, along with the assembly code produced by a typical compiler. The <code>.data</code> and <code>.text</code> keywords are <em>assembler directives</em> that indicate where the text and data segments begin. Labels are used for global variables <code>f</code>, <code>g</code>, and <code>y</code>. Their storage location will be determined by the assembler; for now, they are left as symbols in the code.</p><div id="935a1ac0-1a01-419f-88e1-2ce556fe73c0" class="column-list"><div id="f929f081-e749-4822-b95a-2d179a96324e" style="width:50%" class="column"><pre id="1c7ac338-61c5-41c7-b9db-735568d62899" class="code"><code>int f, g, y;
+int main() {
+    f = 2;
+    g = 3;
+    y = sum(f, g);
+    return y;
+}
+
+int sum(int a, int b) {
+    return (a + b);
+}</code></pre></div><div id="a06e2fc0-afc3-48b1-a646-675dc04ba7b4" style="width:50%" class="column"><pre id="c14ceeb9-e4b2-47a4-9187-5b21d88092ce" class="code"><code>.data
+f:
+g:
+y:
+
+.text
+main:
+  addi $sp, $sp, -4
+  sw $ra. 0($sp)
+  addi $a0, $0, 2
+  sw $a0, f
+  addi $a1, $0, 3
+  sw $a1, g
+  jal sum
+  sw $v0, y
+  lw $ra, 0($sp)
+  addi $sp, $sp, 4
+  jr $ra
+
+sum:
+  add $v0, $a0, $a1
+  jr $ra</code></pre></div></div><h3 id="783232a3-e783-4af9-aa55-ad678bff0dd4" class="">Step 2: Assembling</h3><p id="67ac2364-604b-410b-8680-f9a1e0b090e5" class="">The assembler turns the assembly language code into an <em>object file</em> containing machine language code. The assembler makes two passes through the assembly code. On the first pass, the assembler assigns instruction addresses and finds all the <em>symbols</em>, such as labels and global variable names. The code after the first assembler pass is shown here. </p><pre id="a40c0320-b75a-47c3-af95-cda86cff1833" class="code"><code>main:
+0x00400000 addi $sp, $sp, 4
+0x00400004 sw $ra, 0($sp)
+0x00400008 addi $a0, $0, 2
+0x0040000C sw $a0, f
+0x00400010 addi $a1, $0, 3
+0x00400014 sw $a1, g
+0x00400018 jal sum
+0x0040001C sw $v0, y
+0x00400020 lw $ra, 0($sp)
+0x00400024 addi $sp, $sp, 4
+0x00400028 jr $ra
+sum:
+0x0040002C add $v0, $a0, $a1
+0x00400030 jr $ra</code></pre><div id="393d9ce0-7866-453a-978f-d85f8d9759cc" class="column-list"><div id="2761b948-195f-4d0f-a7cb-f4903683389d" style="width:81.25%" class="column"><p id="c69e79f0-acf5-4fd8-9751-46ac956a4415" class="">The names and addresses of the symbols are kept in a <em>symbol table</em>, as shown in the table for this code. The symbol addresses are filled in after the first pass, when the addresses of labels are known. Global variables are assigned storage locations in the global data segment of memory, starting at memory address 0x10000000.</p><p id="6afaa8d9-2dc5-4e02-b5e3-962a850074ae" class="">On the second pass through the code, the assembler produces the machine language code. Addresses for the global variables and labels are taken from the symbol table. The machine language code and symbol table are stored in the object file.</p></div><div id="9365f02d-4c32-4ceb-8715-cccf20bea490" style="width:18.75%" class="column"><figure id="3d088756-0692-4781-b4a9-9d4450819f88" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2030.png"><img style="width:384px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2030.png"/></a></figure></div></div><h3 id="60c1da69-cb98-44a8-9b9c-1d6660533da0" class="">Step 3: Linking</h3><p id="7eac6e14-a7f0-4a67-9a62-da4c596d8189" class="">Most large programs contain more than one file. If the programmer changes only one of the files, it would be wasteful to recompile and reassemble the other files. In particular, programs often call procedures in library files; these library files almost never change. If a file of high-level code is not changed, the associated object file need not be updated.</p><p id="c73212d8-4fa9-4f49-b6f3-9c3672757bfe" class="">The job of the linker is to combine all of the object files into one machine language file called the <em>executable</em>. The linker relocates the data and instructions in the object file so that they are not all on top of each other. It uses the information in the symbol tables to adjust the addresses of global variables and of labels that are relocated.</p><div id="640173b5-52df-4697-8007-5d78a9add1d8" class="column-list"><div id="dd339604-0abf-4402-a583-adcd3ba870c0" style="width:62.5%" class="column"><p id="2316a54b-c67c-476b-8723-6680f888388c" class="">In our example, there is only one object file, so no relocation is necessary. The figure shows the executable file. It has three sections: the executable file header, the text segment, and the data segment. The executable file header reports the text size (code size) and data size (amount of globally declared data). Both are given in units of bytes. The text segment gives the instructions and the addresses where they are to be stored. The figure shows the instructions in human-readable format net to the machine code for ease of interpretation, but the executable file includes only machine instructions. The data segment gives the address of each global variable. The global variables are addressed with respect to the base address given by the global pointer, <code>$gp</code>.</p></div><div id="b5775eb7-ed0f-44bb-a382-d2448d82e706" style="width:37.5%" class="column"><figure id="3c069b28-8447-4f89-8ff7-141b8e3b482a" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2031.png"><img style="width:1204px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2031.png"/></a></figure></div></div><h3 id="de4c8f5a-e199-46cf-88a9-c0b6ba470dbd" class="">Step 4: Loading</h3><div id="6a7b8577-a43a-4b9a-841b-1d4a5bad89f4" class="column-list"><div id="a6583ca4-ca08-4b49-8641-f607592913da" style="width:75%" class="column"><p id="b488d5cb-61e3-44fa-8ddc-b345eef48246" class="">The operating system loads a program by reading the text segment of the executable file from a storage device into the text segment of memory. The operating system sets <code>$gp</code> to 0x10008000 (the middle of the global data segment) and <code>$sp</code> to 0x7FFFFFFC (the top of the dynamic data segment), then performs a <code>jal 0x00400000</code> to jump to the beginning of the program. The figure shows the memory map at the beginning of program execution.</p></div><div id="d5837e0c-1e70-4751-a29b-d952b508d10f" style="width:25%" class="column"><figure id="a66bc046-fb86-4395-a899-14be2aea6529" class="image"><a href="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2032.png"><img style="width:598px" src="Architecture%20e7b6c5364ca640708d9efe9eca1ba07e/Untitled%2032.png"/></a></figure></div></div></div></article></body></html>
