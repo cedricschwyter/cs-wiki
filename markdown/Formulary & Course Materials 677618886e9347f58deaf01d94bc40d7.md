@@ -6,7 +6,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%2055c1e4fc392e4ce88ab0c1ed27bd5812.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%2055c1e4fc392e4ce88ab0c1ed27bd5812.md)
 
 [Mathematical Reasoning, Proofs, and a First Approach to Logic](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Mathematical%20Reasoning,%20Proofs,%20and%20a%20First%20Approa%20d1206e601cf04e00bef78613383232cc.md)
 
@@ -34,7 +34,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%207dd519d2941b44f8bfac6c48abb4a2c1.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%207dd519d2941b44f8bfac6c48abb4a2c1.md)
 
 [Big-O-/Asymptotic-Notation, Landau-Symbols](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Big-O-%20Asymptotic-Notation,%20Landau-Symbols%20153cd914ca0f4c37b1785816b28c6f81.md)
 
@@ -64,7 +64,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%203f1d27183c074aa68a6b7c8e8ebe3f8c.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%203f1d27183c074aa68a6b7c8e8ebe3f8c.md)
 
 [Extended Backus-Naur Form (EBNF)-Descriptions](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Extended%20Backus-Naur%20Form%20(EBNF)-Descriptions%20608dc7f653c9470cad3ee3791f5a0c9a.md)
 
@@ -74,7 +74,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%2092a1418c784f40f681d5800a7cf9153b.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%2092a1418c784f40f681d5800a7cf9153b.md)
 
 [Complex Numbers (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Complex%20Numbers%20(TODO)%2019ce2598b4404fb0a7c0f7d068f509f5.md)
 
@@ -94,7 +94,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20e4f94fe461eb427b8785490485b484a1.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20e4f94fe461eb427b8785490485b484a1.md)
 
 [Introduction](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Introduction%201ba015f9cd614446bdb4213e70a154d9.md)
 
@@ -116,9 +116,9 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20e3a84a83032e4162814db37835d1a03d.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20e3a84a83032e4162814db37835d1a03d.md)
 
-[Terminology](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Terminology%20d6d11824b4394bb29a92196251f55a1d.csv)
+[Terminology](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Terminology%20d6d11824b4394bb29a92196251f55a1d.md)
 
 [JVM Overview](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/JVM%20Overview%20de9c8b74bfad45ef89d5619aaaa285eb.md)
 
@@ -156,7 +156,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20f8f787015ebd4dcd8a826d3008242916.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%20f8f787015ebd4dcd8a826d3008242916.md)
 
 [Graphs (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Graphs%20(TODO)%20b149fa35dff041fb8a659592d3f9c6bd.md)
 
@@ -184,7 +184,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ---
 
-[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%207c54e79c3ea641649236661a9bf797bd.csv)
+[Resources and Materials](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Resources%20and%20Materials%207c54e79c3ea641649236661a9bf797bd.md)
 
 [Real Numbers, Euclidean Domains, Complex Numbers](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Real%20Numbers,%20Euclidean%20Domains,%20Complex%20Numbers%20d4e5eeda077245d39c649f8cf57a2936.md)
 

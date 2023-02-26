@@ -121,7 +121,7 @@ def bellman_ford(s, graph):
 
 # Comparing Single-Source Shortest Path Algorithms
 
-[Single-Source Shortest Path Algorithms](Shortest%20Paths%2057d9ca620d3e46ca94e34f2bd590c043/Single-Source%20Shortest%20Path%20Algorithms%203f8c6ee3a9524ef4b0cb7c286f3834f6.csv)
+[Single-Source Shortest Path Algorithms](Shortest%20Paths%2057d9ca620d3e46ca94e34f2bd590c043/Single-Source%20Shortest%20Path%20Algorithms%203f8c6ee3a9524ef4b0cb7c286f3834f6.html)
 
 # Floyd-Warshall Algorithm
 
