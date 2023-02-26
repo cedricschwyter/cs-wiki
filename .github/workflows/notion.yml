@@ -38,6 +38,8 @@ jobs:
         run: mv docs/_includes/ _includes && mv docs/_layouts/ _layouts && mv docs/_config.yml _config.yml && mv docs/CNAME CNAME && rm -rf docs && cp -r markdown docs && mv _includes docs/_includes && mv _layouts docs/_layouts && mv _config.yml docs/_config.yml && mv CNAME docs/CNAME && cd docs/ && mv *.md index.md && cd ..
       - name: Adjust relative links (naively, might break things) & prerender KaTeX
         run: cd docs && ../scripts/replacer.sh
+      - name: Remove HTML source
+        run: rm -rf html
       - name: Track LFS files
         run: find ./* -size +100M -exec git lfs track "{}" \;
       - name: Setup Git config
