@@ -1,0 +1,17 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+// Import partials from `sass_dir` and set theme here
+@import
+        "theme-{{ site.theme_color | default: "black" }}.scss"
+;
+.note {
+        background-color: #eeeeee;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 5px;
+        width: 100%;
+}
+@media (min-width: 52em) { .note { width: 83.3333333333%; } }

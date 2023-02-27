@@ -1,8 +1,8 @@
 # Formulary & Course Materials
 
-This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net). Insight into version history can be obtained from the downstream-only [GitHub repository](https://github.com/D3PSI/cs-wiki). Changes, comments and feedback may be emailed to [cschwyter@ethz.ch](mailto:cschwyter@ethz.ch). Not all content on here is original, some content belongs to the respective content owners/copyright holders as listed in the ‘Resources and Materials’-sections of the respective subject.
+This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net). Insight into version history can be obtained from the [GitHub repository](https://github.com/D3PSI/cs-wiki). Changes, comments and feedback may be emailed to [cschwyter@ethz.ch](mailto:cschwyter@ethz.ch). Not all content on here is original, some content belongs to the respective content owners/copyright holders as listed in the ‘Resources and Materials’-sections of the respective subject.
 
-## Discrete Mathematics - **252-0025-01L** - HS21
+## HS21 - **252-0025-01L** - Discrete Mathematics 
 
 ---
 
@@ -30,7 +30,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Extended Euclidean Algorithm (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Algebra%202e542e6a0045446282bf640875624025/Extended%20Euclidean%20Algorithm%20(TODO)%20edc946a25db240aabd27314bf3d9481c.html) 
 
-## Algorithms and Datastructures - **252-0026-00L** - HS21
+## HS21 - **252-0026-00L** - Algorithms and Datastructures 
 
 ---
 
@@ -60,7 +60,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Combinatorics (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Combinatorics%20(TODO)%20a6f920864f3f484c8eaabb0a8f81f97f.html)
 
-## Introduction to Programming - **252-0027-00L** - HS21
+## HS21 - **252-0027-00L** - Introduction to Programming 
 
 ---
 
@@ -70,7 +70,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Hoare-Logic](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Hoare-Logic%2008c60b02ccd04c31acdffa543ae436e0.html)
 
-## Linear Algebra - **401-0131-00L** - HS21
+## HS21 - **401-0131-00L** - Linear Algebra 
 
 ---
 
@@ -90,7 +90,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Linear Least Squares (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Linear%20Least%20Squares%20(TODO)%20ee88b98de66f420ea550152aa9b53840.html)
 
-## Digital Design and Computer Architecture - **252-0028-00L -** FS22
+## FS22 - **252-0028-00L** - Digital Design and Computer Architecture 
 
 ---
 
@@ -112,7 +112,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Memory Systems (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Memory%20Systems%20(TODO)%20f4d8ed2c175644e8919b090d6392f985.html)
 
-## Parallel Programming - **252-0029-00L -** FS22
+## FS22 - **252-0029-00L** - Parallel Programming 
 
 ---
 
@@ -152,7 +152,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Parallel Sorting (TODO)](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Parallel%20Sorting%20(TODO)%20e422e3eea40e492a9f3fe4cfd0b5b65e.html)
 
-## Algorithms and Probability - **252-0030-00L** - FS22
+## FS22 - **252-0030-00L** - Algorithms and Probability 
 
 ---
 
@@ -180,7 +180,7 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Coupon-Collector Problem](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Probability%20Theory%20db98499109bd4c6f934431bfc46e9c17/Coupon-Collector%20Problem%208b5e0f9e298643c98675b803b7c39005.html) 
 
-## Analysis I - **401-0212-16L -** FS22
+## FS22 - **401-0212-16L** - Analysis I 
 
 ---
 
@@ -198,22 +198,22 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 [Cauchy-Product of the Exponential Function](Formulary%20&%20Course%20Materials%20677618886e9347f58deaf01d94bc40d7/Sequences%20and%20Series%208a981a9ce10e4dfb82e989be6760ed05/Cauchy-Product%20of%20the%20Exponential%20Function%209768354a1fa247a2aff9ab665de61605.html) 
 
-## Theoretical Computer Science - **252-0057-00L** - HS22
+## HS22 - **252-0057-00L** - Theoretical Computer Science 
 
 ---
 
-## Systems Programming and Computer Architecture - **252-0061-00L** - HS22
+## HS22 - **252-0061-00L** - Systems Programming and Computer Architecture 
 
 ---
 
-## Analysis II - **401-0213-16L** - HS22
+## HS22 - **401-0213-16L** - Analysis II 
 
 ---
 
-## Numerical Methods for Computer Science - **401-0663-00L** - HS22
+## HS22 - **401-0663-00L** - Numerical Methods for Computer Science 
 
 ---
 
-## Numerical Modeling I and II: Theory and Applications - **651-4241-00L** - HS22
+## HS22 - **651-4241-00L** - Numerical Modeling I and II: Theory and Applications 
 
 ---
