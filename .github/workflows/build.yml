@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: recursive
       - name: Copy to docs/
-        run: mv docs/_includes/ _includes && mv docs/_layouts/ _layouts && mv docs/_config.yml _config.yml && mv docs/CNAME CNAME && rm -rf docs && cp -r markdown docs && mv _includes docs/_includes && mv _layouts docs/_layouts && mv _config.yml docs/_config.yml && mv CNAME docs/CNAME && cd docs/ && mv *.md index.md && cd ..
+        run: mv docs/.gitignore .gitignore-docs && mv docs/Gemfile Gemfile && mv docs/Gemfile.lock Gemfile.lock && mv docs/assets assets && mv docs/_includes/ _includes && mv docs/_layouts/ _layouts && mv docs/_config.yml _config.yml && mv docs/CNAME CNAME && rm -rf docs && cp -r markdown docs && mv _includes docs/_includes && mv _layouts docs/_layouts && mv _config.yml docs/_config.yml && mv CNAME docs/CNAME && mv .gitignore-docs docs/.gitignore && mv Gemfile docs/Gemfile && mv Gemfile.lock docs/Gemfile.lock && mv assets docs/assets && cd docs/ && mv *.md index.md && cd ..
       - name: Adjust relative links (naively, might break things) & prerender KaTeX
         run: cd docs && ../scripts/replacer.sh
       - name: Setup Git config
