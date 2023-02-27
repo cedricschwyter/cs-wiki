@@ -5,11 +5,11 @@
 ## Boundedness
 
 <aside>
-💡 *Let $f \in \mathbb{R}^D$.*
+💡 Let $f \in \mathbb{R}^D$.
 
-1. $*f$ is **bounded from above** if $f(D) \sube \mathbb{R}$ is bounded from above.*
-2. $*f$ is **bounded from below** if $f(D) \sube \mathbb{R}$ is bounded from below.*
-3. $*f$ is **bounded** if $f(D) \sube \mathbb{R}$ is bounded.*
+1. $f$ is **bounded from above** if $f(D) \sube \mathbb{R}$ is bounded from above.
+2. $f$ is **bounded from below** if $f(D) \sube \mathbb{R}$ is bounded from below.
+3. $f$ is **bounded** if $f(D) \sube \mathbb{R}$ is bounded.
 </aside>
 
 ## Monotony
@@ -17,7 +17,7 @@
 <aside>
 💡 A function $f : D \longrightarrow \mathbb{R}$, where $D \sube \mathbb{R}$ is called
 
-1. ***monotonically increasing** if $\forall x,y \in D$*
+1. **monotonically increasing** if $\forall x,y \in D$
 
 $$
 x \leq y \implies f(x) \leq f(y)
