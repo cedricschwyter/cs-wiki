@@ -57,12 +57,19 @@
 
 <aside>
 📌 *1) $A \land A \equiv A$ and $A \lor A \equiv A$ (idempotence)*
+
 *2) $A \land B \equiv B \land A$ and $A \lor B \equiv B \lor A$ (commutativity of $\land$ and $\lor$)*
+
 *3) $(A \land B) \land C \equiv A \land (B \land C)$ and $(A \lor B) \lor C \equiv A \lor (B \lor C)$ (associativity)*
+
 *4) $A \land (A \lor B) \equiv A$ and $A \lor (A \land B) \equiv A$ (absorption)*
+
 *5) $A \land (B \lor C) \equiv (A \land B) \lor (A \land C)$ (first distributive law)*
+
 *6) $A \lor (B \land C) \equiv (A \lor B) \land (A \lor C)$ (second distributive law)*
+
 *7) $\neg \neg A \equiv A$ (double negation)*
+
 *8) $\neg (A \land B) \equiv \neg A \lor \neg B$ and $\neg(A \lor B) \equiv \neg A \land \neg B$ (de Morgan’s rules).*
 
 </aside>
