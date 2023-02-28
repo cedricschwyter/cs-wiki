@@ -201,3 +201,19 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 ## HS22 - **651-4241-00L** - Numerical Modeling I and II: Theory and Applications 
 
 ---
+
+## HS22 - **252-0058-00L** - Formal Methods and Functional Programming
+
+---
+
+## HS22 - **252-0063-00L** - Data Modelling and Databases
+
+---
+
+## HS22 - **252-0064-00L** - Computer Networks
+
+---
+
+## HS22 - **401-0614-00L** - Wahrscheinlichkeit und Statistik
+
+---
