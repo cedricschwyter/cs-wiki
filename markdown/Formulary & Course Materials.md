@@ -216,4 +216,6 @@ This computer science wiki is hosted on [wiki.d3psi.net](http://wiki.d3psi.net).
 
 ## FS23 - **401-0614-00L** - Wahrscheinlichkeit und Statistik
 
+[Probability](Formulary%20&%20Course%20Materials/401-0614-00L/Probability.md)
+
 ---
